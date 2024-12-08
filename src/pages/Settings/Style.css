@@ -1,0 +1,45 @@
+/* styles.css */
+.no-border .ant-table-row {
+  border: none;
+  /* Remove row borders */
+}
+
+.ant-table {
+  border: none;
+  /* Remove table borders */
+}
+
+.ant-table td {
+  border: none;
+  /* Remove cell borders */
+}
+
+.desciption-font {
+  font-size: 18px;
+}
+
+.ant-tooltip {
+  transition: opacity 1s ease-in-out !important; /* Adjust duration and easing here */
+}
+
+/* CustomTabs.css */
+.custom-tabs .ant-tabs-tab-btn {
+  color: grey !important; /* Customize your color here */
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.custom-tabs .ant-tabs-tab-btn:hover {
+  color: #a3a3f5 !important; /* Customize your color here */
+  font-weight: 500;
+  font-size: 16px;
+}
+
+
+.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #7d7de4 !important; /* Active tab text color */
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  background-color: #a3a3f5 !important; /* Active tab line color */
+}
