@@ -12,6 +12,7 @@ import CreateRagam from "./pages/CreateRagam/CreateRagam";
 
 import "./App.css";
 import Ragams from "./pages/ListRagam/ListRagam";
+import ExploreMap from "./components/ExploreMap";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         <Route
           exact
           path="/explore"
-          element={<SelinganUserRoute component={<Explore />} />}
+          element={<SelinganUserRoute component={<ExploreMap />} />}
         />
         <Route
           exact

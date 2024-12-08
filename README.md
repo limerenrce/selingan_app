@@ -12,6 +12,7 @@
 `npm instal antd`
 `npm install encrypt-storage`
 `npm install styled-components`
+`npm install @react-google-maps/api`
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
