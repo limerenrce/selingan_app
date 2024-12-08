@@ -1,1 +1,0 @@
-# selingan_app
