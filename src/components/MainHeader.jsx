@@ -20,8 +20,10 @@ const MainHeader = () => {
         <Row
           gutter={2}
           className="w-full py-3 text-2xl  "
-          style={{ boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)" }} // Optional: Adds shadow for better visibility
-
+          style={{
+            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+            fontFamily: "'Poppins', san-serif",
+          }} // Optional: Adds shadow for better visibility
         >
           <div className="w-full mx-auto flex ">
             {/* LOGO */}
@@ -37,7 +39,13 @@ const MainHeader = () => {
             </Col>
 
             {/* ACTIONS */}
-            <Col span={12} className="flex items-center gap-8 justify-end">
+            <Col
+              span={12}
+              className="flex items-center gap-8 justify-end"
+              style={{
+                fontFamily: "'Poppins', sans-serif", // Ensure font is applied here
+              }}
+            >
               <a
                 type="text"
                 className="text-gray-600 font-semibold hover:text-[#a3a3f5]"

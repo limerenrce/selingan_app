@@ -1,31 +1,31 @@
 // import React from 'react'
-import {Flex, Layout } from "antd";
+import { Flex, Layout } from "antd";
 
 import MainHeader from "../../components/MainHeader";
-import Hero from "./Hero"; 
+import Hero from "./Hero";
 import PrimaryFooter from "../../components/PrimaryFooter";
 
 const LandingPage = () => {
   return (
-    <> 
+    <>
       <Layout
         style={{
           minHeight: "100vh",
           background: "none",
         }}
+        className="font-sans"
       >
-      <Flex vertical>
-        {/* Header */}
-        <MainHeader />
+        <Flex vertical>
+          {/* Header */}
+          <MainHeader />
 
-        {/* Hero */}
-        <Hero /> 
+          {/* Hero */}
+          <Hero />
 
-        {/* Footer */}
-        <PrimaryFooter />
-      </Flex>
-
-      </Layout> 
+          {/* Footer */}
+          <PrimaryFooter />
+        </Flex>
+      </Layout>
     </>
   );
 };

@@ -144,6 +144,10 @@ const signUp = () => {
                   htmlType="submit"
                   className={`w-full font-bold`}
                   disabled={!username || !password || !confirmPassword}
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: "12px",
+                  }}
                 >
                   Sign Up
                 </Button>

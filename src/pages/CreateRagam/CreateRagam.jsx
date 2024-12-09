@@ -102,18 +102,28 @@ const CreateRagam = () => {
 
   return (
     <>
-    <Content>
-        <div className="container min-h-[600px] flex-center">
+      <Content>
+        <div className="container min-h-[600px] flex-center ">
           <Row
             gutter={[24, 0]}
             style={{ padding: "0 20px", marginTop: "72px" }}
           >
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="mb-24">
+            <Col
+              xs={24}
+              sm={24}
+              md={8}
+              lg={8}
+              xl={8}
+              className="mb-24"
+              // style={{ marginRight: "2px" }} // Adds right margin to create space
+            >
+              {" "}
               <Card
                 bordered={false}
                 className="circlebox h-full w-full flex"
                 style={{
                   backgroundImage: `url(${previewImage})`,
+                  backgroundColor: "#E7DBFF",
                   backgroundSize: "cover",
                   height: "350px",
                   width: "350px",
@@ -157,6 +167,7 @@ const CreateRagam = () => {
                     marginTop: "10px",
                     tabSize: "large",
                     color: "#C4B7E5",
+                    alignItems: "left",
                   }}
                 />
                 <Form
@@ -193,7 +204,10 @@ const CreateRagam = () => {
                   <Form.Item
                     name="event_desc"
                     rules={[
-                      { required: true, message: "Please input description!" },
+                      {
+                        required: true,
+                        message: "Please input description!",
+                      },
                     ]}
                   >
                     <Input placeholder="Add Description" />
@@ -323,7 +337,7 @@ const CreateRagam = () => {
         </div>
       </Content>
     </>
-  )
-}
+  );
+};
 
-export default CreateRagam
+export default CreateRagam;

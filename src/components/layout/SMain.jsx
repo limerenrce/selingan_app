@@ -14,6 +14,7 @@ function SelinganUserLayout({ children }) {
       <Layout
         style={{
           minHeight: "100vh",
+          width: "100%",
           background: "none",
         }}
       >

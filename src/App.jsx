@@ -9,13 +9,22 @@ import Host from "./pages/Host/Host";
 import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Settings";
 import CreateRagam from "./pages/CreateRagam/CreateRagam";
+import { createGlobalStyle } from "styled-components";
+
+import "@fontsource/poppins";
 
 import "./App.css";
 import Ragams from "./pages/ListRagam/ListRagam";
 
+const GlobalStyle = createGlobalStyle`
+  body, .ant-typography {
+    font-family: 'Poppins', sans-serif !important;
+  }
+`;
 function App() {
   return (
     <>
+      <GlobalStyle />
       <Routes>
         <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/signin" element={<SignIn />} />

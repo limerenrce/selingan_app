@@ -17,6 +17,7 @@ import {
   EventRounded,
   LocationOnRounded,
 } from "@mui/icons-material";
+
 const { Content } = Layout;
 const { Text, Title } = Typography;
 
@@ -269,12 +270,19 @@ const Host = () => {
           justifyContent: "center",
           alignItems: "start",
         }}
+        className="font-sans"
       >
-        <div style={{ maxWidth: "800px", width: "100%", padding: "0px" }}>
+        <div
+          style={{
+            maxWidth: "800px",
+            width: "100%",
+            padding: "0px",
+          }}
+        >
           <Col>
-            <div className="ml-3 mt-20">
+            <div className="ml-3 mt-20 font-sans">
               <h1 className="font-bold text-grey-800 text-4xl">Host</h1>
-              <p className="mt-3 font-thin text-grey-200 text-lg">
+              <p className="mt-3 text-grey-200 text-lg">
                 Explore the events that you have hosted previously, both the
                 upcoming and the past events!
               </p>
@@ -305,6 +313,7 @@ const Host = () => {
                         margin: 10,
                         maxWidth: "247px",
                         width: "100%",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                       className="duration-300 group relative border-2 border-gray-100 group-hover:border-[#a3a3f5]"
                     >
@@ -321,7 +330,7 @@ const Host = () => {
                         <Tooltip title={item.title}>
                           <Title
                             onClick={() => handleItemClick()}
-                            level={4}
+                            level={5}
                             style={{
                               marginBottom: "0px",
                               whiteSpace: "nowrap",
@@ -340,6 +349,7 @@ const Host = () => {
                               textOverflow: "ellipsis",
                               color: "grey",
                               marginBottom: "2px",
+                              fontFamily: "Poppins, sans-serif",
                             }}
                           >
                             {item.description}
@@ -348,7 +358,7 @@ const Host = () => {
                         <Row
                           style={{
                             alignItems: "center",
-                            gap: "5px",
+                            gap: "3px",
                             marginBottom: "2px",
                           }}
                         >
@@ -356,11 +366,19 @@ const Host = () => {
                             style={{ fontSize: "18", color: "grey" }}
                           />
                           <Text style={{ color: "grey" }}>{item.day}</Text>
+                        </Row>
+                        <Row
+                          style={{
+                            marginTop: "5px",
+                            alignItems: "center",
+                            gap: "5px",
+                            marginBottom: "2px",
+                          }}
+                        >
                           <AccessTimeRounded
                             style={{
                               fontSize: "18",
                               color: "grey",
-                              marginLeft: "10px",
                             }}
                           />
                           <Text style={{ color: "grey" }}>{item.time}</Text>

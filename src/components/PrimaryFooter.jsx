@@ -14,8 +14,8 @@ const PrimaryFooter = () => {
     <>
       <>
         {/* component */}
-        <footer className="bg-gradient-to-r from-[#c5c5fe] via-gray-100 to-[#c5c5fe]">
-          <div className="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
+        <footer className="bg-gradient-to-r from-[#c5c5fe] via-gray-100 to-[#c5c5fe] font-sans">
+          <div className="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 font-sans">
             <nav className="flex flex-wrap justify-center -mx-5 -my-2">
               <div className="px-5 py-2">
                 <a
@@ -32,7 +32,7 @@ const PrimaryFooter = () => {
                 >
                   Blog
                 </a>
-              </div> 
+              </div>
               <div className="px-5 py-2">
                 <a
                   href="/pricing"
