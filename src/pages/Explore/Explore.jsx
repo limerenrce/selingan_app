@@ -5,6 +5,7 @@ import {
   EventRounded,
   LocationOnRounded,
 } from "@mui/icons-material";
+import "./style.css";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -121,24 +122,25 @@ const Explore = () => {
           justifyContent: "center",
           alignItems: "start",
         }}
+        className="font-sans"
       >
         <div style={{ maxWidth: "800px", width: "100%", padding: "0px" }}>
           {/* C O L U M N */}
 
           <Col>
             <div className="ml-3 mt-20">
-              <h1 className="font-bold text-grey-800 text-4xl">
+              <h1 className="font-bold text-grey-800 text-4xl font-sans">
                 Explore Ragam
               </h1>
-              <p className="mt-3 font-thin text-grey-200 text-lg">
-                Explore popular ragam near you, browse by category, or check
-                out some of the great community calendars.
+              <p className="mt-3 text-grey-200 text-lg font-sans">
+                Explore popular ragam near you, browse by category, or check out
+                some of the great community calendars.
               </p>
             </div>
 
             {/* EVENTS SECTION */}
             <div>
-              <p className="ml-3 mt-8 font-bold text-gray-600 text-xl">
+              <p className="ml-3 mt-8 font-bold text-gray-600 text-xl font-sans">
                 Popular Ragam This Week
               </p>
             </div>
@@ -179,7 +181,7 @@ const Explore = () => {
                         }}
                         src="/pottery-class.jfif"
                       />
-                      <Title level={4} style={{ marginBottom: "0px" }}>
+                      <Title level={5} style={{ marginBottom: "0px" }}>
                         {item.nama}
                       </Title>
                       <Tooltip title={item.deskripsi}>
@@ -190,6 +192,7 @@ const Explore = () => {
                             textOverflow: "ellipsis",
                             color: "grey",
                             marginBottom: "2px",
+                            fontFamily: "Poppins, sans-serif",
                           }}
                         >
                           {item.deskripsi}
@@ -206,11 +209,20 @@ const Explore = () => {
                           style={{ fontSize: "18", color: "grey" }}
                         />
                         <Text style={{ color: "grey" }}>{item.tanggal}</Text>
+                      </Row>
+                      <Row
+                        style={{
+                          marginTop: "5px",
+                          alignItems: "center",
+                          gap: "5px",
+                          marginBottom: "2px",
+                        }}
+                      >
                         <AccessTimeRounded
                           style={{
                             fontSize: "18",
                             color: "grey",
-                            marginLeft: "10px",
+                            // marginLeft: "10px",
                           }}
                         />
                         <Text style={{ color: "grey" }}>{item.waktu}</Text>
@@ -261,7 +273,7 @@ const Explore = () => {
 
             {/* F E A T U R E D  C I T I E S  S E C T I O N */}
             <div>
-              <p className="ml-3 mt-8 mb-2 font-bold text-gray-600 text-xl">
+              <p className="ml-3 mt-8 mb-2 font-bold text-gray-600 text-xl font-sans">
                 Featured Cities
               </p>
             </div>
@@ -277,7 +289,7 @@ const Explore = () => {
                   onClick={() => handleItemClick(item)}
                 >
                   {/* Adjust span here */}
-                  <div className="group relative cursor-pointer transition-all duration-300 ">
+                  <div className="group relative cursor-pointer transition-all duration-300">
                     <Card
                       hoverable="true"
                       size="small"
@@ -288,6 +300,7 @@ const Explore = () => {
                         boxShadow: "none",
                         padding: 0,
                         margin: 2,
+                        fontFamily: "Poppins, sans-serif",
                       }}
                       className="transition-all duration-200 bg-#fefdff group-hover:bg-[#c5c5fe]"
                     >
@@ -318,7 +331,7 @@ const Explore = () => {
 
             {/* C A T E G O R Y  S E C T I O N */}
             <div>
-              <p className="ml-3 mt-8 font-bold text-gray-600 text-xl">
+              <p className="ml-3 mt-8 font-bold text-gray-600 text-xl font-sans">
                 Browse by Category
               </p>
             </div>
@@ -337,6 +350,7 @@ const Explore = () => {
                         boxShadow: "none",
                         padding: 0,
                         margin: 10,
+                        fontFamily: "Poppins, sans-serif",
                       }}
                       className="duration-300 group relative border-2 border-gray-100 group-hover:border-[#a3a3f5]"
                     >
@@ -350,7 +364,7 @@ const Explore = () => {
                           <p>{item.category}</p>
                         </div>
                         <div>
-                          <p className="text-gray-600 text-md transition-all duration-300  ">
+                          <p className="text-gray-600 text-md transition-all duration-300 font-sans">
                             {item.events} Events
                           </p>
                         </div>

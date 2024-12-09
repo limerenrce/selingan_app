@@ -104,7 +104,6 @@ const Profile = () => {
 
   return (
     <>
-
       <Content
         style={{
           display: "flex",
@@ -121,6 +120,7 @@ const Profile = () => {
             width: "100%",
             padding: "20px",
             borderRadius: "5px",
+            fontFamily: "Poppins, sans-serif",
           }}
         >
           {/* PROFILE SECTION */}
@@ -149,7 +149,7 @@ const Profile = () => {
               </Title>
               <Text
                 type="primary"
-                style={{ fontSize: "20px", color: "slategrey" }}
+                style={{ fontSize: "16px", color: "slategrey" }}
               >
                 @kevalastudiobali
               </Text>
@@ -161,14 +161,15 @@ const Profile = () => {
             >
               <p
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   marginTop: "10px",
                   marginBottom: "10px",
+                  fontFamily: "Poppins, sans-serif",
                 }}
               >
-                Ceramic Studio. <br /> Kevala Ceramics is a Bali-based
-                workshop that creates unique ceramics for high-end hotels,
-                restaurants, and resorts.{" "}
+                Ceramic Studio. <br /> Kevala Ceramics is a Bali-based workshop
+                that creates unique ceramics for high-end hotels, restaurants,
+                and resorts.{" "}
               </p>
               <Row>
                 <CalendarTodayRounded
@@ -176,7 +177,7 @@ const Profile = () => {
                 />
                 <Text
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     fontWeight: "500",
                     color: "grey",
                     marginLeft: "10px",
@@ -187,9 +188,7 @@ const Profile = () => {
               </Row>
               <Row style={{ marginTop: "5px", gap: "5px" }}>
                 {/* membuat */}
-                <Text style={{ fontSize: "16px", fontWeight: "bold" }}>
-                  56
-                </Text>
+                <Text style={{ fontSize: "16px", fontWeight: "bold" }}>56</Text>
                 <Text type="secondary" style={{ fontSize: "16px" }}>
                   Hosted
                 </Text>
@@ -216,10 +215,7 @@ const Profile = () => {
                   gap: "15px",
                 }}
               >
-                <Tooltip
-                  placement="top"
-                  title="Instagram: @kevalaceramicsbali"
-                >
+                <Tooltip placement="top" title="Instagram: @kevalaceramicsbali">
                   <InstagramOutlined />
                 </Tooltip>
                 <Tooltip placement="top" title="X: @kevalaceramicsbali">
@@ -246,11 +242,13 @@ const Profile = () => {
             <Title style={{ fontSize: "20px", marginBottom: "15px" }}>
               Upcoming Events
             </Title>
-            <Row style={{
-              maxWidth: "700px",
-              width: "100%",
-              gap: "20px"
-            }}>
+            <Row
+              style={{
+                maxWidth: "700px",
+                width: "100%",
+                gap: "20px",
+              }}
+            >
               {upcomingEvents.map((item, index) => (
                 <Card
                   hoverable={true}
@@ -266,7 +264,12 @@ const Profile = () => {
                 >
                   <Col style={{ gap: "10px", maxWidth: "300px" }}>
                     <Image
-                      style={{ borderRadius: "5%", objectFit: "cover", width: "300px", height: "150px" }}
+                      style={{
+                        borderRadius: "5%",
+                        objectFit: "cover",
+                        width: "300px",
+                        height: "150px",
+                      }}
                       // width={200}
                       // height={200}
                       src="/pottery-class.jfif"
@@ -286,6 +289,7 @@ const Profile = () => {
                           textOverflow: "ellipsis",
                           color: "grey",
                           marginBottom: "2px",
+                          fontFamily: "Poppins, sans-serif",
                         }}
                       >
                         {item.description}
@@ -326,11 +330,14 @@ const Profile = () => {
                       </Text>
 
                     </Row>
-                    <Row style={{
-                      marginTop: "5px", alignItems: "center",
-                      gap: "5px",
-                      marginBottom: "2px",
-                    }}>
+                    <Row
+                      style={{
+                        marginTop: "5px",
+                        alignItems: "center",
+                        gap: "5px",
+                        marginBottom: "2px",
+                      }}
+                    >
                       <LocationOnRounded
                         style={{
                           fontSize: "18",
@@ -391,11 +398,13 @@ const Profile = () => {
             initial={{ y: -25, opacity: 0 }}
             animate="animate"
           >
-            <Row style={{
-              maxWidth: "700px",
-              width: "100%",
-              gap: "20px"
-            }}>
+            <Row
+              style={{
+                maxWidth: "700px",
+                width: "100%",
+                gap: "20px",
+              }}
+            >
               {pastEvents.map((item, index) => (
                 <Card
                 hoverable={true}
@@ -515,7 +524,6 @@ const Profile = () => {
           </motion.div>
         </Row>
       </Content>
-
     </>
   );
 };

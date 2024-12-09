@@ -11,7 +11,12 @@ import {
   FloatButton,
   Button,
 } from "antd";
-import { GlobalOutlined, PictureOutlined, TikTokOutlined, YoutubeFilled } from "@ant-design/icons";
+import {
+  GlobalOutlined,
+  PictureOutlined,
+  TikTokOutlined,
+  YoutubeFilled,
+} from "@ant-design/icons";
 import "./Style.css";
 import { useState } from "react";
 import {
@@ -55,7 +60,6 @@ const Settings = () => {
     console.log(file.preview);
     setPreviewImage(file.url || file.preview);
   };
-
 
   return (
     <Content
@@ -108,33 +112,33 @@ const Settings = () => {
                   width: "100%",
                   margin: "0px",
                   padding: "0px",
-                  marginRight: "40px"
+                  marginRight: "40px",
                 }}
               >
                 <Form
                   layout="vertical"
                   style={{ maxWidth: "300px", width: "100%" }}
                 >
-                  <Form.Item label={
-                    <span style={{ color: "#535353" }}> Nama </span>
-                  }>
+                  <Form.Item
+                    label={<span style={{ color: "#535353" }}> Nama </span>}
+                  >
                     <Input
                       placeholder="Masukkan Namamu"
                       defaultValue="Kevala Pottery Studio"
                     />
                   </Form.Item>
-                  <Form.Item label={
-                    <span style={{ color: "#535353" }}> Username </span>
-                  }>
+                  <Form.Item
+                    label={<span style={{ color: "#535353" }}> Username </span>}
+                  >
                     <Input
                       prefix="@"
                       placeholder="Enter your username"
                       defaultValue="kevalastudiobali"
                     />
                   </Form.Item>
-                  <Form.Item label={
-                    <span style={{ color: "#535353" }}> Bio </span>
-                  }>
+                  <Form.Item
+                    label={<span style={{ color: "#535353" }}> Bio </span>}
+                  >
                     <Input.TextArea
                       rows={4}
                       placeholder="Share a little about your background and interests."
@@ -142,16 +146,20 @@ const Settings = () => {
                   </Form.Item>
                 </Form>
               </Col>
-              <div style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                position: "relative",
-                // marginLeft: "10px",
-                maxHeight: "300px",
-                height: "100%",
-                zIndex: 0
-              }}> {/* Wrapper for Avatar and Button */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  position: "relative",
+                  // marginLeft: "10px",
+                  maxHeight: "300px",
+                  height: "100%",
+                  zIndex: 0,
+                }}
+              >
+                {" "}
+                {/* Wrapper for Avatar and Button */}
                 <Text style={{ marginBottom: "8px" }}>Profile Picture</Text>
                 <Avatar
                   size={128}
@@ -179,14 +187,14 @@ const Settings = () => {
                     style={{
                       position: "absolute",
                       top: "calc(35% + 55px)",
-                      right: "0px"
+                      right: "0px",
                     }}
                   />
                 </Upload>
               </div>
             </Row>
             {/* SOCIAL SETTINGS */}
-            <Text style={{ fontSize: "16px", color: "gray", }}>
+            <Text style={{ fontSize: "16px", color: "gray" }}>
               Social Links
             </Text>
             <Row
@@ -205,7 +213,7 @@ const Settings = () => {
                   width: "100%",
                   margin: "0px",
                   padding: "0px",
-                  marginRight: "40px"
+                  marginRight: "40px",
                 }}
               >
                 <Form
@@ -214,10 +222,21 @@ const Settings = () => {
                 >
                   {/* INSTA */}
                   <Form.Item
-                    label={<InstagramOutlined style={{ fontSize: "24px", color: "grey" }} />}
+                    label={
+                      <InstagramOutlined
+                        style={{ fontSize: "24px", color: "grey" }}
+                      />
+                    }
                     colon={false}
                   >
-                    <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
+                      }}
+                    >
                       <span
                         style={{
                           backgroundColor: "#f0f0f0",
@@ -241,10 +260,25 @@ const Settings = () => {
 
                   {/* TWITTER */}
                   <Form.Item
-                    label={<XOutlined style={{ fontSize: "20px", color: "grey", marginRight: "4px" }} />}
+                    label={
+                      <XOutlined
+                        style={{
+                          fontSize: "20px",
+                          color: "grey",
+                          marginRight: "4px",
+                        }}
+                      />
+                    }
                     colon={false}
                   >
-                    <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
+                      }}
+                    >
                       <span
                         style={{
                           backgroundColor: "#f0f0f0",
@@ -268,10 +302,25 @@ const Settings = () => {
 
                   {/* FACEBOOK */}
                   <Form.Item
-                    label={<FacebookFilled style={{ fontSize: "24px", color: "grey", borderRadius: "5px" }} />}
+                    label={
+                      <FacebookFilled
+                        style={{
+                          fontSize: "24px",
+                          color: "grey",
+                          borderRadius: "5px",
+                        }}
+                      />
+                    }
                     colon={false}
                   >
-                    <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
+                      }}
+                    >
                       <span
                         style={{
                           backgroundColor: "#f0f0f0",
@@ -302,7 +351,7 @@ const Settings = () => {
                   width: "100%",
                   margin: "0px",
                   padding: "0px",
-                  marginRight: "30px"
+                  marginRight: "30px",
                 }}
               >
                 <Form
@@ -311,10 +360,25 @@ const Settings = () => {
                 >
                   {/* TIKTOK */}
                   <Form.Item
-                    label={<TikTokOutlined style={{ fontSize: "20px", color: "grey", marginRight: "4px" }} />}
+                    label={
+                      <TikTokOutlined
+                        style={{
+                          fontSize: "20px",
+                          color: "grey",
+                          marginRight: "4px",
+                        }}
+                      />
+                    }
                     colon={false}
                   >
-                    <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
+                      }}
+                    >
                       <span
                         style={{
                           backgroundColor: "#f0f0f0",
@@ -338,10 +402,25 @@ const Settings = () => {
 
                   {/* YOUTUBE */}
                   <Form.Item
-                    label={<YoutubeFilled style={{ fontSize: "20px", color: "grey", marginRight: "4px" }} />}
+                    label={
+                      <YoutubeFilled
+                        style={{
+                          fontSize: "20px",
+                          color: "grey",
+                          marginRight: "4px",
+                        }}
+                      />
+                    }
                     colon={false}
                   >
-                    <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
+                      }}
+                    >
                       <span
                         style={{
                           backgroundColor: "#f0f0f0",
@@ -365,10 +444,25 @@ const Settings = () => {
 
                   {/* WEB */}
                   <Form.Item
-                    label={<GlobalOutlined style={{ fontSize: "20px", color: "grey", marginRight: "4px" }} />}
+                    label={
+                      <GlobalOutlined
+                        style={{
+                          fontSize: "20px",
+                          color: "grey",
+                          marginRight: "4px",
+                        }}
+                      />
+                    }
                     colon={false}
                   >
-                    <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
+                      }}
+                    >
                       {/* <span
                         style={{
                           backgroundColor: "#f0f0f0", // Gray background for the prefix
@@ -396,11 +490,8 @@ const Settings = () => {
 
             {/* SAVE BUTTON */}
             <Button
-              style={{
-                background: hover ? "#c5c5fe" : "#a3a3f5",
-                fontWeight: "bolder",
-                color: "black",
-              }}
+              style={{ height: "32px" }}
+              className="text-[16px] mt-5 bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300"
               variant="solid"
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}

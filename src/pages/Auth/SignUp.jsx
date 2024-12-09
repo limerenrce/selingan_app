@@ -220,6 +220,10 @@ const signUp = () => {
                   htmlType="submit"
                   className={`w-full font-bold`}
                   loading={loading}
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: "12px",
+                  }}
                 >
                     {loading ? "Register..." : "Sign Up"}
                     </Button>

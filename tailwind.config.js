@@ -12,7 +12,7 @@ export default {
         cardTri: "#FEE882",
       },
       fontFamily: {
-        sans: ["Poppins", "sans"], 
+        sans: ['Poppins', 'sans-serif'],
       },
       container: {
         center: true,
@@ -23,7 +23,7 @@ export default {
           xl: "5rem",
           "2xl": "6rem",
         },
-      },
+      }
     },
   },
   plugins: [],

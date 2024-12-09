@@ -2,9 +2,10 @@
 import { motion } from "framer-motion";
 import { Row, Col, Dropdown } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
-
+import "@fontsource/poppins";
 import Logo from "../assets/images/main-logo.png";
 import ProfileIcon from "../assets/images/default-ava.png";
+import { style } from "framer-motion/m";
 
 // Navigation Links
 const NavLinks = [
@@ -60,7 +61,14 @@ const InHeader = () => {
       ? { type: "divider" }
       : {
           key: item.key,
-          label: <a onClick={() => item.onClick(navigate)}>{item.label}</a>,
+          label: (
+            <a
+              onClick={() => item.onClick(navigate)}
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              {item.label}
+            </a>
+          ),
         }
   );
 
@@ -73,8 +81,11 @@ const InHeader = () => {
     >
       <Row
         gutter={2}
-         className="w-full py-3 text-2xl"
-        style={{ boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)" }} // Optional: Adds shadow for better visibility
+        className="w-full py-3 text-2xl"
+        style={{
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+          fontFamily: "'Poppins', sans-serif",
+        }} // Optional: Adds shadow for better visibility
       >
         <div className="w-full mx-auto flex">
           {/* LOGO */}
@@ -91,6 +102,7 @@ const InHeader = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "start",
+              fontFamily: "'Poppins', sans-serif", // Apply Poppins directly to the parent container
             }}
           >
             <div style={{ maxWidth: "800px", width: "100%", padding: "0px" }}>
@@ -107,7 +119,9 @@ const InHeader = () => {
                             : "text-gray-600 font-semibold hover:text-[#a3a3f5]"
                         }`
                       }
-                      // onClick={() => handleActiveLink(link.path)}
+                      style={{
+                        fontFamily: "'Poppins', sans-serif", // Ensure font is applied here
+                      }}
                     >
                       {link.title}
                     </NavLink>
@@ -118,7 +132,13 @@ const InHeader = () => {
           </Col>
 
           {/* ACTIONS */}
-          <Col span={6} className="flex items-center gap-4 justify-end mr-5">
+          <Col
+            span={6}
+            className="flex items-center gap-4 justify-end mr-5"
+            style={{
+              fontFamily: "'Poppins', sans-serif", // Ensure font is applied here
+            }}
+          >
             <a
               type="text"
               className="text-[#b2b2b2] font-bold hover:font-bold hover:text-primary"

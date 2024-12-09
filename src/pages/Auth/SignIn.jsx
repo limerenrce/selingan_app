@@ -20,8 +20,7 @@ import { jwtStorage } from "../../utils/jwt_storage";
 import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
-const { Footer, Content, Header } = Layout;
-const { Footer, Content, Header } = Layout;
+const { Footer, Content, Header } = Layout; 
 const { Text } = Typography;
 
 const SignIn = () => {
@@ -196,11 +195,22 @@ const SignIn = () => {
                 </Form.Item>
 
                 <Form.Item>
-                <Flex justify="space-between" align="center">
+                <Flex justify="space-between" align="center" style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: "12px",
+                    }}>
                   <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Checkbox>Remember me</Checkbox>
                   </Form.Item>
-                  <a href="">Forgot password</a>
+                  <a
+                    href=""
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Forgot password
+                  </a>
                 </Flex>
               </Form.Item>
 
@@ -212,6 +222,7 @@ const SignIn = () => {
                     htmlType="submit"
                     className={`w-full font-bold`}
                     disabled={loading}
+                    
                   >
                     {loading ? "Logging in..." : "Sign In"}
                   </Button>
