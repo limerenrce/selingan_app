@@ -12,6 +12,7 @@ import {
   Layout,
   Modal,
   Divider,
+  DatePicker,
 } from "antd";
 import {
   PlusOutlined,
@@ -20,6 +21,8 @@ import {
 } from "@ant-design/icons";
 import { Image, Flex } from "antd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import dayjs from "dayjs";
+import "./ListRagam.css";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -256,12 +259,13 @@ const Ragams = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
-    getDataNatures();
+    getDataRagams();
   }, []);
 
-  const getDataNatures = () => {
+  const getDataRagams = () => {
     setRagams(sampleData); // Use sample data
     setLoading(false);
   };
@@ -288,6 +292,14 @@ const Ragams = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const onChange = (day, dayString) => {
+    setSelectedDate(dayString);
+  };
+
+  const filteredRagams = Ragams.filter((item) =>
+    selectedDate ? dayjs(item.day).isSame(dayjs(selectedDate), "day") : true
+  );
 
   const modalSection = () => {
     return (
@@ -316,11 +328,14 @@ const Ragams = () => {
                   }}
                 >
                   <Title
+                    level={3}
                     style={{
                       marginLeft: 8,
+                      marginTop: 10,
+                      marginBottom: 10,
                     }}
                   >
-                    Chocolate Making Workshop
+                    {selectedEvent?.title}
                   </Title>
 
                   <Flex vertical>
@@ -328,6 +343,8 @@ const Ragams = () => {
                       gap={75}
                       style={{
                         marginLeft: 5,
+                        marginBottom: 10,
+                        marginTop: 10,
                       }}
                     >
                       <Row gutter={10}>
@@ -457,24 +474,6 @@ const Ragams = () => {
                   </Flex>
                 </Card>
               </Col>
-              {/* <Col className="mb-24">
-              <Card
-                bordered={false}
-                className="circlebox h-full w-full flex"
-                style={{
-                  backgroundSize: "cover",
-                  height: "350px",
-                  width: "350px",
-                  position: "relative",
-                }}
-              >
-                <Image
-                  width="100%"
-                  height="100%"
-                  src="https://media.forgecdn.net/avatars/805/540/638172647258412241.jpeg"
-                />
-              </Card>
-            </Col> */}
             </Row>
           </div>
         </Modal>
@@ -484,11 +483,7 @@ const Ragams = () => {
 
   return (
     <>
-      <Content
-      // style={{
-      //   marginTop: "100px",
-      // }}
-      >
+      <Content>
         <div className="w-full h-[90vh]  bg-gradient-to-r from-[#E7DBFF] to-[#EEDDED]">
           <svg
             className="absolute bottom-0 left-0 w-full"
@@ -515,7 +510,7 @@ const Ragams = () => {
                 atau menikmati kegiatan yang membuatmu lebih bahagia.
               </p>
               <Button className="bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300">
-                Choose Event
+                <a href="#events">Choose Ragam</a>
               </Button>
             </div>
             {/* Right Section */}
@@ -560,7 +555,7 @@ const Ragams = () => {
           </div>
         </div>
         <div>
-          <Row justify="center" className="mt-3">
+          <Row justify="center" id="events" className="mt-3">
             <Col span={22}>
               <div style={{ width: "100%" }}>
                 <div className="flex flex-col items-center justify-center mb-8">
@@ -578,18 +573,19 @@ const Ragams = () => {
                   </Text>
                 </div>
                 <div
-                  className="flex items-center justify-between pr-20 pl-20"
+                  className="flex items-center justify-between pr-5 pl-5 mt-10"
                   style={{ marginBottom: "20px" }}
                 >
-                  <Title level={3} className="font-bold">
+                  {/* <Title level={3} className="font-bold">
                     Ragams
-                  </Title>
+                  </Title> */}
                   <Button
                     icon={<PlusOutlined />}
                     className="bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300"
                   >
-                    Submit Event
+                    Submit Ragam
                   </Button>
+                  <DatePicker onChange={onChange} />
                 </div>
                 {loading ? (
                   <Skeleton active />
@@ -603,7 +599,7 @@ const Ragams = () => {
                       xl: 2,
                     }}
                     style={{ width: "100%" }}
-                    dataSource={Ragams}
+                    dataSource={filteredRagams}
                     renderItem={(item) => (
                       <List.Item
                         style={{ display: "flex", justifyContent: "center" }}
@@ -614,7 +610,7 @@ const Ragams = () => {
                           style={{
                             marginBottom: "20px",
                             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                            height: "160px",
+                            height: "180px",
                             width: "100%", // Make the card fill available width
                             maxWidth: "600px", // Optionally, set a max-width for the card
                           }}
@@ -623,11 +619,16 @@ const Ragams = () => {
                             <Col span={5} className="pr-4">
                               <img src="/pottery-class.jfif" alt="" />
                             </Col>
+
                             <Col span={19}>
+                              <p className="text-[#7658B2] text-base">
+                                {item.day}
+                              </p>
                               <p className="text-xl font-semibold">
                                 {item.title}
                               </p>
-                              <p className="text-gray-400 text-lg flex items-center">
+
+                              <p className="text-gray-400 text-base flex items-center">
                                 <Avatar
                                   size={18}
                                   style={{ backgroundColor: getRandomColor() }}
@@ -638,9 +639,8 @@ const Ragams = () => {
                                   By {item.created_by}
                                 </span>
                               </p>
-                              <p className="text-gray-400 text-lg">
-                                <EnvironmentOutlined />
-                                {item.location}
+                              <p className="text-gray-400 text-base">
+                                <EnvironmentOutlined /> {item.location}
                               </p>
                             </Col>
                           </Row>

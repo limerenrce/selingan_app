@@ -1,0 +1,23 @@
+/* Mengubah warna outline dan border */
+.ant-picker {
+  border-color: #7658b2 !important; /* Warna ungu untuk border */
+}
+
+.ant-picker-focused {
+  border-color: #7658b2 !important; /* Warna ungu saat fokus */
+  box-shadow: 0 0 0 2px rgba(118, 87, 178, 0.2) !important; /* Efek outline saat fokus */
+}
+
+/* Mengubah warna placeholder */
+.ant-picker input::placeholder {
+  color: #7658b2 !important; /* Warna ungu untuk placeholder */
+}
+
+/* Mengubah warna ikon kalender */
+.ant-picker-suffix {
+  color: #7658b2 !important; /* Warna ungu untuk ikon */
+}
+
+.ant-picker input {
+  color: #7658b2 !important; /* Warna ungu untuk teks */
+}

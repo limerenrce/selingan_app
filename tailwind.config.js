@@ -11,9 +11,9 @@ export default {
         cardTwo: "#FF7C75",
         cardTri: "#FEE882",
       },
-      fontFamily: {
-        sans: ["Poppins", "sans"],
-      },
+      // fontFamily: {
+      //   sans: ["Poppins", "sans"],
+      // },
       container: {
         center: true,
         padding: {
