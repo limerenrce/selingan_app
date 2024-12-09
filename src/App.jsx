@@ -15,6 +15,7 @@ import "@fontsource/poppins";
 
 import "./App.css";
 import Ragams from "./pages/ListRagam/ListRagam";
+import ExploreMap from "./components/ExploreMap";
 
 const GlobalStyle = createGlobalStyle`
   body, .ant-typography {
@@ -38,7 +39,7 @@ function App() {
         <Route
           exact
           path="/explore"
-          element={<SelinganUserRoute component={<Explore />} />}
+          element={<SelinganUserRoute component={<ExploreMap />} />}
         />
         <Route
           exact

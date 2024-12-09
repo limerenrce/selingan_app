@@ -17,9 +17,11 @@ content {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 } */
@@ -28,6 +30,7 @@ content {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -40,7 +43,7 @@ content {
 } */
 
 .card {
-  padding: 2em;
+  /* padding: 2em; */
 }
 
 /* .read-the-docs {
