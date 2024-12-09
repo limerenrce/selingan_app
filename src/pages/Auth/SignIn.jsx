@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 const { Footer, Content, Header } = Layout;
+const { Footer, Content, Header } = Layout;
 const { Text } = Typography;
 
 const SignIn = () => {
