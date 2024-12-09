@@ -2,9 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
+import Report from "./pages/Admin/Report/Report";
+import Ragam from "./pages/Admin/Ragam/Ragam";
 import SelinganUserRoute from "./components/layout/SelinganUserRoute";
-import Explore from "./pages/Explore/Explore";
-import Ragam from "./pages/Ragam/Ragam";
 import Host from "./pages/Host/Host";
 import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Settings";
@@ -21,6 +21,8 @@ function App() {
         <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/signin" element={<SignIn />} />
         <Route exact path="/signup" element={<SignUp />} />
+        <Route exact path="/admin-ragam" element={<Ragam />} />
+        <Route exact path="/admin-report" element={<Report />} />
         {/* Selingan User */}
         <Route
           exact
@@ -36,11 +38,6 @@ function App() {
           exact
           path="/list-ragam"
           element={<SelinganUserRoute component={<Ragams />} />}
-        />
-        <Route
-          exact
-          path="/ragam"
-          element={<SelinganUserRoute component={<Ragam />} />}
         />
         <Route
           exact

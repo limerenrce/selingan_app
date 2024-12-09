@@ -1,7 +1,17 @@
-import { Layout, Button, Row, Col, Typography, Form, Input } from "antd";
+import {
+  Layout,
+  Button,
+  Row,
+  Col,
+  Typography,
+  Form,
+  Input,
+  notification,
+} from "antd";
 import Logo from "../../assets/images/main-logo.png";
 import { LockOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { sendData } from "../../utils/api";
 
 import { useNavigate } from "react-router-dom";
 
@@ -11,17 +21,73 @@ const { Text } = Typography;
 
 const signUp = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = async () => {
-    console.log(username, password, confirmPassword);
-    navigate("/dashboard", { replace: true });
+  const [form] = Form.useForm();
+
+  const handleSignUp = () => {
+    setLoading(true);
+
+    // Get form values
+    const email = form.getFieldValue("email");
+    const password = form.getFieldValue("password");
+    const confirmPassword = form.getFieldValue("confirm_password");
+
+    // Validate that passwords match
+    if (password !== confirmPassword) {
+      notification.error({
+        message: "Password Mismatch",
+        description: "Your passwords do not match. Please try again.",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Prepare data for submission
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
+    // Make the API request to the signup endpoint
+    sendData("/api/v1/auth/signup", formData)
+      .then((resp) => {
+        // Check if the backend indicates a successful signup
+        if (resp?.message === "OK") {
+          notification.success({
+            message: "Signup Successful",
+            description:
+              "You have successfully signed up!",
+          });
+
+          // Redirect to the sign-in page after successful signup
+          navigate("/signin", { replace: true });
+        } else {
+          // Handle failure response
+          notification.error({
+            message: "Signup Failed",
+            description:
+              resp?.message || "Something went wrong. Please try again.",
+          });
+        }
+      })
+      .catch((err) => {
+        // Handle error during the request
+        notification.error({
+          message: "Signup Failed",
+          description: err.toString(),
+        });
+      })
+      .finally(() => {
+        setLoading(false); // Stop loading once the request is finished
+      });
   };
 
   return (
-    <Layout className="signin flex justify-center items-center min-h-screen flex-col bg-gradient-to-r from-gray-100 via-[#c5c5fe] to-gray-100">
+    <Layout 
+    style={{
+      minHeight: "100vh", 
+    }}
+    className="signin flex justify-center items-center min-h-screen flex-col bg-gradient-to-r from-gray-100 via-[#c5c5fe] to-gray-100">
       <Header className="bg-transparent flex items-center justify-between w-full p-4 z-20">
         <Row
           gutter={2}
@@ -80,37 +146,50 @@ const signUp = () => {
             </Text>
             <br />
             <Form
-              onFinish={() => handleSignUp()}
+              form={form}
+              onFinish={handleSignUp}
               layout="vertical"
-              className="row-col w-full"
+              className="w-full"
             >
+              
               <Form.Item
-                className="username w-full"
-                initialValue={username}
+                className="email w-full"
                 name="email"
-                onChange={(e) => setUsername(e.target.value)}
                 rules={[
                   {
                     required: true,
                     message: "Please input your email!",
+                  },
+                  {
+                    type: "email",
+                    message: "The input is not a valid email address!", // Custom error message for invalid email format
                   },
                 ]}
               >
                 <Input prefix={<UserOutlined />} placeholder="Email" />
               </Form.Item>
 
+              {/* <Form.Item
+                  className="username w-full"
+                  name="username"
+                  rules={[
+                    { required: true, message: "Please input your username!" },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined />}
+                    className="!placeholder-black"
+                    placeholder="Username"
+                  />
+                </Form.Item> */}
+
               <Form.Item
                 className="password w-full"
-                initialValue={password}
                 name="password"
-                type={"password"}
-                onChange={(e) => setPassword(e.target.value)}
                 rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
+                  { required: true, message: "Please input your password!" },
                 ]}
+                type="password"
               >
                 <Input
                   prefix={<LockOutlined />}
@@ -118,18 +197,14 @@ const signUp = () => {
                   placeholder="Password"
                 />
               </Form.Item>
+
               <Form.Item
-                className="password w-full"
-                initialValue={confirmPassword}
-                name="confirm password"
-                type={"confirm password"}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="confirm-password w-full"
+                name="confirm_password"
                 rules={[
-                  {
-                    required: true,
-                    message: "Please confirm your password!",
-                  },
+                  { required: true, message: "Please confirm your password!" },
                 ]}
+                type="password"
               >
                 <Input
                   prefix={<LockOutlined />}
@@ -137,19 +212,20 @@ const signUp = () => {
                   placeholder="Confirm Password"
                 />
               </Form.Item>
-              <Form.Item className="mb-0">
+
+              <Form.Item>
                 <Button
                   color="default"
                   variant="solid"
                   htmlType="submit"
                   className={`w-full font-bold`}
-                  disabled={!username || !password || !confirmPassword}
+                  loading={loading}
                 >
-                  Sign Up
-                </Button>
+                    {loading ? "Register..." : "Sign Up"}
+                    </Button>
               </Form.Item>
 
-              <Form.Item className="text-center">
+              <Form.Item className="mt-6 text-center">
                 <Text type="secondary">
                   Already have an account?{" "}
                   <span
