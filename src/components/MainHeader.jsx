@@ -29,7 +29,7 @@ const MainHeader = () => {
               <a href="/">
                 <div className="flex space-x-2 items-start px-5">
                   <img src={Logo} alt="Logo Selingan" className="w-12 h-8" />
-                  <Text className="text-xl font-bold text-[#a3a3f5]">
+                  <Text className="text-xl font-bold text-[#6C6CC6]">
                     SELINGAN
                   </Text>
                 </div>

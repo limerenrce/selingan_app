@@ -232,132 +232,7 @@ const Profile = () => {
                     maxWidth: "320px",
                     width: "100%",
                     marginBottom: "10px",
-                  }}
-                  className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
-                >
-                  <Col style={{ gap: "10px", maxWidth: "300px" }}>
-                    <Image
-                      style={{ borderRadius: "5%", objectFit: "cover", width: "300px", height: "150px" }}
-                      // width={200}
-                      // height={200}
-                      src="/pottery-class.jfif"
-                    />
-                    {/* <Col style={{ maxWidth: "490px" }}> */}
-                    <Title level={4} style={{ marginBottom: "0px" }}>
-                      {item.nama}
-                    </Title>
-                    <Tooltip title={item.deskripsi}>
-                      <p
-                        style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          color: "grey",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        {item.deskripsi}
-                      </p>
-                    </Tooltip>
-                    <Row
-                      style={{
-                        alignItems: "center",
-                        gap: "5px",
-                        marginBottom: "2px",
-                      }}
-                    >
-                      <EventRounded
-                        style={{ fontSize: "18", color: "grey" }}
-                      />
-                      <Text style={{ color: "grey" }}>{item.tanggal}</Text>
-                      <AccessTimeRounded
-                        style={{
-                          fontSize: "18",
-                          color: "grey",
-                          marginLeft: "10px",
-                        }}
-                      />
-                      <Text style={{ color: "grey" }}>{item.waktu}</Text>
-
-                    </Row>
-                    <Row style={{
-                      marginTop: "5px", alignItems: "center",
-                      gap: "5px",
-                      marginBottom: "2px",
-                    }}>
-                      <LocationOnRounded
-                        style={{
-                          fontSize: "18",
-                          color: "grey",
-                        }}
-                      />
-                      <Tooltip title={item.lokasi}>
-                        <Text
-                          style={{
-                            color: "grey",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            maxWidth: "290px",
-                          }}
-                        >
-                          {item.lokasi}
-                        </Text>
-                      </Tooltip>
-                    </Row>
-                    <Text
-                      style={{
-                        color: item.harga != "Free" ? "#A3A3F5" : "green",
-                        fontWeight: "700",
-                      }}
-                    >
-                      {item.harga != "Free"
-                        ? `Rp${item.harga}/pax`
-                        : item.harga}
-                    </Text>
-                    {/* </Col> */}
-                  </Col>
-                </Card>
-              ))}
-            </Row>
-          </motion.div>
-
-          {/* EVENT SEBELUMNYA */}
-          <Divider style={{ marginTop: "30px", marginBottom: "20px" }} />
-          <Row
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              textAlign: "center",
-              marginBottom: "15px",
-              maxWidth: "800px",
-              width: "100%",
-            }}
-          >
-            <Title style={{ fontSize: "20px" }}>Past Events</Title>
-            <Text className="text-gray-400 hover:text-purple-500" style={{cursor:"pointer"}}>
-              See All
-            </Text>
-          </Row>
-          <motion.div
-            variants={slideBottom(0.35)}
-            initial={{ y: -25, opacity: 0 }}
-            animate="animate"
-          >
-            <Row style={{
-              maxWidth: "700px",
-              width: "100%",
-              gap: "20px"
-            }}>
-              {pastEvents.map((item, index) => (
-                <Card
-                  hoverable={true}
-                  bordered={true}
-                  key={index}
-                  style={{
-                    maxWidth: "320px",
-                    width: "100%",
-                    marginBottom: "10px",
+                    background: "#F5F3F1"
                   }}
                   className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
                 >
@@ -434,7 +309,7 @@ const Profile = () => {
                     </Row>
                     <Text
                       style={{
-                        color: item.harga != "Free" ? "#A3A3F5" : "green",
+                        color: item.harga != "Free" ? "#6C6CC6" : "green",
                         fontWeight: "700",
                       }}
                     >
@@ -445,6 +320,134 @@ const Profile = () => {
                     {/* </Col> */}
                   </Col>
                 </Card>
+              ))}
+            </Row>
+          </motion.div>
+
+          {/* EVENT SEBELUMNYA */}
+          <Divider style={{ marginTop: "30px", marginBottom: "20px" }} />
+          <Row
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "center",
+              marginBottom: "15px",
+              maxWidth: "800px",
+              width: "100%",
+            }}
+          >
+            <Title style={{ fontSize: "20px" }}>Past Events</Title>
+            <Text className="text-gray-400 hover:text-purple-500" style={{ cursor: "pointer" }}>
+              See All
+            </Text>
+          </Row>
+          <motion.div
+            variants={slideBottom(0.35)}
+            initial={{ y: -25, opacity: 0 }}
+            animate="animate"
+          >
+            <Row style={{
+              maxWidth: "700px",
+              width: "100%",
+              gap: "20px"
+            }}>
+              {pastEvents.map((item, index) => (
+                <Card
+                hoverable={true}
+                bordered={true}
+                key={index}
+                style={{
+                  maxWidth: "320px",
+                  width: "100%",
+                  marginBottom: "10px",
+                  background: "#F5F3F1"
+                }}
+                className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
+              >
+                <Col style={{ gap: "10px", maxWidth: "300px" }}>
+                  <Image
+                    style={{ borderRadius: "5%", objectFit: "cover", width: "300px", height: "150px" }}
+                    // width={200}
+                    // height={200}
+                    src="/pottery-class.jfif"
+                  />
+                  {/* <Col style={{ maxWidth: "490px" }}> */}
+                  <Title level={4} style={{ marginBottom: "0px" }}>
+                    {item.nama}
+                  </Title>
+                  <Tooltip title={item.deskripsi}>
+                    <p
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        color: "grey",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {item.deskripsi}
+                    </p>
+                  </Tooltip>
+                  <Row
+                    style={{
+                      alignItems: "center",
+                      gap: "5px",
+                      marginBottom: "2px",
+                    }}
+                  >
+                    <EventRounded
+                      style={{ fontSize: "18", color: "grey" }}
+                    />
+                    <Text style={{ color: "grey" }}>{item.tanggal}</Text>
+                    <AccessTimeRounded
+                      style={{
+                        fontSize: "18",
+                        color: "grey",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    <Text style={{ color: "grey" }}>{item.waktu}</Text>
+
+                  </Row>
+                  <Row style={{
+                    marginTop: "5px", alignItems: "center",
+                    gap: "5px",
+                    marginBottom: "2px",
+                  }}>
+                    <LocationOnRounded
+                      style={{
+                        fontSize: "18",
+                        color: "grey",
+                        // marginLeft: "10px",
+                      }}
+                    />
+                    <Tooltip title={item.lokasi}>
+                      <Text
+                        style={{
+                          color: "grey",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "190px",
+                        }}
+                      >
+                        {item.lokasi}
+                      </Text>
+                    </Tooltip>
+                  </Row>
+                  <Text
+                    style={{
+                      color: item.harga != "Free" ? "#6C6CC6" : "green",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {item.harga != "Free"
+                      ? `Rp${item.harga}/pax`
+                      : item.harga}
+                  </Text>
+                  {/* </Col> */}
+                </Col>
+              </Card>
               ))}
             </Row>
           </motion.div>

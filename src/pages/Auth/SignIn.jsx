@@ -27,7 +27,7 @@ const SignIn = () => {
 
   const handleSignIn = async () => {
     console.log(username, password);
-    navigate("/events", { replace: true });
+    navigate("/ragam", { replace: true });
   };
 
   return (

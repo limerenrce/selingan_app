@@ -11,6 +11,7 @@ import Settings from "./pages/Settings/Settings";
 import CreateRagam from "./pages/CreateRagam/CreateRagam";
 
 import "./App.css";
+import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
 
 function App() {
@@ -33,14 +34,14 @@ function App() {
         />
         <Route
           exact
-          path="/list-ragam"
+          path="/ragam"
           element={<SelinganUserRoute component={<Ragams />} />}
         />
-        <Route
+        {/* <Route
           exact
           path="/ragam"
           element={<SelinganUserRoute component={<Ragam />} />}
-        />
+        /> */}
         <Route
           exact
           path="/host"
@@ -57,6 +58,16 @@ function App() {
           element={<SelinganUserRoute component={<Settings />} />}
         />
       </Routes>
+      <div className="flex-1 flex flex-col">
+        {/* Body */}
+        {/* <div className="flex-1 overflow-y-auto p-4"> */}
+        {/* <Routes> */}
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        {/* Default route (redirect to Dashboard) */}
+        {/* <Route path="/*" element={<Dashboard />} /> */}
+        {/* </Routes> */}
+        {/* </div> */}
+      </div>
     </>
   );
 }

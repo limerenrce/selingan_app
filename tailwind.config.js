@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#A3A3F5",
+        primary: "#6C6CC6",
         secondary: "#C5C5FE",
         ternary: "#AEE5FF",
         cardOne: "#FFA4D5",
@@ -17,16 +17,16 @@ export default {
       fontFamily: {
         sans: ["Poppins", "sans"], 
       },
-      // container: {
-      //   center: true,
-      //   padding: {
-      //     DEFAULT: "1rem",
-      //     sm: "2rem",
-      //     lg: "4rem",
-      //     xl: "5rem",
-      //     "2xl": "6rem",
-      //   }
-      // }
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: "1rem",
+          sm: "2rem",
+          lg: "4rem",
+          xl: "5rem",
+          "2xl": "6rem",
+        }
+      }
     },
   },
   plugins: [],
