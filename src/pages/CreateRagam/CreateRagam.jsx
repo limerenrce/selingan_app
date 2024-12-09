@@ -17,10 +17,12 @@ import {
   Layout,
   TimePicker,
 } from "antd";
-import { PictureOutlined } from "@ant-design/icons";
+import { PictureOutlined, UndoOutlined } from "@ant-design/icons";
 import defaultImage from "../../assets/images/hero.png";
 import "./style.css";
 import moment from "moment-timezone";
+
+import LocationPicker from "../../components/LocationPicker";
 // import moment from "moment";
 
 const { Content } = Layout;
@@ -36,6 +38,7 @@ const getBase64 = (file) =>
 
 const CreateRagam = () => {
   const [form] = Form.useForm();
+  // const defaultImage = "https://via.placeholder.com/350";
   const [imageUrl, setImageUrl] = useState(defaultImage);
   const [previewImage, setPreviewImage] = useState("");
   const { RangePicker } = DatePicker;
@@ -51,14 +54,25 @@ const CreateRagam = () => {
     setIsChecked(!isChecked);
   };
 
+  // const handlePreview = async (file) => {
+  //   console.log("want to know the file", file);
+  //   if (!file.url && !file.preview) {
+  //     file.preview = await getBase64(file);
+  //   }
+  //   console.log(file.url);
+  //   console.log(file.preview);
+  //   setPreviewImage(file.url || file.preview);
+  // };
+
   const handlePreview = async (file) => {
-    console.log("want to know the file", file);
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file);
+    try {
+      const preview = await getBase64(file.originFileObj || file); // Convert file to base64
+      setPreviewImage(preview); // Optional: Store the previewed image
+      setImageUrl(preview); // Update the background image
+    } catch (error) {
+      console.error("Error generating preview:", error);
+      message.error("Failed to preview the image");
     }
-    console.log(file.url);
-    console.log(file.preview);
-    setPreviewImage(file.url || file.preview);
   };
 
   const handleSegmentChange = (value) => {
@@ -86,14 +100,34 @@ const CreateRagam = () => {
     setSearchQuery(value);
   };
 
-  const handleUpload = (info) => {
-    if (info.file.status === "done") {
-      const reader = new FileReader();
-      reader.onload = () => setImageUrl(reader.result);
-      reader.readAsDataURL(info.file.originFileObj);
-    } else if (info.file.status === "error") {
-      message.error("Failed to upload image");
+  // const handleUpload = (info) => {
+  //   if (info.file.status === "done") {
+  //     const reader = new FileReader();
+  //     reader.onload = () => setImageUrl(reader.result);
+  //     reader.readAsDataURL(info.file.originFileObj);
+  //   } else if (info.file.status === "error") {
+  //     message.error("Failed to upload image");
+  //   }
+  // };
+
+  const handleUpload = async (info) => {
+    const file = info.file.originFileObj || info.file;
+
+    if (file && file.type.startsWith("image/")) {
+      try {
+        const base64Image = await getBase64(file); // Convert file to base64
+        setImageUrl(base64Image); // Update the image background
+      } catch (error) {
+        console.error("Error uploading the image:", error);
+        message.error("Failed to upload image");
+      }
+    } else {
+      message.error("You can only upload image files!");
     }
+  };
+
+  const resetToDefaultImage = () => {
+    setImageUrl(defaultImage);
   };
 
   const onFinish = (values) => {
@@ -115,10 +149,10 @@ const CreateRagam = () => {
               lg={8}
               xl={8}
               className="mb-24"
-              // style={{ marginRight: "2px" }} // Adds right margin to create space
+              // style={{ marginRight: "2px" }}
             >
-              {" "}
-              <Card
+              {/* RAGAM COVER IMAGE */}
+              {/* <Card
                 bordered={false}
                 className="circlebox h-full w-full flex"
                 style={{
@@ -156,6 +190,51 @@ const CreateRagam = () => {
                     }}
                   />
                 </Upload>
+              </Card> */}
+              <Card
+                bordered={false}
+                className="circlebox h-full w-full flex"
+                style={{
+                  backgroundImage: `url(${imageUrl})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: "350px",
+                  width: "350px",
+                  position: "relative",
+                }}
+              >
+                {/* Upload Button */}
+                <Upload
+                  showUploadList={false}
+                  beforeUpload={() => false} // Prevent auto-upload to server
+                  onChange={handleUpload}
+                >
+                  <FloatButton
+                    tooltip={<div>Upload Image</div>}
+                    type="default"
+                    icon={<PictureOutlined />}
+                    style={{
+                      zIndex: 0,
+                      position: "absolute",
+                      bottom: "12px",
+                      right: "12px",
+                    }}
+                  />
+                </Upload>
+
+                {/* Reset to Default Button */}
+                <FloatButton
+                  tooltip={<div>Reset to Default</div>}
+                  type="default"
+                  icon={<UndoOutlined />}
+                  onClick={resetToDefaultImage}
+                  style={{
+                    zIndex: 0,
+                    position: "absolute",
+                    bottom: "12px",
+                    left: "12px",
+                  }}
+                />
               </Card>
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={16} className="mb-24">
@@ -218,7 +297,10 @@ const CreateRagam = () => {
                     <Space direction="vertical" size={12}>
                       <RangePicker
                         showTime
-                        style={{ marginBottom: "24px" }}
+                        style={{
+                          marginBottom: "24px",
+                          fontFamily: "Poppins, sans-serif",
+                        }}
                         size="large"
                       />
                     </Space>
@@ -270,7 +352,7 @@ const CreateRagam = () => {
                     />
                   </Form.Item>
                 </Form> */}
-                <Form
+                {/* <Form
                   layout="vertical"
                   name="location"
                   form={form}
@@ -285,7 +367,27 @@ const CreateRagam = () => {
                   >
                     <Input placeholder="Select Location" />
                   </Form.Item>
-                </Form>
+                </Form> */}
+                <div className="content">
+                  <Typography.Title level={5}>Select Location</Typography.Title>
+                  <Form style={{ fontFamily: "Poppins, sans-serif" }}>
+                    <Form.Item
+                      name="location"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select a location!",
+                        },
+                      ]}
+                    >
+                      <LocationPicker
+                        onLocationChange={(location) =>
+                          form.setFieldsValue({ location })
+                        }
+                      />
+                    </Form.Item>
+                  </Form>
+                </div>
                 <Typography.Title level={5}>Event Options</Typography.Title>
                 <Segmented
                   options={["Free", "Paid"]}

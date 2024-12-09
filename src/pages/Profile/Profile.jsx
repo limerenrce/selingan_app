@@ -133,7 +133,7 @@ const Profile = () => {
             >
               <p
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   marginTop: "10px",
                   marginBottom: "10px",
                   fontFamily: "Poppins, sans-serif",
@@ -149,7 +149,7 @@ const Profile = () => {
                 />
                 <Text
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     fontWeight: "500",
                     color: "grey",
                     marginLeft: "10px",
@@ -257,6 +257,7 @@ const Profile = () => {
                           textOverflow: "ellipsis",
                           color: "grey",
                           marginBottom: "2px",
+                          fontFamily: "Poppins, sans-serif",
                         }}
                       >
                         {item.deskripsi}

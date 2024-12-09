@@ -75,7 +75,7 @@ const InHeader = () => {
   return (
     <motion.div
       initial={{ y: -100 }}
-      animate={{ y: 0, z: 50 }}
+      animate={{ y: 0, z: 100 }}
       transition={{ duration: 0.5 }}
       className="w-full fixed top-0 left-0 backdrop-blur-xl z-50 flex items-center justify-between"
     >
