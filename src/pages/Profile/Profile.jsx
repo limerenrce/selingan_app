@@ -8,6 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "antd";
+import { getData } from "../../utils/api";
 import { Content } from "antd/es/layout/layout";
 import {
   AccessTimeRounded,
@@ -25,9 +26,36 @@ import "./Style.css";
 
 import { motion } from "framer-motion";
 import { slideBottom, slideToRight } from "../../utils/animation";
+import { useEffect, useState } from "react";
 
 const { Title, Text } = Typography;
 const Profile = () => {
+  const [dataSource, setDataSource] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    getDataRagam()
+  }, [])
+
+  const getDataRagam = () => {
+    setIsLoading(true);
+    getData("/api/v1/ragam/read")
+      .then((resp) => {
+        console.log(resp); // Debug to confirm the data structure
+        if (resp && resp.datas) {
+          setDataSource(resp.datas); // Use the "datas" array directly
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false);
+      });
+  };
+
+
+
+
   // DATA DEFINITION
   const Events = [
     {
@@ -71,8 +99,8 @@ const Profile = () => {
   ];
 
   //FILTER STATUS
-  const upcomingEvents = Events.filter((event) => event.status === "going");
-  const pastEvents = Events.filter((event) => event.status === "done");
+  const upcomingEvents = dataSource.filter((item) => item.is_active == 1);
+  const pastEvents = dataSource.filter((item) => item.is_active == 0);
 
   return (
     <>
@@ -232,6 +260,7 @@ const Profile = () => {
                     maxWidth: "320px",
                     width: "100%",
                     marginBottom: "10px",
+                    background: "#F5F3F1"
                   }}
                   className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
                 >
@@ -243,10 +272,13 @@ const Profile = () => {
                       src="/pottery-class.jfif"
                     />
                     {/* <Col style={{ maxWidth: "490px" }}> */}
-                    <Title level={4} style={{ marginBottom: "0px" }}>
-                      {item.nama}
+                    <Title level={4} style={{ marginBottom: "0px", whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        marginBottom: "2px", }}>
+                      {item.title}
                     </Title>
-                    <Tooltip title={item.deskripsi}>
+                    <Tooltip title={item.description}>
                       <p
                         style={{
                           whiteSpace: "nowrap",
@@ -256,7 +288,7 @@ const Profile = () => {
                           marginBottom: "2px",
                         }}
                       >
-                        {item.deskripsi}
+                        {item.description}
                       </p>
                     </Tooltip>
                     <Row
@@ -269,7 +301,14 @@ const Profile = () => {
                       <EventRounded
                         style={{ fontSize: "18", color: "grey" }}
                       />
-                      <Text style={{ color: "grey" }}>{item.tanggal}</Text>
+                      <Text style={{ color: "grey" }}>
+                        {new Date(item.start_time).toLocaleDateString("id-ID", {
+                          weekday: "short", // e.g., Sun
+                          day: "2-digit",   // e.g., 03
+                          month: "short",   // e.g., Nov
+                          year: "numeric",  // e.g., 2024
+                        })}
+                      </Text>
                       <AccessTimeRounded
                         style={{
                           fontSize: "18",
@@ -277,7 +316,14 @@ const Profile = () => {
                           marginLeft: "10px",
                         }}
                       />
-                      <Text style={{ color: "grey" }}>{item.waktu}</Text>
+                      <Text style={{ color: "grey" }}>
+                        {new Date(item.start_time).toLocaleTimeString("en-US", {
+                          hour: "2-digit", // e.g., 06
+                          minute: "2-digit", // e.g., 00
+                          hour12: false, // 24-hour format
+                          timeZone: "UTC"
+                        })}
+                      </Text>
 
                     </Row>
                     <Row style={{
@@ -289,31 +335,32 @@ const Profile = () => {
                         style={{
                           fontSize: "18",
                           color: "grey",
+                          // marginLeft: "10px",
                         }}
                       />
-                      <Tooltip title={item.lokasi}>
+                      <Tooltip title={item.location}>
                         <Text
                           style={{
                             color: "grey",
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            maxWidth: "290px",
+                            maxWidth: "190px",
                           }}
                         >
-                          {item.lokasi}
+                          {item.location}
                         </Text>
                       </Tooltip>
                     </Row>
                     <Text
                       style={{
-                        color: item.harga != "Free" ? "#A3A3F5" : "green",
+                        color: item.is_free == 0 ? "#6C6CC6" : "green",
                         fontWeight: "700",
                       }}
                     >
-                      {item.harga != "Free"
-                        ? `Rp${item.harga}/pax`
-                        : item.harga}
+                      {item.price == null
+                        ? `Free`
+                        : `Rp${item.price}0/pax`}
                     </Text>
                     {/* </Col> */}
                   </Col>
@@ -335,7 +382,7 @@ const Profile = () => {
             }}
           >
             <Title style={{ fontSize: "20px" }}>Past Events</Title>
-            <Text className="text-gray-400 hover:text-purple-500" style={{cursor:"pointer"}}>
+            <Text className="text-gray-400 hover:text-purple-500" style={{ cursor: "pointer" }}>
               See All
             </Text>
           </Row>
@@ -351,100 +398,118 @@ const Profile = () => {
             }}>
               {pastEvents.map((item, index) => (
                 <Card
-                  hoverable={true}
-                  bordered={true}
-                  key={index}
-                  style={{
-                    maxWidth: "320px",
-                    width: "100%",
-                    marginBottom: "10px",
-                  }}
-                  className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
-                >
-                  <Col style={{ gap: "10px", maxWidth: "300px" }}>
-                    <Image
-                      style={{ borderRadius: "5%", objectFit: "cover", width: "300px", height: "150px" }}
-                      // width={200}
-                      // height={200}
-                      src="/pottery-class.jfif"
-                    />
-                    {/* <Col style={{ maxWidth: "490px" }}> */}
-                    <Title level={4} style={{ marginBottom: "0px" }}>
-                      {item.nama}
-                    </Title>
-                    <Tooltip title={item.deskripsi}>
-                      <p
-                        style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          color: "grey",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        {item.deskripsi}
-                      </p>
-                    </Tooltip>
-                    <Row
+                hoverable={true}
+                bordered={true}
+                key={index}
+                style={{
+                  maxWidth: "320px",
+                  width: "100%",
+                  marginBottom: "10px",
+                  background: "#F5F3F1"
+                }}
+                className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
+              >
+                <Col style={{ gap: "10px", maxWidth: "300px" }}>
+                  <Image
+                    style={{ borderRadius: "5%", objectFit: "cover", width: "300px", height: "150px" }}
+                    // width={200}
+                    // height={200}
+                    src="/pottery-class.jfif"
+                  />
+                  {/* <Col style={{ maxWidth: "490px" }}> */}
+                  <Title level={4} style={{ marginBottom: "0px", whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        marginBottom: "2px", }}>
+                    {item.title}
+                  </Title>
+                  <Tooltip title={item.description}>
+                    <p
                       style={{
-                        alignItems: "center",
-                        gap: "5px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        color: "grey",
                         marginBottom: "2px",
                       }}
                     >
-                      <EventRounded
-                        style={{ fontSize: "18", color: "grey" }}
-                      />
-                      <Text style={{ color: "grey" }}>{item.tanggal}</Text>
-                      <AccessTimeRounded
-                        style={{
-                          fontSize: "18",
-                          color: "grey",
-                          marginLeft: "10px",
-                        }}
-                      />
-                      <Text style={{ color: "grey" }}>{item.waktu}</Text>
-
-                    </Row>
-                    <Row style={{
-                      marginTop: "5px", alignItems: "center",
+                      {item.description}
+                    </p>
+                  </Tooltip>
+                  <Row
+                    style={{
+                      alignItems: "center",
                       gap: "5px",
                       marginBottom: "2px",
-                    }}>
-                      <LocationOnRounded
-                        style={{
-                          fontSize: "18",
-                          color: "grey",
-                          // marginLeft: "10px",
-                        }}
-                      />
-                      <Tooltip title={item.lokasi}>
-                        <Text
-                          style={{
-                            color: "grey",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            maxWidth: "190px",
-                          }}
-                        >
-                          {item.lokasi}
-                        </Text>
-                      </Tooltip>
-                    </Row>
-                    <Text
-                      style={{
-                        color: item.harga != "Free" ? "#A3A3F5" : "green",
-                        fontWeight: "700",
-                      }}
-                    >
-                      {item.harga != "Free"
-                        ? `Rp${item.harga}/pax`
-                        : item.harga}
+                    }}
+                  >
+                    <EventRounded
+                      style={{ fontSize: "18", color: "grey" }}
+                    />
+                    <Text style={{ color: "grey" }}>
+                      {new Date(item.start_time).toLocaleDateString("id-ID", {
+                        weekday: "short", // e.g., Sun
+                        day: "2-digit",   // e.g., 03
+                        month: "short",   // e.g., Nov
+                        year: "numeric",  // e.g., 2024
+                      })}
                     </Text>
-                    {/* </Col> */}
-                  </Col>
-                </Card>
+                    <AccessTimeRounded
+                      style={{
+                        fontSize: "18",
+                        color: "grey",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    <Text style={{ color: "grey" }}>
+                      {new Date(item.start_time).toLocaleTimeString("en-US", {
+                        hour: "2-digit", // e.g., 06
+                        minute: "2-digit", // e.g., 00
+                        hour12: false, // 24-hour format
+                        timeZone: "UTC"
+                      })}
+                    </Text>
+
+                  </Row>
+                  <Row style={{
+                    marginTop: "5px", alignItems: "center",
+                    gap: "5px",
+                    marginBottom: "2px",
+                  }}>
+                    <LocationOnRounded
+                      style={{
+                        fontSize: "18",
+                        color: "grey",
+                        // marginLeft: "10px",
+                      }}
+                    />
+                    <Tooltip title={item.location}>
+                      <Text
+                        style={{
+                          color: "grey",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "190px",
+                        }}
+                      >
+                        {item.location}
+                      </Text>
+                    </Tooltip>
+                  </Row>
+                  <Text
+                    style={{
+                      color: item.is_free == 0 ? "#6C6CC6" : "green",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {item.price == null
+                      ? `Free`
+                      : `Rp${item.price}0/pax`}
+                  </Text>
+                  {/* </Col> */}
+                </Col>
+              </Card>
               ))}
             </Row>
           </motion.div>

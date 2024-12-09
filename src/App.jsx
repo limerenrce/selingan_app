@@ -11,6 +11,7 @@ import Settings from "./pages/Settings/Settings";
 import CreateRagam from "./pages/CreateRagam/CreateRagam";
 
 import "./App.css";
+import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
 import ExploreMap from "./components/ExploreMap";
 
@@ -36,7 +37,7 @@ function App() {
         />
         <Route
           exact
-          path="/list-ragam"
+          path="/ragam"
           element={<SelinganUserRoute component={<Ragams />} />}
         />
         <Route

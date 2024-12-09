@@ -16,7 +16,7 @@ const Hero = () => {
               animate="animate"
               className="text-5xl xl:text-6xl font-bold tracking-tight pt-10"
             >
-              Waktu Luang Jadi Lebih Seru dengan{" "}
+              Turn Free Time to Fun Time with {" "}
               <span className="text-primary">Selingan</span>
             </motion.h1>
             <motion.p
@@ -25,9 +25,7 @@ const Hero = () => {
               animate="animate"
               className="xl:text-xl py-2 pr-37"
             >
-              Rutinitasmu bikin jenuh dan bosan? Temukan ratusan aktivitas
-              menarik atau ciptakan acaramu sendiri di Selingan, dan ubah
-              hari-harimu jadi lebih berwarna!
+              Tired of the same old routine? Break free from the monotony! Selingan lets you explore exciting activities or host your own events to brighten up your days!
             </motion.p>
             <div className="grid grid-cols-3 justify-normal">
               <div className="col-1">
@@ -36,10 +34,12 @@ const Hero = () => {
                     variants={slideUp(0.4)}
                     initial="initial"
                     animate="animate"
+                    whileHover={{
+                      scale: 1.05, // Scales the button to 105%
+                      transition: { duration: 0.3, ease: "easeInOut" }, // Smooth scaling
+                    }}
                     type="submit"
-                    className="primary-btn hover:bg-primary duration-300"
-                  >
-                    Mulai Eksplor &#8594;
+                    className="primary-btn hover:bg-primary duration-300">Explore Now &#8594;
                   </motion.button>
                 </a>
               </div>
@@ -84,14 +84,14 @@ const Hero = () => {
                   animate="animate"
                   className="text-xl font-bold"
                 >
-                  42k+ orang
+                  42k+ people
                 </motion.p>
                 <motion.p
                   variants={slideUp(0.6)}
                   initial="initial"
                   animate="animate"
                 >
-                  Perlu selingan
+                  Need a break
                 </motion.p>
               </div>
             </div>

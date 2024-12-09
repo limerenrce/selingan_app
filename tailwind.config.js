@@ -4,16 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#A3A3F5",
+        primary: "#6C6CC6",
         secondary: "#C5C5FE",
         ternary: "#AEE5FF",
         cardOne: "#FFA4D5",
         cardTwo: "#FF7C75",
         cardTri: "#FEE882",
       },
-      // fontFamily: {
-      //   sans: ["Poppins", "sans"],
-      // },
+      fontFamily: {
+        sans: ["Poppins", "sans"], 
+      },
       container: {
         center: true,
         padding: {

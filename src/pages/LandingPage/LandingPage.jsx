@@ -2,7 +2,8 @@
 import {Flex, Layout } from "antd";
 
 import MainHeader from "../../components/MainHeader";
-import Hero from "./Hero"; 
+import Hero from "./Hero";
+import About from "./About" 
 import PrimaryFooter from "../../components/PrimaryFooter";
 
 const LandingPage = () => {
@@ -11,7 +12,8 @@ const LandingPage = () => {
       <Layout
         style={{
           minHeight: "100vh",
-          background: "none",
+          // background: "none",
+          background: "linear-gradient(to bottom, #E7DBFF, #FFFFFF, #FFFFFF,  #FFFFFF)",
         }}
       >
       <Flex vertical>
@@ -20,6 +22,9 @@ const LandingPage = () => {
 
         {/* Hero */}
         <Hero /> 
+
+        {/* About */}
+        <About />
 
         {/* Footer */}
         <PrimaryFooter />
