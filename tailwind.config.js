@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -15,19 +12,19 @@ export default {
         cardTri: "#FEE882",
       },
       fontFamily: {
-        sans: ["Poppins", "sans"], 
+        sans: ["Poppins", "sans"],
       },
-      // container: {
-      //   center: true,
-      //   padding: {
-      //     DEFAULT: "1rem",
-      //     sm: "2rem",
-      //     lg: "4rem",
-      //     xl: "5rem",
-      //     "2xl": "6rem",
-      //   }
-      // }
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: "1rem",
+          sm: "2rem",
+          lg: "4rem",
+          xl: "5rem",
+          "2xl": "6rem",
+        },
+      },
     },
   },
   plugins: [],
-}
+};
