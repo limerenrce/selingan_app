@@ -34,8 +34,8 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getDataRagam();
-  }, []);
+    getDataRagam()
+  }, [])
 
   const getDataRagam = () => {
     setIsLoading(true);
@@ -52,6 +52,9 @@ const Profile = () => {
         setIsLoading(false);
       });
   };
+
+
+
 
   // DATA DEFINITION
   const Events = [
@@ -255,7 +258,7 @@ const Profile = () => {
                     maxWidth: "320px",
                     width: "100%",
                     marginBottom: "10px",
-                    background: "#F7F3FF",
+                    background: "#F7F3FF"
                   }}
                   className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
                 >
@@ -272,16 +275,10 @@ const Profile = () => {
                       src="/pottery-class.jfif"
                     />
                     {/* <Col style={{ maxWidth: "490px" }}> */}
-                    <Title
-                      level={4}
-                      style={{
-                        marginBottom: "0px",
-                        whiteSpace: "nowrap",
+                    <Title level={4} style={{ marginBottom: "0px", whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        marginBottom: "2px",
-                      }}
-                    >
+                        marginBottom: "2px", }}>
                       {item.title}
                     </Title>
                     <Tooltip title={item.description}>
@@ -305,13 +302,15 @@ const Profile = () => {
                         marginBottom: "2px",
                       }}
                     >
-                      <EventRounded style={{ fontSize: "18", color: "grey" }} />
+                      <EventRounded
+                        style={{ fontSize: "18", color: "grey" }}
+                      />
                       <Text style={{ color: "grey" }}>
                         {new Date(item.start_time).toLocaleDateString("id-ID", {
                           weekday: "short", // e.g., Sun
-                          day: "2-digit", // e.g., 03
-                          month: "short", // e.g., Nov
-                          year: "numeric", // e.g., 2024
+                          day: "2-digit",   // e.g., 03
+                          month: "short",   // e.g., Nov
+                          year: "numeric",  // e.g., 2024
                         })}
                       </Text>
                       <AccessTimeRounded
@@ -326,9 +325,10 @@ const Profile = () => {
                           hour: "2-digit", // e.g., 06
                           minute: "2-digit", // e.g., 00
                           hour12: false, // 24-hour format
-                          timeZone: "UTC",
+                          timeZone: "UTC"
                         })}
                       </Text>
+
                     </Row>
                     <Row
                       style={{
@@ -365,7 +365,9 @@ const Profile = () => {
                         fontWeight: "700",
                       }}
                     >
-                      {item.price == null ? `Free` : `Rp${item.price}0/pax`}
+                      {item.price == null
+                        ? `Free`
+                        : `Rp${item.price}0/pax`}
                     </Text>
                     {/* </Col> */}
                   </Col>
@@ -387,10 +389,7 @@ const Profile = () => {
             }}
           >
             <Title style={{ fontSize: "20px" }}>Past Events</Title>
-            <Text
-              className="text-gray-400 hover:text-purple-500"
-              style={{ cursor: "pointer" }}
-            >
+            <Text className="text-gray-400 hover:text-purple-500" style={{ cursor: "pointer" }}>
               See All
             </Text>
           </Row>
@@ -408,128 +407,118 @@ const Profile = () => {
             >
               {pastEvents.map((item, index) => (
                 <Card
-                  hoverable={true}
-                  bordered={true}
-                  key={index}
-                  style={{
-                    maxWidth: "320px",
-                    width: "100%",
-                    marginBottom: "10px",
-                    background: "#F7F3FF",
-                  }}
-                  className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
-                >
-                  <Col style={{ gap: "10px", maxWidth: "300px" }}>
-                    <Image
+                hoverable={true}
+                bordered={true}
+                key={index}
+                style={{
+                  maxWidth: "320px",
+                  width: "100%",
+                  marginBottom: "10px",
+                  background: "#F7F3FF"
+                }}
+                className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
+              >
+                <Col style={{ gap: "10px", maxWidth: "300px" }}>
+                  <Image
+                    style={{ borderRadius: "5%", objectFit: "cover", width: "300px", height: "150px" }}
+                    // width={200}
+                    // height={200}
+                    src="/pottery-class.jfif"
+                  />
+                  {/* <Col style={{ maxWidth: "490px" }}> */}
+                  <Title level={4} style={{ marginBottom: "0px", whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        marginBottom: "2px", }}>
+                    {item.title}
+                  </Title>
+                  <Tooltip title={item.description}>
+                    <p
                       style={{
-                        borderRadius: "5%",
-                        objectFit: "cover",
-                        width: "300px",
-                        height: "150px",
-                      }}
-                      // width={200}
-                      // height={200}
-                      src="/pottery-class.jfif"
-                    />
-                    {/* <Col style={{ maxWidth: "490px" }}> */}
-                    <Title
-                      level={4}
-                      style={{
-                        marginBottom: "0px",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        color: "grey",
                         marginBottom: "2px",
                       }}
                     >
-                      {item.title}
-                    </Title>
-                    <Tooltip title={item.description}>
-                      <p
+                      {item.description}
+                    </p>
+                  </Tooltip>
+                  <Row
+                    style={{
+                      alignItems: "center",
+                      gap: "5px",
+                      marginBottom: "2px",
+                    }}
+                  >
+                    <EventRounded
+                      style={{ fontSize: "18", color: "grey" }}
+                    />
+                    <Text style={{ color: "grey" }}>
+                      {new Date(item.start_time).toLocaleDateString("id-ID", {
+                        weekday: "short", // e.g., Sun
+                        day: "2-digit",   // e.g., 03
+                        month: "short",   // e.g., Nov
+                        year: "numeric",  // e.g., 2024
+                      })}
+                    </Text>
+                    <AccessTimeRounded
+                      style={{
+                        fontSize: "18",
+                        color: "grey",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    <Text style={{ color: "grey" }}>
+                      {new Date(item.start_time).toLocaleTimeString("en-US", {
+                        hour: "2-digit", // e.g., 06
+                        minute: "2-digit", // e.g., 00
+                        hour12: false, // 24-hour format
+                        timeZone: "UTC"
+                      })}
+                    </Text>
+
+                  </Row>
+                  <Row style={{
+                    marginTop: "5px", alignItems: "center",
+                    gap: "5px",
+                    marginBottom: "2px",
+                  }}>
+                    <LocationOnRounded
+                      style={{
+                        fontSize: "18",
+                        color: "grey",
+                        // marginLeft: "10px",
+                      }}
+                    />
+                    <Tooltip title={item.location}>
+                      <Text
                         style={{
+                          color: "grey",
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          color: "grey",
-                          marginBottom: "2px",
-                          fontFamily: "Poppins, sans-serif",
+                          maxWidth: "190px",
                         }}
                       >
-                        {item.description}
-                      </p>
+                        {item.location}
+                      </Text>
                     </Tooltip>
-                    <Row
-                      style={{
-                        alignItems: "center",
-                        gap: "5px",
-                        marginBottom: "2px",
-                      }}
-                    >
-                      <EventRounded style={{ fontSize: "18", color: "grey" }} />
-                      <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleDateString("id-ID", {
-                          weekday: "short", // e.g., Sun
-                          day: "2-digit", // e.g., 03
-                          month: "short", // e.g., Nov
-                          year: "numeric", // e.g., 2024
-                        })}
-                      </Text>
-                      <AccessTimeRounded
-                        style={{
-                          fontSize: "18",
-                          color: "grey",
-                          marginLeft: "10px",
-                        }}
-                      />
-                      <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleTimeString("en-US", {
-                          hour: "2-digit", // e.g., 06
-                          minute: "2-digit", // e.g., 00
-                          hour12: false, // 24-hour format
-                          timeZone: "UTC",
-                        })}
-                      </Text>
-                    </Row>
-                    <Row
-                      style={{
-                        marginTop: "5px",
-                        alignItems: "center",
-                        gap: "5px",
-                        marginBottom: "2px",
-                      }}
-                    >
-                      <LocationOnRounded
-                        style={{
-                          fontSize: "18",
-                          color: "grey",
-                          // marginLeft: "10px",
-                        }}
-                      />
-                      <Tooltip title={item.location}>
-                        <Text
-                          style={{
-                            color: "grey",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            maxWidth: "190px",
-                          }}
-                        >
-                          {item.location}
-                        </Text>
-                      </Tooltip>
-                    </Row>
-                    <Text
-                      style={{
-                        color: item.is_free == 0 ? "#6C6CC6" : "green",
-                        fontWeight: "700",
-                      }}
-                    >
-                      {item.price == null ? `Free` : `Rp${item.price}0/pax`}
-                    </Text>
-                    {/* </Col> */}
-                  </Col>
-                </Card>
+                  </Row>
+                  <Text
+                    style={{
+                      color: item.is_free == 0 ? "#6C6CC6" : "green",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {item.price == null
+                      ? `Free`
+                      : `Rp${item.price}0/pax`}
+                  </Text>
+                  {/* </Col> */}
+                </Col>
+              </Card>
               ))}
             </Row>
           </motion.div>

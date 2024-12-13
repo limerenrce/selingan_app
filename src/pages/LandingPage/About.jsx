@@ -10,10 +10,10 @@ const About = () => {
         <h1 className="text-4xl xl:text-5xl font-bold   tracking-normal pb-3">
         We offers countless fun <br/> activities here in <span className="text-primary">Selingan</span>.
         </h1>
-        <h1 className="text-4xl xl:text-5xl max-w-[1000px] tracking-normal font-bold">Join or create your own Ragam</h1>
+        <h1 className="text-4xl xl:text-5xl max-w-[1000px] tracking-normal font-bold">Join or create Ragam</h1>
         </div>
         <div className="col-3 pl-5">
-        <p className="xl:text-xl pb-4">Find interesting activities or host your own event to make an unforgettable break in your day!</p>
+        <p className="xl:text-[20px] pb-4">Find interesting activities or host your own event to make an unforgettable break in your day!</p>
         <a href="/profile">
                   <button
                     
@@ -30,21 +30,21 @@ const About = () => {
           <img className="w-14 h-14 rounded-full object-contain p-0 bg-[#A38EC9]" src="activites-icon.png" alt="" />
 
           {/* Heading */}
-          <h2 className="text-3xl xl-text-4xl pt-8 pb-8">Endless Fun, Tailored to Your Interests</h2>
+          <h2 className="text-[24px] xl:text-[28px] pt-5 pb-5">Endless Fun, Tailored to Your Interests</h2>
 
           {/* text */}
           {/* <p className="xl:text-xl leading-loose">Looking to expand your skill and explore your creaticity? Our hands-on creative classes are the perfect way to learn at your own pacce and discover new talents.</p> */}
-          <p className="xl:text-xl leading-loose">Escape your routine with Selingan—explore hundreds of fun one-day activities, all suited to your interests and nearby location!</p>
+          <p className="text-lg xl:text-xl leading-loose">Escape your routine with Selingan—explore hundreds of fun one-day activities, all suited to your interests and nearby location!</p>
         </div>
-        <div className="col-span-3 bg-[#A99DCF] px-8 py-8 rounded-3xl">
+        <div className="col-span-3 bg-[#A99DCF] px-8 py-10 rounded-3xl">
           {/* image */}
-          <img className="w-14 h-14 rounded-full bg-[#6C588B]" src="events-icon.png" alt="" />
+          <img className="w-14 h-14 rounded-full  object-contain p-0 bg-[#6C588B]" src="events-icon.png" alt="" />
 
           {/* Heding */}
-          <h2 className="text-3xl xl-text-4xl pt-8 pb-10">Organize a creative event and find others who share your passion!</h2>
+          <h2 className="text-[24px] xl:text-[28px] pt-5 pb-5">Organize a creative event and find others who share your passion!</h2>
 
           {/* text */}
-          <p className="xl:text-xl leading-loose">With Selingan, you're not just a participant, you're the creator! Selingan lets you design your own events, invite friends, and welcome others to join. Unleash your creativity, meet new people, and enjoy every moment!</p>
+          <p className="text-lg xl:text-xl leading-loose">With Selingan, you're not just a participant, you're the creator! Selingan lets you design your own events, invite friends, and welcome others to join. Unleash your creativity, meet new people, and enjoy every moment!</p>
         </div> 
 
       </div>
@@ -52,12 +52,12 @@ const About = () => {
         {/* Feature */}
         <div className="flex items-center gap-5 pt-[60px] pb-[80px]">
           {/* Title */}
-          <h3 className="text-2xl xl:text-3xl font-bold tracking-wider max-w-[300px]">
+          <h4 className="text-xl xl:text-2xl font-bold tracking-wider max-w-[250px]">
             Only on Selingan
-          </h3>
+          </h4>
 
           {/* Features List */}
-          <div className="flex items-center gap-8 text-lg">
+          <div className="flex items-center gap-8 text-[16px]">
             <div className="bg-gray-200 rounded-full py-2 px-6 text-center">
               Many Activities
             </div>
