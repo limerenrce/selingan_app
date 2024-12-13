@@ -6,7 +6,7 @@ import {
   Typography,
   Form,
   Input,
-  Checkbox, 
+  Checkbox,
   notification,
   Flex,
 } from "antd";
@@ -16,11 +16,10 @@ import { useState } from "react";
 import { sendData, getDataPrivate } from "../../utils/api";
 import { jwtStorage } from "../../utils/jwt_storage";
 
-
 import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
-const { Footer, Content, Header } = Layout; 
+const { Footer, Content, Header } = Layout;
 const { Text } = Typography;
 
 const SignIn = () => {
@@ -78,7 +77,7 @@ const SignIn = () => {
       .then((data) => {
         const userRole = data.role;
         if (userRole === "user") {
-          navigate("/list-ragam", { replace: true });
+          navigate("/ragam", { replace: true });
         } else if (userRole === "admin") {
           navigate("/admin-report", { replace: true });
         } else {
@@ -98,43 +97,44 @@ const SignIn = () => {
 
   return (
     <>
-      <Layout 
-      style={{ 
-        minHeight: "100vh", 
-       }}
-      className="signin flex justify-center items-center min-h-screen flex-col bg-gradient-to-r from-gray-100 via-[#c5c5fe] to-gray-100">
-      <Header className="bg-transparent flex items-center justify-between w-full p-4 z-20">
-        <Row
-          gutter={2}
-          className="w-full top-0 fixed backdrop-blur-xl py-3 text-2xl z-50 flex items-center justify-between"
-        >
-          <div className="w-full mx-auto flex ">
-            {/* LOGO */}
-            <Col span={12}>
-              <a href="/">
-                <div className="flex space-x-2 items-start px-5">
-                  <img src={Logo} alt="Logo Selingan" className="w-12 h-8" />
-                  <Text className="text-xl font-bold text-[#a3a3f5]">
-                    SELINGAN
-                  </Text>
-                </div>
-              </a>
-            </Col>
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
+        className="signin flex justify-center items-center min-h-screen flex-col bg-gradient-to-r from-gray-100 via-[#c5c5fe] to-gray-100"
+      >
+        <Header className="bg-transparent flex items-center justify-between w-full p-4 z-20">
+          <Row
+            gutter={2}
+            className="w-full top-0 fixed backdrop-blur-xl py-3 text-2xl z-50 flex items-center justify-between"
+          >
+            <div className="w-full mx-auto flex ">
+              {/* LOGO */}
+              <Col span={12}>
+                <a href="/">
+                  <div className="flex space-x-2 items-start px-5">
+                    <img src={Logo} alt="Logo Selingan" className="w-12 h-8" />
+                    <Text className="text-xl font-bold text-[#6C6CC6]">
+                      SELINGAN
+                    </Text>
+                  </div>
+                </a>
+              </Col>
 
-            {/* ACTIONS */}
-            <Col span={12} className="flex items-center gap-4 justify-end">
-              <a
-                className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-3 mr-10"
-                type="text"
-                onClick={() => navigate("/signup", { replace: true })}
-              >
-                <LogoutOutlined />
-                <span>Sign up</span>
-              </a>
-            </Col>
-          </div>
-        </Row>
-      </Header> 
+              {/* ACTIONS */}
+              <Col span={12} className="flex items-center gap-4 justify-end">
+                <a
+                  className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-3 mr-10 font-sans"
+                  type="text"
+                  onClick={() => navigate("/signup", { replace: true })}
+                >
+                  <LogoutOutlined />
+                  <span>Sign Up</span>
+                </a>
+              </Col>
+            </div>
+          </Row>
+        </Header>
         <Content className="w-full p-8">
           <Row gutter={[24, 0]} justify="center">
             <Col
@@ -152,7 +152,7 @@ const SignIn = () => {
                   alt="Logo"
                   className="w-12 h-12 rounded-full shadow-md"
                 />
-                <span className="text-gray-900 font-semibold tracking-wide">
+                <span className="text-gray-900 font-semibold tracking-wide font-sans">
                   SELINGAN
                 </span>
               </Title>
@@ -195,58 +195,52 @@ const SignIn = () => {
                 </Form.Item>
 
                 <Form.Item>
-                <Flex justify="space-between" align="center" style={{
-                      fontFamily: "Poppins, sans-serif",
-                      fontSize: "12px",
-                    }}>
-                  <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                  </Form.Item>
-                  <a
-                    href=""
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      fontSize: "12px",
-                    }}
+                  <Flex
+                    justify="space-between"
+                    align="center"
+                    style={{ fontFamily: "Poppins, sans-serif" }}
                   >
-                    Forgot password
-                  </a>
-                </Flex>
-              </Form.Item>
+                    <Form.Item name="remember" valuePropName="checked" noStyle>
+                      <Checkbox style={{ fontFamily: "Poppins, sans-serif" }}>
+                        Remember me
+                      </Checkbox>
+                    </Form.Item>
+                    <a href="">Forgot password</a>
+                  </Flex>
+                </Form.Item>
 
                 <Form.Item>
                   {error && <p style={{ color: "red" }}>{error}</p>}
                   <Button
-                  color="default"
-                  variant="solid"
+                    color="default"
+                    variant="solid"
                     htmlType="submit"
                     className={`w-full font-bold`}
                     disabled={loading}
-                    
+                    style={{ fontFamily: "Poppins, sans-serif" }}
                   >
                     {loading ? "Logging in..." : "Sign In"}
                   </Button>
                 </Form.Item>
 
                 <Form.Item className="text-center">
-                <Text type="secondary">
-                  Dont have an account?{" "}
-                  <span
-                    className="text-black cursor-pointer font-medium hover:text-gray-500 "
-                    onClick={() => navigate("/signup")}
-                  >
-                    Sign Up
-                  </span>
-                </Text>
-              </Form.Item>
+                  <Text type="secondary">
+                    Dont have an account?{" "}
+                    <span
+                      className="text-black cursor-pointer font-medium hover:text-gray-500 "
+                      onClick={() => navigate("/signup")}
+                    >
+                      Sign Up
+                    </span>
+                  </Text>
+                </Form.Item>
               </Form>
             </Col>
           </Row>
         </Content>
-        <Footer className="bg-transparent text-center">
-        <p className="copyright"> Copyright © 2024 Selingan</p>
-      </Footer>
- 
+        <Footer className="bg-transparent text-center font-sans">
+          <p className="copyright"> Copyright © 2024 Selingan</p>
+        </Footer>
       </Layout>
     </>
   );

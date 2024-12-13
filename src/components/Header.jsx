@@ -12,7 +12,7 @@ const NavLinks = [
   {
     id: 1,
     title: "Ragam",
-    path: "/list-ragam",
+    path: "/ragam",
   },
   {
     id: 2,
@@ -115,8 +115,8 @@ const InHeader = () => {
                       className={({ isActive }) =>
                         `inline-block text-sm ${
                           isActive
-                            ? "text-[#a3a3f5] font-semibold hover:text-[#a3a3f5]"
-                            : "text-gray-600 font-semibold hover:text-[#a3a3f5]"
+                            ? "text-primary font-semibold hover:text-primary"
+                            : "text-gray-600 font-semibold hover:text-primary"
                         }`
                       }
                       style={{
@@ -141,7 +141,7 @@ const InHeader = () => {
           >
             <a
               type="text"
-              className="text-[#b2b2b2] font-bold hover:font-bold hover:text-primary"
+              className="text-gray-600 font-bold hover:font-bold hover:text-primary"
               onClick={() => navigate("/create-ragam")}
             >
               Create Ragam
@@ -165,6 +165,20 @@ const InHeader = () => {
                   }}
                 />
               </a>
+              {/* <a
+                onClick={(e) => e.preventDefault()}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <img
+                  src={profileImage || "default-profile-icon.png"} // Default profile icon or uploaded image
+                  alt="Profile Icon"
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%", // Make it circular
+                  }}
+                />
+              </a> */}
             </Dropdown>
           </Col>
         </div>

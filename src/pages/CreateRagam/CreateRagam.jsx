@@ -245,7 +245,7 @@ const CreateRagam = () => {
                   style={{
                     marginTop: "10px",
                     tabSize: "large",
-                    color: "#C4B7E5",
+                    color: "#6C6CC6",
                     alignItems: "left",
                   }}
                 />
@@ -392,7 +392,12 @@ const CreateRagam = () => {
                 <Segmented
                   options={["Free", "Paid"]}
                   onChange={handleSegmentChange} // Call function on change
-                  style={{ marginBottom: "10px" }}
+                  style={{
+                    marginBottom: "10px",
+                    tabSize: "large",
+                    color: "#6C6CC6",
+                    alignItems: "left",
+                  }}
                 />
                 <Form
                   layout="vertical"
@@ -428,7 +433,7 @@ const CreateRagam = () => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Button
                     style={{ height: "42px" }}
-                    className="text-[20px] w-full mt-5 bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300"
+                    className="text-[20px] w-full mt-5 bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300 font-sans"
                   >
                     Create Event
                   </Button>

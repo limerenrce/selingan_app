@@ -6,7 +6,7 @@ import Logo from "../assets/images/main-logo.png";
 
 const { Text } = Typography;
 
-const MainHeader = () => {
+const AdminHeader = () => {
   const navigate = useNavigate(); // Initialize navigate
 
   return (
@@ -49,17 +49,24 @@ const MainHeader = () => {
               <a
                 type="text"
                 className="text-gray-600 font-semibold hover:text-primary"
-                onClick={() => navigate("/explore")}
+                onClick={() => navigate("/report")}
               >
-                Explore Ragam
+                Report User
+              </a>
+              <a
+                type="text"
+                className="text-gray-600 font-semibold hover:text-primary"
+                onClick={() => navigate("/report")}
+              >
+                Report Event
               </a>
               <a
                 className="text-gray-600 font-semibold hover:text-primary space-x-2 mr-5"
                 type="text"
-                onClick={() => navigate("/signup", { replace: true })}
+                onClick={() => navigate("/signin", { replace: true })}
               >
                 <LogoutOutlined />
-                <span>Sign up</span>
+                <span>Sign Out</span>
               </a>
             </Col>
           </div>
@@ -69,4 +76,4 @@ const MainHeader = () => {
   );
 };
 
-export default MainHeader;
+export default AdminHeader;

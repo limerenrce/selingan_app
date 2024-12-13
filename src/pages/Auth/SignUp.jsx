@@ -55,8 +55,7 @@ const signUp = () => {
         if (resp?.message === "OK") {
           notification.success({
             message: "Signup Successful",
-            description:
-              "You have successfully signed up!",
+            description: "You have successfully signed up!",
           });
 
           // Redirect to the sign-in page after successful signup
@@ -83,12 +82,13 @@ const signUp = () => {
   };
 
   return (
-    <Layout 
-    style={{
-      minHeight: "100vh", 
-    }}
-    className="signin flex justify-center items-center min-h-screen flex-col bg-gradient-to-r from-gray-100 via-[#c5c5fe] to-gray-100">
-      <Header className="bg-transparent flex items-center justify-between w-full p-4 z-20">
+    <Layout
+      style={{
+        minHeight: "100vh",
+      }}
+      className="signin flex justify-center items-center min-h-screen flex-col bg-gradient-to-r from-gray-100 via-[#c5c5fe] to-gray-100"
+    >
+      <Header className="bg-transparent flex items-center justify-between w-full p-4 z-20 font-sans">
         <Row
           gutter={2}
           className="w-full top-0 fixed backdrop-blur-xl py-3 text-2xl z-50 flex items-center justify-between"
@@ -99,7 +99,7 @@ const signUp = () => {
               <a href="/">
                 <div className="flex space-x-2 items-start px-5">
                   <img src={Logo} alt="Logo Selingan" className="w-12 h-8" />
-                  <Text className="text-xl font-bold text-[#a3a3f5]">
+                  <Text className="text-xl font-bold text-[#6C6CC6]">
                     SELINGAN
                   </Text>
                 </div>
@@ -109,7 +109,7 @@ const signUp = () => {
             {/* ACTIONS */}
             <Col span={12} className="flex items-center gap-4 justify-end">
               <a
-                className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-3 mr-10"
+                className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-3 mr-10 font-sans"
                 type="text"
                 onClick={() => navigate("/signin", { replace: true })}
               >
@@ -151,7 +151,6 @@ const signUp = () => {
               layout="vertical"
               className="w-full"
             >
-              
               <Form.Item
                 className="email w-full"
                 name="email"
@@ -220,13 +219,10 @@ const signUp = () => {
                   htmlType="submit"
                   className={`w-full font-bold`}
                   loading={loading}
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: "12px",
-                  }}
+                  style={{ fontFamily: "Poppins, sans-serif" }}
                 >
-                    {loading ? "Register..." : "Sign Up"}
-                    </Button>
+                  {loading ? "Register..." : "Sign Up"}
+                </Button>
               </Form.Item>
 
               <Form.Item className="mt-6 text-center">
@@ -244,7 +240,7 @@ const signUp = () => {
           </Col>
         </Row>
       </Content>
-      <Footer className="bg-transparent text-center">
+      <Footer className="bg-transparent text-center font-sans">
         <p className="copyright"> Copyright © 2024 Selingan</p>
       </Footer>
     </Layout>

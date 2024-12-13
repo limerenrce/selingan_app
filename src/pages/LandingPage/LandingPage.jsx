@@ -3,7 +3,7 @@ import { Flex, Layout } from "antd";
 
 import MainHeader from "../../components/MainHeader";
 import Hero from "./Hero";
-import About from "./About" 
+import About from "./About";
 import PrimaryFooter from "../../components/PrimaryFooter";
 
 const LandingPage = () => {
@@ -13,7 +13,8 @@ const LandingPage = () => {
         style={{
           minHeight: "100vh",
           // background: "none",
-          background: "linear-gradient(to bottom, #E7DBFF, #FFFFFF, #FFFFFF,  #FFFFFF)",
+          background:
+            "linear-gradient(to bottom, #E7DBFF, #FFFFFF, #FFFFFF,  #FFFFFF)",
         }}
         className="font-sans"
       >
@@ -21,11 +22,11 @@ const LandingPage = () => {
           {/* Header */}
           <MainHeader />
 
-        {/* Hero */}
-        <Hero /> 
+          {/* Hero */}
+          <Hero />
 
-        {/* About */}
-        <About />
+          {/* About */}
+          <About />
 
           {/* Footer */}
           <PrimaryFooter />

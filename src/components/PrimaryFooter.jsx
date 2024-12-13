@@ -14,13 +14,13 @@ const PrimaryFooter = () => {
     <>
       <>
         {/* component */}
-        <footer className="bg-gradient-to-r from-[#c5c5fe] via-gray-100 to-[#c5c5fe] font-sans">
+        <footer className="bg-gradient-to-r from-[#E7DBFF] via-gray-100 to-[#f4d0ff] font-sans">
           <div className="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 font-sans">
             <nav className="flex flex-wrap justify-center -mx-5 -my-2">
               <div className="px-5 py-2">
                 <a
                   href="/about-us"
-                  className="text-base leading-6 text-gray-500 hover:text-gray-900"
+                  className="text-base font-medium leading-6 text-gray-500 hover:text-primary"
                 >
                   About
                 </a>
@@ -28,7 +28,7 @@ const PrimaryFooter = () => {
               <div className="px-5 py-2">
                 <a
                   href="/blog"
-                  className="text-base leading-6 text-gray-500 hover:text-gray-900"
+                  className="text-base font-medium leading-6 text-gray-500 hover:text-primary"
                 >
                   Blog
                 </a>
@@ -36,7 +36,7 @@ const PrimaryFooter = () => {
               <div className="px-5 py-2">
                 <a
                   href="/pricing"
-                  className="text-base leading-6 text-gray-500 hover:text-gray-900"
+                  className="text-base font-medium leading-6 text-gray-500 hover:text-primary"
                 >
                   Pricing
                 </a>
@@ -44,7 +44,7 @@ const PrimaryFooter = () => {
               <div className="px-5 py-2">
                 <a
                   href="/contact"
-                  className="text-base leading-6 text-gray-500 hover:text-gray-900"
+                  className="text-base font-medium leading-6 text-gray-500 hover:text-primary"
                 >
                   Contact
                 </a>
@@ -52,7 +52,7 @@ const PrimaryFooter = () => {
               <div className="px-5 py-2">
                 <a
                   href="/terms"
-                  className="text-base leading-6 text-gray-500 hover:text-gray-900"
+                  className="text-base font-medium leading-6 text-gray-500 hover:text-primary"
                 >
                   Terms
                 </a>
