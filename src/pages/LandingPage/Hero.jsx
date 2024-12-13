@@ -14,7 +14,7 @@ const Hero = () => {
               variants={slideUp(0.2)}
               initial="initial"
               animate="animate"
-              className="text-5xl xl:text-6xl font-bold tracking-tight pt-10"
+              className="text-4xl xl:text-5xl font-bold tracking-tight pt-[60px]"
             >
               Turn Free Time to Fun Time with {" "}
               <span className="text-primary">Selingan</span>
@@ -23,7 +23,7 @@ const Hero = () => {
               variants={slideUp(0.4)}
               initial="initial"
               animate="animate"
-              className="xl:text-xl py-2 pr-37"
+              className="xl:text-[20px] py-2 pr-37"
             >
               Tired of the same old routine? Break free from the monotony! Selingan lets you explore exciting activities or host your own events to brighten up your days!
             </motion.p>

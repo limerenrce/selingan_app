@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
+import { getData } from "../../utils/api";
 import {
   Card,
   List,
@@ -305,182 +306,192 @@ const Ragams = () => {
     return (
       <>
         <Modal
-          width={800}
+          width={"65%"}
           onCancel={handleCancel}
           footer={null}
           open={isModalOpen}
         >
-          <div className="container min-h-[600px] flex-center">
-            <Row className="flex justify-center items-center h-full">
-              <Col className=" flex justify-center items-center size-80">
-                <img src="/pottery-class.jfif" alt="" />
-              </Col>
-              <Col className="flex justify-center items-center mb-24">
-                <Card
-                  bordered={false}
-                  className="circlebox h-full w-full"
-                  style={{
-                    boxShadow: "inherit",
-                    backgroundSize: "cover",
-                    // height: "550px",
-                    width: "700px",
-                    position: "relative",
-                  }}
-                >
-                  <Title
-                    level={3}
-                    style={{
-                      marginLeft: 8,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {selectedEvent?.title}
-                  </Title>
+          {/* <div className="container min-h-[600px] flex-center"> */}
+          <Row className="flex justify-center items-center h-full"
 
-                  <Flex vertical>
-                    <Flex
-                      gap={75}
-                      style={{
-                        marginLeft: 5,
-                        marginBottom: 10,
-                        marginTop: 10,
-                      }}
-                    >
-                      <Row gutter={10}>
-                        <Col>
-                          <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
-                            <LocationOnIcon
-                              style={{ height: 30, marginTop: 10 }}
-                            />
-                          </div>
-                        </Col>
-                        <Col>
-                          <Flex
-                            vertical
-                            style={{
-                              marginTop: 3,
-                            }}
-                          >
-                            <Text>Markas for Founders</Text>
-                            <Text>Denpasar, Bali</Text>
-                          </Flex>
-                        </Col>
-                      </Row>
-                      <Row gutter={10}>
-                        <Col>
-                          <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
-                            <span className="flex h-3 w-3 absolute -top-1 -right-1">
-                              <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-purple-400 "></span>
-                              <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-                            </span>
-                            <div className="flex items-center px-4">
-                              <div className="text-center">
-                                <p className="text-purple-900 text-sm"> Oct </p>
-                                <p className="text-purple-900 font-bold"> 4 </p>
-                              </div>
-                            </div>
-                          </div>
-                        </Col>
-                        <Col>
-                          <Flex
-                            vertical
-                            style={{
-                              marginTop: 3,
-                            }}
-                          >
-                            <Text>Saturday, 4 October 2003</Text>
-                            <Text>10:00 AM - 1:00 PM GMT+9</Text>
-                          </Flex>
-                        </Col>
-                      </Row>
-                    </Flex>
-
-                    <Col className="flex justify-center items-center mt-8">
-                      <Card
-                        size="small"
-                        title="Registration"
-                        className="shadow-lg w-[700px]"
-                      >
-                        <div className="ml-2">
-                          <p className="text-lg">
-                            To join the event, please register below.
+          >
+            <Flex vertical style={{ padding: "40px", width: "100%" }}>
+              <div style={{ justifyItems: "center", marginBottom: "30px" }} >
+                <img src="/pottery-class.jfif" alt="" style={{ width: "350px" }} />
+              </div>
+              <Title
+                level={3}
+              >
+                {selectedEvent?.title}
+              </Title>
+              <Flex
+                // gap={75}
+                style={{
+                  // marginLeft: 5,
+                  marginBottom: "30px",
+                  marginTop: "10px",
+                  gap: "30%",
+                  alignContent: "space-between"
+                }}
+              >
+                <Row style={{ gap: "10px", alignItems: "center" }}>
+                  <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
+                    <LocationOnIcon
+                      style={{ height: 30, marginTop: 10 }}
+                    />
+                  </div>
+                  <Text>{selectedEvent?.location}</Text>
+                </Row>
+                <Row gutter={10}>
+                  <Col>
+                    <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
+                      <span className="flex h-3 w-3 absolute -top-1 -right-1">
+                        <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-purple-400 "></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+                      </span>
+                      <div className="flex items-center px-4">
+                        <div className="text-center">
+                          <p className="text-purple-900 text-sm">
+                            {new Date(selectedEvent?.start_time).toLocaleDateString("en-ID", {   // e.g., 03
+                              month: "short",  // e.g., 2024
+                            })}
                           </p>
-                          <p>50 seats left!</p>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-1 my-3 mt-5">
-                          <Avatar size={24} icon={<UserOutlined />} />{" "}
-                          <p className="m-0 text-base">
-                            <span className="font-medium">Aprillia Kusuma</span>{" "}
+                          <p className="text-purple-900 font-bold">
+                            {new Date(selectedEvent?.start_time).toLocaleDateString("en-ID", {   // e.g., 03
+                              day: "numeric"
+                            })}
                           </p>
                         </div>
-                        <Button
-                          style={{}}
-                          className="w-full bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md"
-                          //  hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300
-                        >
-                          Register
-                        </Button>
-                      </Card>
-                    </Col>
-
-                    {/* <Text>is free?? Price: IDR 20K /Ticket</Text>
-                  <Text>Requires approval??</Text> */}
-
-                    <div
-                      className="mt-10 my-5"
-                      style={{
-                        marginLeft: 10,
-                        marginRight: 10,
-                      }}
-                    >
-                      <Title level={4}>Description</Title>
-                      <div className="flex items-center space-x-2 my-3">
-                        <Avatar size={24} icon={<UserOutlined />} />{" "}
-                        <p className="m-0 text-base">
-                          Hosted by{" "}
-                          <a
-                            href="mailto:satyautta@gmail.com"
-                            className="hover:text-black hover:underline transition duration-100"
-                          >
-                            Satya Uttami
-                          </a>
-                        </p>
                       </div>
-                      <Paragraph className="text-justify">
-                        In this Chocholate making class, you will explore the
-                        art of poetry from different perspectives, discovering
-                        techniques to enhance your expression, rhythm, and
-                        storytelling. We will delve into both classic and modern
-                        poetry styles, learning how to convey emotions and
-                        connect with audiences. You will have the chance to work
-                        on your own verses, receive feedback, and understand the
-                        impact of imagery, metaphors, and poetic devices. This
-                        course is an inspiring journey to help you refine your
-                        voice, connect with other poetry lovers, and create
-                        powerful, memorable pieces.
-                      </Paragraph>
                     </div>
-                    <div className="my-2 mx-2">
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d505177.941253496!2d114.8471397286711!3d-8.430831999785685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd241005ee2d511%3A0xd46c58fecfa8dba0!2sMARKAS%20Bali%20-%20Home%20for%20Founders!5e0!3m2!1sen!2sid!4v1732202697349!5m2!1sen!2sid"
-                        width="100%"
-                        height={200}
-                        style={{ border: 10 }}
-                        allowFullScreen=""
-                        loading="lazy"
-                      />
-                    </div>
-                  </Flex>
-                </Card>
-              </Col>
-            </Row>
-          </div>
+                  </Col>
+                  <Col>
+                    <Flex
+                      vertical
+                      style={{
+                        marginTop: 3,
+                      }}
+                    >
+                      <Text>
+                        {new Date(selectedEvent?.start_time).toLocaleDateString("en-ID", {   // e.g., 03
+                          weekday: "long", // e.g., Sun
+                          day: "2-digit",   // e.g., 03
+                          month: "short",   // e.g., Nov
+                          year: "numeric",
+                        })}
+                      </Text>
+                      <Text>
+                        {new Date(selectedEvent?.start_time).toLocaleTimeString("en-US", {
+                          hour: "2-digit", // e.g., 06
+                          minute: "2-digit", // e.g., 00
+                          hour12: false, // 24-hour format
+                          timeZone: "UTC"
+                        })} -
+                        {new Date(selectedEvent?.end_time).toLocaleTimeString("en-US", {
+                          hour: "2-digit", // e.g., 06
+                          minute: "2-digit", // e.g., 00
+                          hour12: false, // 24-hour format
+                          timeZone: "UTC"
+                        })}
+                      </Text>
+                    </Flex>
+                  </Col>
+                </Row>
+              </Flex>
+              <Card
+                size="small"
+                title="Registration"
+                className="shadow-lg w-[700px]"
+              >
+                <div className="ml-2">
+                  <p className="text-lg">
+                    To join the event, please register below.
+                  </p>
+                  <p>50 seats left!</p>
+                </div>
+                <div className="flex items-center space-x-2 ml-1 my-3 mt-5">
+                  <Avatar size={24} icon={<UserOutlined />} />{" "}
+                  <p className="m-0 text-base">
+                    <span className="font-medium">Aprillia Kusuma</span>{" "}
+                  </p>
+                </div>
+                <Button
+                  style={{}}
+                  className="w-full bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md"
+                //  hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300
+                >
+                  Register
+                </Button>
+              </Card>
+              <div
+                className="mt-10 my-5"
+                style={{
+                  marginLeft: 10,
+                  marginRight: 10,
+                }}
+              >
+                <Title level={4}>Description</Title>
+                <div className="flex items-center space-x-2 my-3">
+                  <Avatar size={24} icon={<UserOutlined />} />{" "}
+                  <p className="m-0 text-base">
+                    Hosted by{" "}
+                    <a
+                      href="mailto:satyautta@gmail.com"
+                      className="hover:text-black hover:underline transition duration-100"
+                    >
+                      {selectedEvent.created_by}
+                    </a>
+                  </p>
+                </div>
+                <Paragraph className="text-justify">
+                  {selectedEvent.description}
+                </Paragraph>
+              </div>
+              <div className="my-2 mx-2">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d505177.941253496!2d114.8471397286711!3d-8.430831999785685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd241005ee2d511%3A0xd46c58fecfa8dba0!2sMARKAS%20Bali%20-%20Home%20for%20Founders!5e0!3m2!1sen!2sid!4v1732202697349!5m2!1sen!2sid"
+                  width="100%"
+                  height={200}
+                  style={{ border: 10 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                />
+              </div>
+            </Flex>
+            {/* </Card> */}
+            {/* </Col> */}
+          </Row>
+          {/* </div> */}
         </Modal>
       </>
     );
   };
 
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    getDataRagam()
+  }, [])
+
+  const getDataRagam = () => {
+    setLoading(false);
+    getData("/api/v1/ragam/read")
+      .then((resp) => {
+        console.log(resp); // Debug to confirm the data structure
+        if (resp && resp.datas) {
+          setDataSource(resp.datas); // Use the "datas" array directly
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  };
+
+  // const filteredRagam = dataSource.filter((item) =>
+  //   selectedDate ? dayjs(item.day).isSame(dayjs(selectedDate), "day") : true
+  // );
   return (
     <>
       <Content>
@@ -589,7 +600,7 @@ const Ragams = () => {
                 </div>
                 {loading ? (
                   <Skeleton active />
-                ) : Ragams.length > 0 ? (
+                ) : dataSource.length > 0 ? (
                   <List
                     grid={{
                       xs: 1, // 1 card per row on smaller screens
@@ -599,7 +610,7 @@ const Ragams = () => {
                       xl: 2,
                     }}
                     style={{ width: "100%" }}
-                    dataSource={filteredRagams}
+                    dataSource={dataSource}
                     renderItem={(item) => (
                       <List.Item
                         style={{ display: "flex", justifyContent: "center" }}
@@ -610,8 +621,9 @@ const Ragams = () => {
                           style={{
                             marginBottom: "20px",
                             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                            height: "180px",
-                            width: "100%", // Make the card fill available width
+                            maxHeight: "200px",
+                            height: "100%",
+                            width: "95%", // Make the card fill available width
                             maxWidth: "600px", // Optionally, set a max-width for the card
                           }}
                         >
@@ -621,9 +633,16 @@ const Ragams = () => {
                             </Col>
 
                             <Col span={19}>
+                              {/* STARTING TIME */}
                               <p className="text-[#7658B2] text-base">
-                                {item.day}
+                                {new Date(item.start_time).toLocaleDateString("en-ID", {
+                                  weekday: "short", // e.g., Sun
+                                  day: "2-digit",   // e.g., 03
+                                  month: "short",   // e.g., Nov
+                                  year: "numeric",  // e.g., 2024
+                                })}
                               </p>
+                              {/* TITLA */}
                               <p className="text-xl font-semibold">
                                 {item.title}
                               </p>

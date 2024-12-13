@@ -78,7 +78,7 @@ const SignIn = () => {
       .then((data) => {
         const userRole = data.role;
         if (userRole === "user") {
-          navigate("/list-ragam", { replace: true });
+          navigate("/ragam", { replace: true });
         } else if (userRole === "admin") {
           navigate("/admin-report", { replace: true });
         } else {
