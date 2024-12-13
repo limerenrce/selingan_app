@@ -439,12 +439,12 @@ const Ragams = () => {
                       href="mailto:satyautta@gmail.com"
                       className="hover:text-black hover:underline transition duration-100"
                     >
-                      {selectedEvent.created_by}
+                      {selectedEvent?.created_by}
                     </a>
                   </p>
                 </div>
                 <Paragraph className="text-justify">
-                  {selectedEvent.description}
+                  {selectedEvent?.description}
                 </Paragraph>
               </div>
               <div className="my-2 mx-2">
