@@ -1,0 +1,14 @@
+/* Header styles */
+header {
+  position: sticky; /* Or use position: fixed if you want it always visible */
+  top: 0; /* Stick to the top of the page */
+  z-index: 1000; /* Ensure it's above the content */
+  background-color: white; /* Ensure it doesn't overlap text behind */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for clarity */
+}
+
+/* Content styles */
+.content {
+  position: relative; /* Default positioning for scrolling */
+  z-index: 1; /* Lower than the header */
+}

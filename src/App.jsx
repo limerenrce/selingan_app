@@ -2,8 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
-import Report from "./pages/Admin/Report/Report";
-import User from "./pages/Admin/User/User";
+import ReportUser from "./pages/Admin/Report/ReportUser";
+import ReportEvent from "./pages/Admin/Report/ReportEvent";
 import SelinganUserRoute from "./components/layout/SelinganUserRoute";
 import SelinganAdminRoute from "./components/layout/SelinganAdminRoute";
 import Host from "./pages/Host/Host";
@@ -36,15 +36,14 @@ function App() {
         {/* Selingan Admin */}
         <Route
           exact
-          path="/admin-report"
-          element={<SelinganAdminRoute component={<Report />} />}
+          path="/report-user"
+          element={<SelinganAdminRoute component={<ReportUser />} />}
         />
         <Route
           exact
-          path="/admin-user"
-          element={<SelinganAdminRoute component={<User />} />}
+          path="/report-event"
+          element={<SelinganAdminRoute component={<ReportEvent />} />}
         />
-
 
         {/* Selingan User */}
         <Route

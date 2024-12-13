@@ -101,7 +101,7 @@ const InHeader = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "start",
+              alignItems: "end",
               fontFamily: "'Poppins', sans-serif", // Apply Poppins directly to the parent container
             }}
           >

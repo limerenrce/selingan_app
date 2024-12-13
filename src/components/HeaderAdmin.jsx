@@ -1,78 +1,103 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { Row, Col, Typography } from "antd";
-import { LogoutOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Row, Col } from "antd";
+import { useNavigate, NavLink } from "react-router-dom";
+import { LogoutOutlined } from "@ant-design/icons"; // Import LogoutOutlined icon
+import "@fontsource/poppins";
 import Logo from "../assets/images/main-logo.png";
 
-const { Text } = Typography;
+const NavLinks = [
+  {
+    id: 1,
+    title: "Report User",
+    path: "/report-user",
+  },
+  {
+    id: 2,
+    title: "Report Event",
+    path: "/report-event",
+  },
+];
 
 const AdminHeader = () => {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   return (
-    <>
-      <motion.div
-        initial={{ y: -100 }}
-        animate={{ y: 0, z: 50 }}
-        transition={{ duration: 0.5 }}
-        className="w-full top-0 left-0 fixed backdrop-blur-xl flex items-center justify-between"
+    <motion.div
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full fixed top-0 left-0 backdrop-blur-xl z-50 flex items-center justify-between"
+    >
+      <Row
+        gutter={2}
+        className="w-full py-3 text-2xl"
+        style={{
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+          fontFamily: "'Poppins', sans-serif",
+        }}
       >
-        <Row
-          gutter={2}
-          className="w-full py-3 text-2xl  "
-          style={{
-            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
-            fontFamily: "'Poppins', san-serif",
-          }} // Optional: Adds shadow for better visibility
-        >
-          <div className="w-full mx-auto flex ">
-            {/* LOGO */}
-            <Col span={12}>
-              <a href="/">
-                <div className="flex space-x-2 items-start px-5">
-                  <img src={Logo} alt="Logo Selingan" className="w-12 h-8" />
-                  <Text className="text-xl font-bold text-[#6C6CC6]">
-                    SELINGAN
-                  </Text>
-                </div>
-              </a>
-            </Col>
+        <div className="w-full mx-auto flex">
+          {/* LOGO */}
+          <Col span={4}>
+            <a href="/">
+              <img src={Logo} alt="Logo Selingan" className="ml-5 w-12 h-8" />
+            </a>
+          </Col>
 
-            {/* ACTIONS */}
-            <Col
-              span={12}
-              className="flex items-center gap-8 justify-end"
-              style={{
-                fontFamily: "'Poppins', sans-serif", // Ensure font is applied here
-              }}
+          {/* NAV LINKS */}
+          <Col
+            span={13}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "start",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            <div style={{ maxWidth: "800px", width: "100%", padding: "0px" }}>
+              <div className="hidden md:flex space-x-12 pt-1">
+                {NavLinks.map((link) => (
+                  <NavLink
+                    key={link.id}
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `inline-block text-sm ${
+                        isActive
+                          ? "text-primary font-semibold hover:text-primary"
+                          : "text-gray-600 font-semibold hover:text-primary"
+                      }`
+                    }
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                    }}
+                  >
+                    {link.title}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          </Col>
+
+          {/* ACTIONS */}
+          <Col
+            span={6}
+            className="flex items-center gap-4 justify-end mr-5"
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            <a
+              className="text-gray-600 font-semibold hover:text-primary space-x-2 mr-5"
+              onClick={() => navigate("/signup", { replace: true })}
             >
-              <a
-                type="text"
-                className="text-gray-600 font-semibold hover:text-primary"
-                onClick={() => navigate("/report")}
-              >
-                Report User
-              </a>
-              <a
-                type="text"
-                className="text-gray-600 font-semibold hover:text-primary"
-                onClick={() => navigate("/report")}
-              >
-                Report Event
-              </a>
-              <a
-                className="text-gray-600 font-semibold hover:text-primary space-x-2 mr-5"
-                type="text"
-                onClick={() => navigate("/signin", { replace: true })}
-              >
-                <LogoutOutlined />
-                <span>Sign Out</span>
-              </a>
-            </Col>
-          </div>
-        </Row>
-      </motion.div>
-    </>
+              <LogoutOutlined />
+              <span>Sign up</span>
+            </a>
+          </Col>
+        </div>
+      </Row>
+    </motion.div>
   );
 };
 
