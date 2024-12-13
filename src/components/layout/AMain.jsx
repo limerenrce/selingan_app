@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { Layout, Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import Sidenav from "./Sidenav";
-import "../../pages/MidTerm/Midterm.css"; // Importing the CSS for media queries
+import Sidenav from "../Sidenav";
 
 const { Content, Footer, Sider } = Layout;
 
-function MainLayout({ children }) {
+function SelinganAdminLayout({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -35,7 +34,7 @@ function MainLayout({ children }) {
   return (
     <Layout
       style={{
-        background: "#131313",
+        // background: "#131313",
         minHeight: "100vh",
         fontFamily: "Poppins, sans-serif",
       }}
@@ -81,14 +80,14 @@ function MainLayout({ children }) {
       <Layout
         style={{
           zIndex: 0,
-          background: "#131313",
+          // background: "#131313",
           fontFamily: "Poppins, sans-serif",
         }}
       >
         <Content
             className="responsive-content"
           style={{
-            background: "#131313",
+            // background: "#131313",
             marginLeft: marginLeft,
             fontFamily: "Poppins, sans-serif",
           }}
@@ -98,7 +97,7 @@ function MainLayout({ children }) {
         <Footer
           style={{
             textAlign: "center",
-            background: "#131313",
+            // background: "#131313",
             marginLeft: marginLeft,
             fontFamily: "Poppins, sans-serif",
           }}
@@ -112,8 +111,8 @@ function MainLayout({ children }) {
   );
 }
 
-MainLayout.propTypes = {
+SelinganAdminLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default MainLayout;
+export default SelinganAdminLayout;

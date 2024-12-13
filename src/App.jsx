@@ -3,8 +3,9 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 import Report from "./pages/Admin/Report/Report";
-import Ragam from "./pages/Admin/Ragam/Ragam";
+import User from "./pages/Admin/User/User";
 import SelinganUserRoute from "./components/layout/SelinganUserRoute";
+import SelinganAdminRoute from "./components/layout/SelinganAdminRoute";
 import Host from "./pages/Host/Host";
 import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Settings";
@@ -31,8 +32,20 @@ function App() {
         <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/signin" element={<SignIn />} />
         <Route exact path="/signup" element={<SignUp />} />
-        <Route exact path="/admin-ragam" element={<Ragam />} />
-        <Route exact path="/admin-report" element={<Report />} />
+
+        {/* Selingan Admin */}
+        <Route
+          exact
+          path="/admin-report"
+          element={<SelinganAdminRoute component={<Report />} />}
+        />
+        <Route
+          exact
+          path="/admin-user"
+          element={<SelinganAdminRoute component={<User />} />}
+        />
+
+
         {/* Selingan User */}
         <Route
           exact
