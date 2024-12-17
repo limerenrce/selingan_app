@@ -40,6 +40,7 @@ const getBase64 = (file) =>
 const Settings = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [hover, setHover] = useState(false);
+  // const [profileImage, setProfileImage] = useState(null);
 
   const handleUpload = (info) => {
     if (info.file.status === "done") {
@@ -50,6 +51,23 @@ const Settings = () => {
       message.error("Failed to upload image");
     }
   };
+
+  // const handleUpload = async (info) => {
+  //   const file = info.file.originFileObj || info.file;
+
+  //   if (file && file.type.startsWith("image/")) {
+  //     try {
+  //       const reader = new FileReader();
+  //       reader.onload = () => setProfileImage(reader.result); // Update profile image
+  //       reader.readAsDataURL(file);
+  //     } catch (error) {
+  //       console.error("Error uploading the image:", error);
+  //       message.error("Failed to upload image");
+  //     }
+  //   } else {
+  //     message.error("You can only upload image files!");
+  //   }
+  // };
 
   const handlePreview = async (file) => {
     console.log("want to know the file", file);
@@ -87,15 +105,15 @@ const Settings = () => {
         {/* <Divider style={{ margin: '16px 0', width: '100vw', position: 'relative', left: 'calc(-50vw + 50%)', right:"calc(-50vw + 50%)" }} /> */}
         <Tabs
           defaultActiveKey="1"
-          style={{ width: "100%" }}
+          style={{ width: "100%", fontFamily: "Poppins, sans-serif" }}
           className="custom-tabs"
         >
           <TabPane tab="Profile" key="1">
             <Title level={3} style={{ marginBottom: "0px" }}>
-              Profilmu
+              Your Profile
             </Title>
             <Text style={{ fontSize: "16px", color: "gray" }}>
-              Atur bagaimana akunmu dilihat oleh orang lain
+              Adjust how your profile wants to be seen
             </Text>
             <Row
               gutter={[24, 0]}
@@ -120,7 +138,16 @@ const Settings = () => {
                   style={{ maxWidth: "300px", width: "100%" }}
                 >
                   <Form.Item
-                    label={<span style={{ color: "#535353" }}> Nama </span>}
+                    label={
+                      <span
+                        style={{
+                          color: "#535353",
+                          fontFamily: "Poppins, sans-serif",
+                        }}
+                      >
+                        Nama
+                      </span>
+                    }
                   >
                     <Input
                       placeholder="Masukkan Namamu"
@@ -128,7 +155,16 @@ const Settings = () => {
                     />
                   </Form.Item>
                   <Form.Item
-                    label={<span style={{ color: "#535353" }}> Username </span>}
+                    label={
+                      <span
+                        style={{
+                          color: "#535353",
+                          fontFamily: "Poppins, sans-serif",
+                        }}
+                      >
+                        Username
+                      </span>
+                    }
                   >
                     <Input
                       prefix="@"
@@ -137,7 +173,16 @@ const Settings = () => {
                     />
                   </Form.Item>
                   <Form.Item
-                    label={<span style={{ color: "#535353" }}> Bio </span>}
+                    label={
+                      <span
+                        style={{
+                          color: "#535353",
+                          fontFamily: "Poppins, sans-serif",
+                        }}
+                      >
+                        Bio
+                      </span>
+                    }
                   >
                     <Input.TextArea
                       rows={4}
@@ -158,7 +203,6 @@ const Settings = () => {
                   zIndex: 0,
                 }}
               >
-                {" "}
                 {/* Wrapper for Avatar and Button */}
                 <Text style={{ marginBottom: "8px" }}>Profile Picture</Text>
                 <Avatar
@@ -191,6 +235,33 @@ const Settings = () => {
                     }}
                   />
                 </Upload>
+                {/* <Avatar
+                  size={128}
+                  src={profileImage || "default-profile-icon.png"} // Default or uploaded image
+                  style={{ marginBottom: "16px" }}
+                />
+                <Upload
+                  showUploadList={false}
+                  onChange={handleUpload}
+                  beforeUpload={(file) => {
+                    const isImage = file.type.startsWith("image/");
+                    if (!isImage) {
+                      message.error("You can only upload image files!");
+                    }
+                    return isImage;
+                  }}
+                >
+                  <FloatButton
+                    tooltip={<div>Upload Image</div>}
+                    type="default"
+                    icon={<PictureOutlined />}
+                    style={{
+                      position: "absolute",
+                      top: "calc(35% + 55px)",
+                      right: "0px",
+                    }}
+                  />
+                </Upload> */}
               </div>
             </Row>
             {/* SOCIAL SETTINGS */}
@@ -218,7 +289,10 @@ const Settings = () => {
               >
                 <Form
                   layout="horizontal"
-                  style={{ maxWidth: "400px", width: "100%" }}
+                  style={{
+                    maxWidth: "400px",
+                    width: "100%",
+                  }}
                 >
                   {/* INSTA */}
                   <Form.Item
@@ -235,6 +309,7 @@ const Settings = () => {
                         alignItems: "center",
                         border: "1px solid #d9d9d9",
                         borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
                       <span
@@ -277,6 +352,7 @@ const Settings = () => {
                         alignItems: "center",
                         border: "1px solid #d9d9d9",
                         borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
                       <span
@@ -319,6 +395,7 @@ const Settings = () => {
                         alignItems: "center",
                         border: "1px solid #d9d9d9",
                         borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
                       <span
@@ -377,6 +454,7 @@ const Settings = () => {
                         alignItems: "center",
                         border: "1px solid #d9d9d9",
                         borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
                       <span
@@ -419,6 +497,7 @@ const Settings = () => {
                         alignItems: "center",
                         border: "1px solid #d9d9d9",
                         borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
                       <span
@@ -461,6 +540,7 @@ const Settings = () => {
                         alignItems: "center",
                         border: "1px solid #d9d9d9",
                         borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
                       {/* <span
@@ -490,7 +570,7 @@ const Settings = () => {
 
             {/* SAVE BUTTON */}
             <Button
-              style={{ height: "32px" }}
+              style={{ height: "32px", fontFamily: "Poppins, sans-serif" }}
               className="text-[16px] mt-5 bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300"
               variant="solid"
               onMouseEnter={() => setHover(true)}

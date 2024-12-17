@@ -48,13 +48,13 @@ const MainHeader = () => {
             >
               <a
                 type="text"
-                className="text-gray-600 font-semibold hover:text-[#a3a3f5]"
+                className="text-gray-600 font-semibold hover:text-primary"
                 onClick={() => navigate("/explore")}
               >
                 Explore Ragam
               </a>
               <a
-                className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-2 mr-5"
+                className="text-gray-600 font-semibold hover:text-primary space-x-2 mr-5"
                 type="text"
                 onClick={() => navigate("/signup", { replace: true })}
               >

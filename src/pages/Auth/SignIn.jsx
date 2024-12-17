@@ -114,7 +114,7 @@ const SignIn = () => {
                 <a href="/">
                   <div className="flex space-x-2 items-start px-5">
                     <img src={Logo} alt="Logo Selingan" className="w-12 h-8" />
-                    <Text className="text-xl font-bold text-[#a3a3f5]">
+                    <Text className="text-xl font-bold text-[#6C6CC6]">
                       SELINGAN
                     </Text>
                   </div>
@@ -124,12 +124,12 @@ const SignIn = () => {
               {/* ACTIONS */}
               <Col span={12} className="flex items-center gap-4 justify-end">
                 <a
-                  className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-3 mr-10"
+                  className="text-gray-600 font-semibold hover:text-[#a3a3f5] space-x-3 mr-10 font-sans"
                   type="text"
                   onClick={() => navigate("/signup", { replace: true })}
                 >
                   <LogoutOutlined />
-                  <span>Sign up</span>
+                  <span>Sign Up</span>
                 </a>
               </Col>
             </div>
@@ -152,7 +152,7 @@ const SignIn = () => {
                   alt="Logo"
                   className="w-12 h-12 rounded-full shadow-md"
                 />
-                <span className="text-gray-900 font-semibold tracking-wide">
+                <span className="text-gray-900 font-semibold tracking-wide font-sans">
                   SELINGAN
                 </span>
               </Title>
@@ -198,23 +198,14 @@ const SignIn = () => {
                   <Flex
                     justify="space-between"
                     align="center"
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      fontSize: "12px",
-                    }}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
                   >
                     <Form.Item name="remember" valuePropName="checked" noStyle>
-                      <Checkbox>Remember me</Checkbox>
+                      <Checkbox style={{ fontFamily: "Poppins, sans-serif" }}>
+                        Remember me
+                      </Checkbox>
                     </Form.Item>
-                    <a
-                      href=""
-                      style={{
-                        fontFamily: "Poppins, sans-serif",
-                        fontSize: "12px",
-                      }}
-                    >
-                      Forgot password
-                    </a>
+                    <a href="">Forgot password</a>
                   </Flex>
                 </Form.Item>
 
@@ -226,6 +217,7 @@ const SignIn = () => {
                     htmlType="submit"
                     className={`w-full font-bold`}
                     disabled={loading}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
                   >
                     {loading ? "Logging in..." : "Sign In"}
                   </Button>
@@ -246,7 +238,7 @@ const SignIn = () => {
             </Col>
           </Row>
         </Content>
-        <Footer className="bg-transparent text-center">
+        <Footer className="bg-transparent text-center font-sans">
           <p className="copyright"> Copyright © 2024 Selingan</p>
         </Footer>
       </Layout>

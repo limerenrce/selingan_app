@@ -258,7 +258,7 @@ const Profile = () => {
                     maxWidth: "320px",
                     width: "100%",
                     marginBottom: "10px",
-                    background: "#F5F3F1"
+                    background: "#F7F3FF"
                   }}
                   className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
                 >
@@ -414,7 +414,7 @@ const Profile = () => {
                   maxWidth: "320px",
                   width: "100%",
                   marginBottom: "10px",
-                  background: "#F5F3F1"
+                  background: "#F7F3FF"
                 }}
                 className="group hover:scale-105 hover:shadow-violet-300 hover:shadow-l"
               >
