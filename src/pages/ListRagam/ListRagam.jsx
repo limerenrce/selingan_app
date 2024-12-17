@@ -14,245 +14,25 @@ import {
   Modal,
   Divider,
   DatePicker,
+  Popconfirm,
 } from "antd";
 import {
   PlusOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  WarningOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { Image, Flex } from "antd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import dayjs from "dayjs";
 import "./ListRagam.css";
+import { MoreOutlined } from "@ant-design/icons";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { Title, Text, Paragraph } = Typography;
 
 const { Content } = Layout;
-
-const sampleData = [
-  {
-    key: "1",
-    title: "Poetry Reading Night : An Inspiring Night of Poetry and Connection",
-    description: "An evening of poetry readings by local poets.",
-    location: "Café Poetry",
-    day: "Sunday, 10 November 2024",
-    time: "18.00 AM",
-    start_time: "18:00:00 ",
-    end_time: "20:00:00",
-    created_by: "Kavala",
-    created_at: "2024-10-15 22:06:32",
-    updated_at: "2024-10-15 22:06:32",
-    capacity: 50,
-    is_active: 1,
-    image: "images/poetry_reading.jpg",
-    is_free: 1,
-    requires_approval: 0,
-    price: null,
-    email: "1@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "2",
-    title: "Baking Basics Workshop : Learn Essential Baking Skills Together",
-    description: "Learn the fundamentals of baking delicious pastries.",
-    location: "Culinary Studio",
-    time: "18.00 AM",
-    day: "Sunday, 10 November 2024",
-    start_time: "18:00:00",
-    end_time: "20:00:00",
-    created_by: 2,
-    created_at: "2024-10-15 22:06:32",
-    updated_at: "2024-10-15 22:06:32",
-    capacity: 20,
-    is_active: 1,
-    image: "images/baking_basics.jpg",
-    is_free: 0,
-    requires_approval: 1,
-    price: 29.99,
-    email: "2@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "3",
-    title:
-      "Flower Arrangement Class : Create stunning floral arrangements with ease",
-    description: "Join us for a hands-on class in floral design.",
-    location: "Floral Shop",
-    time: "09.00 AM",
-    day: "Monday, 11 November 2024",
-    start_time: " 09:00:00",
-    end_time: "11:00:00",
-    created_by: 3,
-    created_at: "2024-10-15 22:06:32",
-    updated_at: "2024-10-15 22:06:32",
-    capacity: 15,
-    is_active: 1,
-    image: "images/flower_arrangement.jpg",
-    is_free: 1,
-    requires_approval: 0,
-    price: null,
-    email: "3@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "4",
-    title: "Open Mic Poetry Slam : Express yourself through spoken word.",
-    description:
-      "Share your poetry in front of an audience and compete for prizes.",
-    location: "Community Center",
-    day: "Monday, 11 November 2024",
-    time: "19.00 AM",
-    start_time: "19:00:00",
-    end_time: " 21:00:00 ",
-    created_by: 1,
-    created_at: "2024-10-13 ",
-    updated_at: "2024-10-15 ",
-    capacity: 30,
-    is_active: 1,
-    image: "images/open_mic.jpg",
-    is_free: 1,
-    requires_approval: 1,
-    price: 15.0,
-    email: "1@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "5",
-    title: "Baking with Kids : Fun and easy baking for families",
-    description: "A fun baking class for children and their parents.",
-    location: "Local Bakery",
-    day: "Monday, 11 November 2024",
-    time: "15.00 AM",
-    start_time: " 10:00:00",
-    end_time: " 12:00:00",
-    created_by: 2,
-    created_at: "2024-10-13 ",
-    updated_at: "2024-10-15 ",
-    capacity: 25,
-    is_active: 1,
-    image: "images/baking_kids.jpg",
-    is_free: 0,
-    requires_approval: 0,
-    price: null,
-    email: "2@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "6",
-    title: "Cooking 101",
-    description: "Learn the basics of cooking delicious meals.",
-    location: "Culinary Academy",
-    day: " Wednesday, 13 November 2024",
-    time: "10.00 AM",
-    start_time: " 14:00:00",
-    end_time: " 15:30:00",
-    created_by: 2,
-    created_at: "2024-10-13",
-    updated_at: "2024-10-15 ",
-    capacity: 20,
-    is_active: 1,
-    image: "images/cooking_101.jpg",
-    is_free: 0,
-    requires_approval: 0,
-    price: 49.99,
-    email: "2@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "7",
-    title: "Dessert Decoration Class",
-    description: "Master the art of dessert decoration.",
-    location: "Pastry Shop",
-    day: " Wednesday, 13 November 2024",
-    time: "14.00 AM",
-    start_time: " 14:00:00",
-    end_time: "16:00:00",
-    created_by: 3,
-    created_at: "2024-10-13",
-    updated_at: "2024-10-15 ",
-    capacity: 15,
-    is_active: 1,
-    image: "images/dessert_decoration.jpg",
-    is_free: 0,
-    requires_approval: 1,
-    price: 39.99,
-    email: "3@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "8",
-    title: "Clay Pottery Workshop",
-    description: "Create your own pottery in this hands-on workshop.",
-    location: "Art Studio",
-    day: " Wednesday, 13 November 2024",
-    time: "09.00 AM",
-    start_time: " 09:00:00",
-    end_time: " 12:00:00",
-    created_by: 4,
-    created_at: "2024-10-15 ",
-    updated_at: "2024-10-18",
-    capacity: 12,
-    is_active: 1,
-    image: "images/clay_pottery.jpg",
-    is_free: 1,
-    requires_approval: 0,
-    price: null,
-    email: "4@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "9",
-    title: "Sushi Making Class",
-    description: "Learn to make sushi from a professional chef.",
-    location: "Sushi Bar",
-    time: "18.00 AM",
-    day: " Friday, 15 November 2024",
-    start_time: "18:00:00",
-    end_time: "19:30:00 ",
-    created_by: 1,
-    created_at: "2024-10-12",
-    updated_at: "2024-10-15 ",
-    capacity: 25,
-    is_active: 1,
-    image: "images/sushi_making.jpg",
-    is_free: 0,
-    requires_approval: 1,
-    price: 45.0,
-    email: "1@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-  {
-    key: "10",
-    title: "Wine and Paint Night",
-    description: "Enjoy a night of painting while sipping wine.",
-    location: "Art Gallery",
-    day: " Friday, 15 November 2024",
-    time: "17.00 AM",
-    start_time: "17:00:00",
-    end_time: "19:00:00",
-    created_by: 5,
-    created_at: "2024-10-15 22:06:32",
-    updated_at: "2024-10-15 22:06:32",
-    capacity: 30,
-    is_active: 1,
-    image: "images/wine_paint.jpg",
-    is_free: 1,
-    requires_approval: 1,
-    price: 30.0,
-    email: "5@example.com",
-    status: "Going",
-    checkedIn: "No",
-  },
-];
 
 const Ragams = () => {
   const [Ragams, setRagams] = useState([]); // Renamed from dataSource
@@ -261,15 +41,9 @@ const Ragams = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [modal, contextHolder] = Modal.useModal();
 
-  useEffect(() => {
-    getDataRagams();
-  }, []);
-
-  const getDataRagams = () => {
-    setRagams(sampleData); // Use sample data
-    setLoading(false);
-  };
+  // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
 
   //Random color for avatar
   const getRandomColor = () => {
@@ -281,10 +55,7 @@ const Ragams = () => {
     return color;
   };
 
-  const handleItemClick = () => {
-    navigate("/event-detail");
-  };
-
+  //const handle untuk modal
   const handleModal = (item) => {
     setSelectedEvent(item);
     setIsModalOpen(true);
@@ -294,6 +65,7 @@ const Ragams = () => {
     setIsModalOpen(false);
   };
 
+  //untuk handle filtering data
   const onChange = (day, dayString) => {
     setSelectedDate(dayString);
   };
@@ -302,28 +74,63 @@ const Ragams = () => {
     selectedDate ? dayjs(item.day).isSame(dayjs(selectedDate), "day") : true
   );
 
+  //const untuk modal report
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // // Fungsi untuk menampilkan modal setelah konfirmasi
+  // const handleConfirm = () => {
+  //   setIsModalVisible(true);
+  // };
+
+  //pop confirm report
+  // const confirm = (e) => {
+  //   console.log(e);
+  //   message.success("Click on Yes");
+  //   setIsModalVisible(true);
+  // };
+
+  const handleConfirm = () => {
+    message.success("Click on Yes"); // Menampilkan pesan sukses setelah konfirmasi
+    setIsModalVisible(true); // Menampilkan modal
+  };
+
+  // Fungsi untuk konfirmasi laporan
+  const confirm = (e) => {
+    console.log(e);
+    handleConfirm(); // Panggil handleConfirm yang sudah menangani logika modal
+  };
+
+  const cancel = (e) => {
+    console.log(e);
+    message.error("Click on No");
+  };
+
+  // Fungsi untuk menutup modal
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  //modal section
   const modalSection = () => {
     return (
       <>
         <Modal
-          width={"65%"}
+          width={"60%"}
           onCancel={handleCancel}
           footer={null}
           open={isModalOpen}
         >
           {/* <div className="container min-h-[600px] flex-center"> */}
-          <Row className="flex justify-center items-center h-full"
-
-          >
+          <Row className="flex justify-center items-center h-full">
             <Flex vertical style={{ padding: "40px", width: "100%" }}>
-              <div style={{ justifyItems: "center", marginBottom: "30px" }} >
-                <img src="/pottery-class.jfif" alt="" style={{ width: "350px" }} />
+              <div style={{ justifyItems: "center", marginBottom: "30px" }}>
+                <img
+                  src="/pottery-class.jfif"
+                  alt=""
+                  style={{ width: "350px" }}
+                />
               </div>
-              <Title
-                level={3}
-              >
-                {selectedEvent?.title}
-              </Title>
+              <Title level={3}>{selectedEvent?.title}</Title>
               <Flex
                 // gap={75}
                 style={{
@@ -331,14 +138,12 @@ const Ragams = () => {
                   marginBottom: "30px",
                   marginTop: "10px",
                   gap: "30%",
-                  alignContent: "space-between"
+                  alignContent: "space-between",
                 }}
               >
                 <Row style={{ gap: "10px", alignItems: "center" }}>
                   <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
-                    <LocationOnIcon
-                      style={{ height: 30, marginTop: 10 }}
-                    />
+                    <LocationOnIcon style={{ height: 30, marginTop: 10 }} />
                   </div>
                   <Text>{selectedEvent?.location}</Text>
                 </Row>
@@ -352,13 +157,19 @@ const Ragams = () => {
                       <div className="flex items-center px-4">
                         <div className="text-center">
                           <p className="text-purple-900 text-sm">
-                            {new Date(selectedEvent?.start_time).toLocaleDateString("en-ID", {   // e.g., 03
-                              month: "short",  // e.g., 2024
+                            {new Date(
+                              selectedEvent?.start_time
+                            ).toLocaleDateString("en-ID", {
+                              // e.g., 03
+                              month: "short", // e.g., 2024
                             })}
                           </p>
                           <p className="text-purple-900 font-bold">
-                            {new Date(selectedEvent?.start_time).toLocaleDateString("en-ID", {   // e.g., 03
-                              day: "numeric"
+                            {new Date(
+                              selectedEvent?.start_time
+                            ).toLocaleDateString("en-ID", {
+                              // e.g., 03
+                              day: "numeric",
                             })}
                           </p>
                         </div>
@@ -373,26 +184,37 @@ const Ragams = () => {
                       }}
                     >
                       <Text>
-                        {new Date(selectedEvent?.start_time).toLocaleDateString("en-ID", {   // e.g., 03
-                          weekday: "long", // e.g., Sun
-                          day: "2-digit",   // e.g., 03
-                          month: "short",   // e.g., Nov
-                          year: "numeric",
-                        })}
+                        {new Date(selectedEvent?.start_time).toLocaleDateString(
+                          "en-ID",
+                          {
+                            // e.g., 03
+                            weekday: "long", // e.g., Sun
+                            day: "2-digit", // e.g., 03
+                            month: "short", // e.g., Nov
+                            year: "numeric",
+                          }
+                        )}
                       </Text>
                       <Text>
-                        {new Date(selectedEvent?.start_time).toLocaleTimeString("en-US", {
-                          hour: "2-digit", // e.g., 06
-                          minute: "2-digit", // e.g., 00
-                          hour12: false, // 24-hour format
-                          timeZone: "UTC"
-                        })} -
-                        {new Date(selectedEvent?.end_time).toLocaleTimeString("en-US", {
-                          hour: "2-digit", // e.g., 06
-                          minute: "2-digit", // e.g., 00
-                          hour12: false, // 24-hour format
-                          timeZone: "UTC"
-                        })}
+                        {new Date(selectedEvent?.start_time).toLocaleTimeString(
+                          "en-US",
+                          {
+                            hour: "2-digit", // e.g., 06
+                            minute: "2-digit", // e.g., 00
+                            hour12: false, // 24-hour format
+                            timeZone: "UTC",
+                          }
+                        )}{" "}
+                        -
+                        {new Date(selectedEvent?.end_time).toLocaleTimeString(
+                          "en-US",
+                          {
+                            hour: "2-digit", // e.g., 06
+                            minute: "2-digit", // e.g., 00
+                            hour12: false, // 24-hour format
+                            timeZone: "UTC",
+                          }
+                        )}
                       </Text>
                     </Flex>
                   </Col>
@@ -418,7 +240,7 @@ const Ragams = () => {
                 <Button
                   style={{}}
                   className="w-full bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md"
-                //  hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300
+                  //  hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300
                 >
                   Register
                 </Button>
@@ -458,20 +280,55 @@ const Ragams = () => {
                 />
               </div>
             </Flex>
-            {/* </Card> */}
-            {/* </Col> */}
+            <Divider></Divider>
+            <div>
+              <Popconfirm
+                title="Report this ragam?"
+                description="Are you sure to report this ragam?"
+                onConfirm={confirm}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button danger>
+                  <WarningOutlined />
+                  <span>Report</span>
+                </Button>
+              </Popconfirm>
+
+              <Modal
+                title="Why are you reporting this post?"
+                open={isModalVisible}
+                onCancel={handleModalCancel}
+                footer={null} // Untuk menghapus tombol footer
+              >
+                <div>
+                  <p>I just don't like it</p>
+                  <p>Bullying or unwanted contact</p>
+                  <p>Suicide, self-injury or eating disorders</p>
+                  <p>Violence, hate or exploitation</p>
+                  <p>Selling or promoting restricted items</p>
+                  <p>Nudity or sexual activity</p>
+                  <p>Scam, fraud or spam</p>
+                  <p>False information</p>
+                </div>
+                <Button onClick={handleModalCancel} type="primary">
+                  Close
+                </Button>
+              </Modal>
+            </div>
           </Row>
-          {/* </div> */}
         </Modal>
       </>
     );
   };
 
+  //get data from api
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
-    getDataRagam()
-  }, [])
+    getDataRagam();
+  }, []);
 
   const getDataRagam = () => {
     setLoading(false);
@@ -489,9 +346,6 @@ const Ragams = () => {
       });
   };
 
-  // const filteredRagam = dataSource.filter((item) =>
-  //   selectedDate ? dayjs(item.day).isSame(dayjs(selectedDate), "day") : true
-  // );
   return (
     <>
       <Content>
@@ -592,6 +446,7 @@ const Ragams = () => {
                   </Title> */}
                   <Button
                     icon={<PlusOutlined />}
+                    onClick={() => navigate("/create-ragam")}
                     className="bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300"
                   >
                     Submit Ragam
@@ -614,6 +469,7 @@ const Ragams = () => {
                     renderItem={(item) => (
                       <List.Item
                         style={{ display: "flex", justifyContent: "center" }}
+                        className="hover:bg-white transition duration-300"
                       >
                         <Card
                           hoverable
@@ -635,12 +491,15 @@ const Ragams = () => {
                             <Col span={19}>
                               {/* STARTING TIME */}
                               <p className="text-[#7658B2] text-base">
-                                {new Date(item.start_time).toLocaleDateString("en-ID", {
-                                  weekday: "short", // e.g., Sun
-                                  day: "2-digit",   // e.g., 03
-                                  month: "short",   // e.g., Nov
-                                  year: "numeric",  // e.g., 2024
-                                })}
+                                {new Date(item.start_time).toLocaleDateString(
+                                  "en-ID",
+                                  {
+                                    weekday: "short", // e.g., Sun
+                                    day: "2-digit", // e.g., 03
+                                    month: "short", // e.g., Nov
+                                    year: "numeric", // e.g., 2024
+                                  }
+                                )}
                               </p>
                               {/* TITLA */}
                               <p className="text-xl font-semibold">
