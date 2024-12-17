@@ -1,8 +1,22 @@
 import React from "react";
-import { Layout, Col, Table, Tooltip, Space } from "antd";
-import { StopOutlined, CloseOutlined } from "@ant-design/icons"; // Import icons
+import { Layout, Col, Table, Tooltip, Modal, Space } from "antd";
+import { StopOutlined, CloseOutlined } from "@ant-design/icons";
 import "../../../pages/CreateRagam/style.css";
 import "./report.css";
+const { confirm } = Modal;
+
+const showConfirm = (actionType, user) => {
+  confirm({
+    title: `Are you sure you want to ${actionType.toLowerCase()} this user?`,
+    content: `This action will ${actionType.toLowerCase()} the user: ${user}`,
+    onAccept() {
+      console.log(`${actionType} confirmed for ${user}`);
+    },
+    onDecline() {
+      console.log(`${actionType} canceled for ${user}`);
+    },
+  });
+};
 
 const { Content } = Layout;
 
@@ -13,7 +27,7 @@ const dataSource = [
     reportedUsers: "whiteheartvluu",
     submittedBy: "cocopan",
     reportedDate: "2024-09-10",
-    category: "Fraud or Scam",
+    category: "Impersonation",
     description: "Please don’t join this event. It's a scam.",
   },
   {
@@ -22,7 +36,7 @@ const dataSource = [
     reportedUsers: "preachypeach",
     submittedBy: "ningayuk",
     reportedDate: "2024-10-08",
-    category: "Spam",
+    category: "Impersonation",
     description: "I just don’t like this activity.",
   },
   {
@@ -31,7 +45,7 @@ const dataSource = [
     reportedUsers: "bloomingfleur",
     submittedBy: "fleurdelis",
     reportedDate: "2024-10-12",
-    category: "Harmful Content",
+    category: "Harassment",
     description: "It contains harmful advice.",
   },
   {
@@ -40,7 +54,7 @@ const dataSource = [
     reportedUsers: "stardust",
     submittedBy: "haechanhaecha",
     reportedDate: "2024-10-20",
-    category: "Hateful Content",
+    category: "Fake News or Misinformation",
     description: "Offensive language used in comments.",
   },
   {
@@ -49,7 +63,7 @@ const dataSource = [
     reportedUsers: "kinoyuki",
     submittedBy: "truzdolls",
     reportedDate: "2024-10-21",
-    category: "Canceled Event",
+    category: "Fake News or Misinformation",
     description: "Event details are no longer valid.",
   },
   {
@@ -58,7 +72,7 @@ const dataSource = [
     reportedUsers: "cakebutter",
     submittedBy: "the__blue",
     reportedDate: "2024-10-27",
-    category: "Copyright Infringement",
+    category: "Fake News or Misinformation",
     description: "Content copied from another source.",
   },
   {
@@ -67,7 +81,7 @@ const dataSource = [
     reportedUsers: "mchoijooh",
     submittedBy: "defofcaffeine",
     reportedDate: "2024-11-10",
-    category: "Violence",
+    category: "Malicious Behavior",
     description: "Threatening messages shared publicly.",
   },
   {
@@ -76,7 +90,7 @@ const dataSource = [
     reportedUsers: "artshere",
     submittedBy: "itzartsy",
     reportedDate: "2024-11-12",
-    category: "Sexual Activity",
+    category: "Harassment",
     description: "Inappropriate and explicit content.",
   },
   {
@@ -85,7 +99,7 @@ const dataSource = [
     reportedUsers: "drewithme",
     submittedBy: "aesarts",
     reportedDate: "2024-11-24",
-    category: "Regulated Content",
+    category: "Malicious Behavior",
     description: "Promoting prohibited substances.",
   },
   {
@@ -94,12 +108,11 @@ const dataSource = [
     reportedUsers: "gamemasterx",
     submittedBy: "levelup",
     reportedDate: "2024-11-28",
-    category: "Harmful Content",
+    category: "Harassment",
     description: "Encouraging unsafe behavior.",
   },
 ];
 
-// Updated columns with tooltip-based Actions column
 const columns = [
   {
     title: "No",
@@ -120,11 +133,33 @@ const columns = [
     title: "Reported Date",
     dataIndex: "reportedDate",
     key: "reportedDate",
+    sorter: (a, b) => new Date(a.reportedDate) - new Date(b.reportedDate),
+    sortDirections: ["ascend", "descend"],
+    defaultSortOrder: "ascend",
   },
   {
     title: "Category",
     dataIndex: "category",
     key: "category",
+    filters: [
+      {
+        text: "Harassment",
+        value: "Harassment",
+      },
+      {
+        text: "Impersonation",
+        value: "Impersonation",
+      },
+      {
+        text: "Malicious Behavior",
+        value: "Malicious Behavior",
+      },
+      {
+        text: "Fake News or Misinformation",
+        value: "Fake News or Misinformation",
+      },
+    ],
+    onFilter: (value, record) => record.category.indexOf(value) === 0,
   },
   {
     title: "Description",
@@ -138,20 +173,29 @@ const columns = [
       <Space>
         <Tooltip title="Block">
           <StopOutlined
-            style={{ color: "red", fontSize: "16px", cursor: "pointer" }}
-            onClick={() => console.log(`Blocked ${record.reportedUsers}`)}
+            style={{
+              color: "red",
+              fontSize: "16px",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+            }}
+            onClick={() => showConfirm("Block", record.reportedUsers)}
           />
         </Tooltip>
         <Tooltip title="Ignore">
           <CloseOutlined
-            style={{ color: "gray", fontSize: "16px", cursor: "pointer" }}
-            onClick={() => console.log(`Ignored ${record.reportedUsers}`)}
+            style={{ color: "black", fontSize: "16px", cursor: "pointer" }}
+            onClick={() => showConfirm("Ignore", record.reportedUsers)}
           />
         </Tooltip>
       </Space>
     ),
   },
 ];
+
+const onChange = (pagination, filters, sorter, extra) => {
+  console.log("Table Parameters:", pagination, filters, sorter, extra);
+};
 
 const ReportUser = () => {
   return (
@@ -165,13 +209,13 @@ const ReportUser = () => {
       }}
       className="font-sans"
     >
-      <div style={{ maxWidth: "800px", width: "100%" }}>
+      <div style={{ maxWidth: "1000px", width: "100%" }}>
         <Col>
           <div className="ml-3 mt-20">
             <h1 className="font-bold text-grey-800 text-4xl font-sans">
               Report Users
             </h1>
-            <p className="mt-3 text-grey-200 text-lg font-sans">
+            <p className="mt-3 mb-3 text-grey-200 text-lg font-sans">
               Explore reported users, review categories, and check descriptions
               for flagged content.
             </p>
@@ -183,6 +227,10 @@ const ReportUser = () => {
           pagination={{ pageSize: 5 }}
           bordered
           style={{ fontFamily: "Poppins, sans-serif" }}
+          showSorterTooltip={{
+            target: "sorter-icon",
+          }}
+          onChange={onChange}
         />
       </div>
     </Content>
