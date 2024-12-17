@@ -603,6 +603,7 @@ const Ragams = () => {
                     renderItem={(item) => (
                       <List.Item
                         style={{ display: "flex", justifyContent: "center" }}
+                        className="hover:bg-white transition duration-300"
                       >
                         <Card
                           hoverable
