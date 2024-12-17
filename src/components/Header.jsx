@@ -53,11 +53,11 @@ const InHeader = () => {
   ]; 
 
   const handleSignOut = () => {
- 
     sendDataPrivate("/api/v1/auth/signout")
     .then((resp) => {
       const username = resp.username["username"];
-       if (username){
+      // Assuming the response includes a message and username
+      if (username){
         notification.success({
           message: `Bye bye ${username}`,
           description: `Successfully signed out from Selingan`,

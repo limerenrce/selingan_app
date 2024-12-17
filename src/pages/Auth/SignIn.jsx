@@ -79,7 +79,7 @@ const SignIn = () => {
         if (userRole === "user") {
           navigate("/ragam", { replace: true });
         } else if (userRole === "admin") {
-          navigate("/admin-report", { replace: true });
+          navigate("/report-user", { replace: true });
         } else {
           notification.error({
             message: "Role Error",

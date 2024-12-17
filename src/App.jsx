@@ -18,7 +18,7 @@ import "@fontsource/poppins";
 import "./App.css";
 import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
-import ExploreMap from "./components/ExploreMap";
+// import ExploreMap from "./components/ExploreMap";
 
 const GlobalStyle = createGlobalStyle`
   body, .ant-typography {
