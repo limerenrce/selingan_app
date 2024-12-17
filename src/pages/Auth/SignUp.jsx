@@ -114,7 +114,7 @@ const signUp = () => {
                 onClick={() => navigate("/signin", { replace: true })}
               >
                 <LogoutOutlined />
-                <span>Sign in</span>
+                <span>Sign In</span>
               </a>
             </Col>
           </div>

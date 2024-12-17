@@ -26,3 +26,12 @@ header {
 .ant-tooltip {
   font-family: "Poppins";
 }
+
+.ant-table-filter-dropdown {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px;
+}
+
+.ant-pagination-item {
+  font-family: "Poppins" !important;
+}
