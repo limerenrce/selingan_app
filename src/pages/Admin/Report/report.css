@@ -1,4 +1,3 @@
-/* Header styles */
 header {
   position: sticky; /* Or use position: fixed if you want it always visible */
   top: 0; /* Stick to the top of the page */
@@ -7,8 +6,32 @@ header {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for clarity */
 }
 
-/* Content styles */
 .content {
   position: relative; /* Default positioning for scrolling */
   z-index: 1; /* Lower than the header */
+}
+
+.ant-table-content {
+  font-family: "Poppins";
+}
+
+.ant-modal-content {
+  font-family: "Poppins";
+}
+
+.ant-btn {
+  font-family: "Poppins";
+}
+
+.ant-tooltip {
+  font-family: "Poppins";
+}
+
+.ant-table-filter-dropdown {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px;
+}
+
+.ant-pagination-item {
+  font-family: "Poppins" !important;
 }

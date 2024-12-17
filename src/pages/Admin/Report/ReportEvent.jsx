@@ -1,8 +1,22 @@
 import React from "react";
-import { Layout, Col, Table, Tooltip, Space } from "antd";
+import { Layout, Col, Table, Tooltip, Space, Modal } from "antd";
 import { StopOutlined, CloseOutlined } from "@ant-design/icons"; // Import icons
 import "../../../pages/CreateRagam/style.css";
 import "./report.css";
+const { confirm } = Modal;
+
+const showConfirm = (actionType, event) => {
+  confirm({
+    title: `Are you sure you want to ${actionType.toLowerCase()} this event?`,
+    content: `This action will ${actionType.toLowerCase()} the event: ${event}`,
+    onAccept() {
+      console.log(`${actionType} confirmed for ${event}`);
+    },
+    onDecline() {
+      console.log(`${actionType} canceled for ${event}`);
+    },
+  });
+};
 
 const { Content } = Layout;
 
@@ -10,7 +24,7 @@ const dataSource = [
   {
     key: "1",
     no: 1,
-    reportedUsers: "whiteheartvluu",
+    reportedEvents: "Flower Arranging Bouqet",
     submittedBy: "cocopan",
     reportedDate: "2024-09-10",
     category: "Fraud or Scam",
@@ -19,7 +33,7 @@ const dataSource = [
   {
     key: "2",
     no: 2,
-    reportedUsers: "preachypeach",
+    reportedEvents: "Candle Making Workshop",
     submittedBy: "ningayuk",
     reportedDate: "2024-10-08",
     category: "Spam",
@@ -28,7 +42,7 @@ const dataSource = [
   {
     key: "3",
     no: 3,
-    reportedUsers: "bloomingfleur",
+    reportedEvents: "Pottery and Clay Crafting",
     submittedBy: "fleurdelis",
     reportedDate: "2024-10-12",
     category: "Harmful Content",
@@ -37,7 +51,7 @@ const dataSource = [
   {
     key: "4",
     no: 4,
-    reportedUsers: "stardust",
+    reportedEvents: "Herb Gardening Class",
     submittedBy: "haechanhaecha",
     reportedDate: "2024-10-20",
     category: "Hateful Content",
@@ -46,7 +60,7 @@ const dataSource = [
   {
     key: "5",
     no: 5,
-    reportedUsers: "kinoyuki",
+    reportedEvents: "Painting and Sip Night",
     submittedBy: "truzdolls",
     reportedDate: "2024-10-21",
     category: "Canceled Event",
@@ -55,7 +69,7 @@ const dataSource = [
   {
     key: "6",
     no: 6,
-    reportedUsers: "cakebutter",
+    reportedEvents: "Macramé Plant Hanger Workshop",
     submittedBy: "the__blue",
     reportedDate: "2024-10-27",
     category: "Copyright Infringement",
@@ -64,7 +78,7 @@ const dataSource = [
   {
     key: "7",
     no: 7,
-    reportedUsers: "mchoijooh",
+    reportedEvents: "Terrarium Building Workshop",
     submittedBy: "defofcaffeine",
     reportedDate: "2024-11-10",
     category: "Violence",
@@ -73,7 +87,7 @@ const dataSource = [
   {
     key: "8",
     no: 8,
-    reportedUsers: "artshere",
+    reportedEvents: "Charcuterie Board Styling Class",
     submittedBy: "itzartsy",
     reportedDate: "2024-11-12",
     category: "Sexual Activity",
@@ -82,7 +96,7 @@ const dataSource = [
   {
     key: "9",
     no: 9,
-    reportedUsers: "drewithme",
+    reportedEvents: "Chocolate Brownies Class",
     submittedBy: "aesarts",
     reportedDate: "2024-11-24",
     category: "Regulated Content",
@@ -91,7 +105,7 @@ const dataSource = [
   {
     key: "10",
     no: 10,
-    reportedUsers: "gamemasterx",
+    reportedEvents: "Crocheting Workshop",
     submittedBy: "levelup",
     reportedDate: "2024-11-28",
     category: "Harmful Content",
@@ -107,9 +121,9 @@ const columns = [
     key: "no",
   },
   {
-    title: "Reported Users",
-    dataIndex: "reportedUsers",
-    key: "reportedUsers",
+    title: "Reported Events",
+    dataIndex: "reportedEvents",
+    key: "reportedEvents",
   },
   {
     title: "Submitted by",
@@ -120,11 +134,53 @@ const columns = [
     title: "Reported Date",
     dataIndex: "reportedDate",
     key: "reportedDate",
+    sorter: (a, b) => new Date(a.reportedDate) - new Date(b.reportedDate),
+    sortDirections: ["ascend", "descend"],
+    defaultSortOrder: "ascend",
   },
   {
     title: "Category",
     dataIndex: "category",
     key: "category",
+    filters: [
+      {
+        text: "Fraud or Scam",
+        value: "Fraud or Scam",
+      },
+      {
+        text: "Spam",
+        value: "Spam",
+      },
+      {
+        text: "Harmful Content",
+        value: "Harmful Content",
+      },
+      {
+        text: "Hateful Content",
+        value: "Hateful Content",
+      },
+      {
+        text: "Canceled Event",
+        value: "Canceled Event",
+      },
+      {
+        text: "Copyright Infringment",
+        value: "Copyright Infringment",
+      },
+      {
+        text: "Violence",
+        value: "Violence",
+      },
+      {
+        text: "Sexual Activity",
+        value: "Sexual Activity",
+      },
+      {
+        text: "Regulated Content",
+        value: "Regulated Content",
+      },
+    ],
+    onFilter: (value, record) => record.category.indexOf(value) === 0,
   },
   {
     title: "Description",
@@ -139,19 +195,23 @@ const columns = [
         <Tooltip title="Block">
           <StopOutlined
             style={{ color: "red", fontSize: "16px", cursor: "pointer" }}
-            onClick={() => console.log(`Blocked ${record.reportedUsers}`)}
+            onClick={() => showConfirm("Block", record.reportedEvents)}
           />
         </Tooltip>
         <Tooltip title="Ignore">
           <CloseOutlined
-            style={{ color: "gray", fontSize: "16px", cursor: "pointer" }}
-            onClick={() => console.log(`Ignored ${record.reportedUsers}`)}
+            style={{ color: "black", fontSize: "16px", cursor: "pointer" }}
+            onClick={() => showConfirm("Ignore", record.reportedEvents)}
           />
         </Tooltip>
       </Space>
     ),
   },
 ];
+
+const onChange = (pagination, filters, sorter, extra) => {
+  console.log("Table Parameters:", pagination, filters, sorter, extra);
+};
 
 const ReportEvent = () => {
   return (
@@ -166,13 +226,13 @@ const ReportEvent = () => {
       }}
       className="font-sans"
     >
-      <div style={{ maxWidth: "800px", width: "100%" }}>
+      <div style={{ maxWidth: "1000px", width: "100%" }}>
         <Col>
           <div className="ml-3 mt-20">
             <h1 className="font-bold text-grey-800 text-4xl font-sans">
               Report Events
             </h1>
-            <p className="mt-3 text-grey-200 text-lg font-sans">
+            <p className="mt-3 mb-3 text-grey-200 text-lg font-sans">
               Explore reported users, review categories, and check descriptions
               for flagged content.
             </p>
@@ -184,6 +244,10 @@ const ReportEvent = () => {
           pagination={{ pageSize: 5 }}
           bordered
           style={{ fontFamily: "Poppins, sans-serif" }}
+          showSorterTooltip={{
+            target: "sorter-icon",
+          }}
+          onChange={onChange}
         />
       </div>
     </Content>
