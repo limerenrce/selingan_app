@@ -75,7 +75,7 @@ const SignIn = () => {
 
     getDataPrivate("/api/v1/protected/data")
       .then((data) => {
-        const userRole = data.role;
+        const userRole = data.user_info["role"];
         if (userRole === "user") {
           navigate("/ragam", { replace: true });
         } else if (userRole === "admin") {
