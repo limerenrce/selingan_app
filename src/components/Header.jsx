@@ -1,54 +1,77 @@
 // import { useState } from "react";
 import { motion } from "framer-motion";
-import { Row, Col, Dropdown } from "antd";
+import { Row, Col, Dropdown, notification } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
 import "@fontsource/poppins";
 import Logo from "../assets/images/main-logo.png";
 import ProfileIcon from "../assets/images/default-ava.png";
-import { style } from "framer-motion/m";
+import { sendDataPrivate } from "../utils/api";
 
-// Navigation Links
-const NavLinks = [
-  {
-    id: 1,
-    title: "Ragam",
-    path: "/ragam",
-  },
-  {
-    id: 2,
-    title: "Host",
-    path: "/host",
-  },
-  {
-    id: 3,
-    title: "Explore",
-    path: "/explore",
-  },
-];
-
-// Profile Dropdown Items
-const profileIconItems = [
-  {
-    key: "viewProfile",
-    label: "View Profile",
-    onClick: (navigate) => navigate("/profile"),
-  },
-  { type: "divider" },
-  {
-    key: "settings",
-    label: "Settings",
-    onClick: (navigate) => navigate("/settings"),
-  },
-  {
-    key: "signOut",
-    label: "Sign Out",
-    onClick: (navigate) => navigate("/signin"),
-  },
-];
+// import { style } from "framer-motion/m";
 
 const InHeader = () => {
   // const [selectedLink, setSelectedLink] = useState(""); // Fixing state for active link
   const navigate = useNavigate();
+
+  // Navigation Links
+  const NavLinks = [
+    {
+      id: 1,
+      title: "Ragam",
+      path: "/ragam",
+    },
+    {
+      id: 2,
+      title: "Host",
+      path: "/host",
+    },
+    {
+      id: 3,
+      title: "Explore",
+      path: "/explore",
+    },
+  ];
+
+  // Profile Dropdown Items
+  const profileIconItems = [
+    {
+      key: "viewProfile",
+      label: "View Profile",
+      onClick: (navigate) => navigate("/profile"),
+    },
+    { type: "divider" },
+    {
+      key: "settings",
+      label: "Settings",
+      onClick: (navigate) => navigate("/settings"),
+    },
+    {
+      key: "signOut",
+      label: "Sign Out",
+      onClick: () => handleSignOut(),
+    },
+  ]; 
+
+  const handleSignOut = () => {
+    sendDataPrivate("/api/v1/auth/signout")
+    .then((resp) => {
+      const username = resp.username["username"];
+      // Assuming the response includes a message and username
+      if (username){
+        notification.success({
+          message: `Bye bye ${username}`,
+          description: `Successfully signed out from Selingan`,
+        });
+        navigate("/signin", { replace: true });
+      }
+    })
+    .catch((err) => {
+      notification.error({
+        message: "Can't sign out right now",
+        description: err.response ? err.response.data : err.toString(),
+      });
+    });
+  };
 
   // Handle active link styling
   // const handleActiveLink = (path) => {

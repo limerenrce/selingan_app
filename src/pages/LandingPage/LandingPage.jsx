@@ -12,10 +12,11 @@ const LandingPage = () => {
       <Layout
         style={{
           minHeight: "100vh",
-          // background: "none",
-          background:
-            "linear-gradient(to bottom, #E7DBFF, #FFFFFF, #FFFFFF,  #FFFFFF)",
+          position: "relative",
+          top: "50px", // Moves the content 50px down
+          background: "linear-gradient(to bottom, #E7DBFF, #FFFFFF, #FFFFFF, #FFFFFF)"
         }}
+        
         className="font-sans"
       >
         <Flex vertical>

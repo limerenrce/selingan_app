@@ -10,6 +10,7 @@ import Host from "./pages/Host/Host";
 import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Settings";
 import CreateRagam from "./pages/CreateRagam/CreateRagam";
+import Explore from "./pages/Explore/Explore";
 import { createGlobalStyle } from "styled-components";
 
 import "@fontsource/poppins";
@@ -17,7 +18,7 @@ import "@fontsource/poppins";
 import "./App.css";
 import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
-import ExploreMap from "./components/ExploreMap";
+// import ExploreMap from "./components/ExploreMap";
 
 const GlobalStyle = createGlobalStyle`
   body, .ant-typography {
@@ -54,7 +55,7 @@ function App() {
         <Route
           exact
           path="/explore"
-          element={<SelinganUserRoute component={<ExploreMap />} />}
+          element={<SelinganUserRoute component={<Explore />} />}
         />
         <Route
           exact

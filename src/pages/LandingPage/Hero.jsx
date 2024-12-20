@@ -6,7 +6,9 @@ import HeroImg from "../../assets/images/hero.png";
 const Hero = () => {
   return (
     <>
-      <div className="container" style={{ marginTop: "40px" }}>
+      <div className="container" 
+      // style={{ marginTop: "40px" }}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
           {/* Text Content */}
           <div className="space-y-5 flex flex-col justify-center items-center text-center md:text-left py-20 px-10 md:pr-24 md:py-0 md:px-0">

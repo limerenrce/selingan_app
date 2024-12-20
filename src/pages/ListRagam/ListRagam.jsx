@@ -555,7 +555,7 @@ const Ragams = () => {
                               <p className="text-gray-400 text-base flex items-center">
                                 <Avatar
                                   size={18}
-                                  style={{ backgroundColor: getRandomColor() }}
+                                  style={{ backgroundColor: getRandomColor(), fontSize:"15px", textAlign:"center"  }}
                                 >
                                   {item.created_by?.[0] || "U"}
                                 </Avatar>
