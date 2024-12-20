@@ -419,8 +419,54 @@ const Ragams = () => {
             </Row>
           </div>
         </div>
+        <div className="p-6 w-full">
+          <Row className="mt-6">
+            <Col lassName="w-full">
+              <div className="flex flex-col items-center justify-center mb-8">
+                <Text className="text-3xl font-bold">
+                  Discover the Best Events in{" "}
+                  <span className="text-[#7658B2]">Your Chosen Location!</span>
+                </Text>
+                <br />
+                <Text className="text-sm font-normal">
+                  Looking to attend exciting events in your city?{" "}
+                  <span className="text-[#7658B2]">
+                    Simply select your location on the map and explore a list of
+                    events happening near you!
+                  </span>
+                </Text>
+              </div>
+
+              <div className="flex w-full gap-10">
+                {/* Left section */}
+                <div className="flex-grow flex flex-col gap-4">
+                  <Card className="bg-gray-100" hoverable>
+                    <h2>Card Title 1</h2>
+                    <p>Description for card 1.</p>
+                  </Card>
+                  <Card className="bg-gray-100" hoverable>
+                    <h2>Card Title 2</h2>
+                    <p>Description for card 2.</p>
+                  </Card>
+                  <Card className="bg-gray-100" hoverable>
+                    <h2>Card Title 3</h2>
+                    <p>Description for card 3.</p>
+                  </Card>
+                  <Card className="bg-gray-100" hoverable>
+                    <h2>Card Title 4</h2>
+                    <p>Description for card 4.</p>
+                  </Card>
+                </div>
+                {/* Right section */}
+                <div className="w-2/3">
+                  <div className="h-48 bg-gray-300 rounded"></div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
         <div>
-          <Row justify="center" id="events" className="mt-3">
+          <Row justify="center" id="events" className="mt-16">
             <Col span={22}>
               <div style={{ width: "100%" }}>
                 <div className="flex flex-col items-center justify-center mb-8">
