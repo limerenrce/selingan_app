@@ -15,6 +15,7 @@ import {
   Divider,
   DatePicker,
   Popconfirm,
+  Carousel,
 } from "antd";
 import {
   PlusOutlined,
@@ -41,7 +42,6 @@ const Ragams = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [modal, contextHolder] = Modal.useModal();
 
   // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
 
@@ -77,9 +77,10 @@ const Ragams = () => {
   //const untuk modal report
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // // Fungsi untuk menampilkan modal setelah konfirmasi
   // const handleConfirm = () => {
+  //   message.success("Click on Yes");
   //   setIsModalVisible(true);
+  //   console.log("isModalVisible:", isModalVisible); // Debugging log
   // };
 
   //pop confirm report
@@ -88,16 +89,19 @@ const Ragams = () => {
   //   message.success("Click on Yes");
   //   setIsModalVisible(true);
   // };
+  const handleModalVisible = () => {
+    setIsModalOpen(true);
+  };
 
   const handleConfirm = () => {
-    message.success("Click on Yes"); // Menampilkan pesan sukses setelah konfirmasi
-    setIsModalVisible(true); // Menampilkan modal
+    setIsModalVisible(true);
+    console.log("isModalVisible:", isModalVisible); // Debugging log
   };
 
   // Fungsi untuk konfirmasi laporan
   const confirm = (e) => {
-    console.log(e);
-    handleConfirm(); // Panggil handleConfirm yang sudah menangani logika modal
+    console.log("Confirm clicked", e); // Pastikan ini tercetak
+    handleConfirm();
   };
 
   const cancel = (e) => {
@@ -298,9 +302,10 @@ const Ragams = () => {
 
               <Modal
                 title="Why are you reporting this post?"
-                open={isModalVisible}
+                open={isModalVisible} // Pastikan ini
                 onCancel={handleModalCancel}
-                footer={null} // Untuk menghapus tombol footer
+                onConfirm={confirm}
+                footer={null}
               >
                 <div>
                   <p>I just don't like it</p>
@@ -344,6 +349,37 @@ const Ragams = () => {
         console.error(err);
         setLoading(false);
       });
+  };
+
+  const slides = [
+    {
+      id: 1,
+      backgroundImage:
+        "url('https://via.placeholder.com/800x360?text=Slide+1')",
+    },
+    {
+      id: 2,
+      backgroundImage:
+        "url('https://via.placeholder.com/800x360?text=Slide+2')",
+    },
+    {
+      id: 3,
+      backgroundImage:
+        "url('https://via.placeholder.com/800x360?text=Slide+3')",
+    },
+    {
+      id: 4,
+      backgroundImage:
+        "url('https://via.placeholder.com/800x360?text=Slide+4')",
+    },
+  ];
+
+  const contentStyle = {
+    height: "360px",
+    color: "#fff",
+    lineHeight: "160px",
+    textAlign: "center",
+    background: "#364d79",
   };
 
   return (
@@ -438,7 +474,6 @@ const Ragams = () => {
               </div>
 
               <div className="flex w-full gap-10">
-                {/* Left section */}
                 <div className="flex-grow flex flex-col gap-4">
                   <Card className="bg-gray-100" hoverable>
                     <h2>Card Title 1</h2>
@@ -457,13 +492,29 @@ const Ragams = () => {
                     <p>Description for card 4.</p>
                   </Card>
                 </div>
-                {/* Right section */}
+
                 <div className="w-2/3">
                   <div className="h-48 bg-gray-300 rounded"></div>
                 </div>
               </div>
             </Col>
           </Row>
+        </div>
+        <div>
+          <Carousel autoplay>
+            <div>
+              <h3 style={contentStyle}>1</h3>
+            </div>
+            <div>
+              <h3 style={contentStyle}>2</h3>
+            </div>
+            <div>
+              <h3 style={contentStyle}>3</h3>
+            </div>
+            <div>
+              <h3 style={contentStyle}>4</h3>
+            </div>
+          </Carousel>
         </div>
         <div>
           <Row justify="center" id="events" className="mt-16">
@@ -555,7 +606,11 @@ const Ragams = () => {
                               <p className="text-gray-400 text-base flex items-center">
                                 <Avatar
                                   size={18}
-                                  style={{ backgroundColor: getRandomColor(), fontSize:"15px", textAlign:"center"  }}
+                                  style={{
+                                    backgroundColor: getRandomColor(),
+                                    fontSize: "15px",
+                                    textAlign: "center",
+                                  }}
                                 >
                                   {item.created_by?.[0] || "U"}
                                 </Avatar>
