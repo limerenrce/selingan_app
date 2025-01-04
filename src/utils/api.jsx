@@ -222,7 +222,7 @@ export const deleteDataPrivateJSON = async (url, data) => {
     .catch((err) => console.log(err));
 };
 
-export const logoutAPI = async () => {
+export const signoutAPI = async () => {
   let token = await jwtStorage.retrieveToken();
   let formData = new FormData();
   formData.append("logout", "Logout"); // Assuming jwtStorage retrieves token
