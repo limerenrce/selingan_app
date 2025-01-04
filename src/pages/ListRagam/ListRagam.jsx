@@ -16,6 +16,7 @@ import {
   DatePicker,
   Popconfirm,
   Carousel,
+  Radio,
 } from "antd";
 import {
   PlusOutlined,
@@ -77,18 +78,6 @@ const Ragams = () => {
   //const untuk modal report
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // const handleConfirm = () => {
-  //   message.success("Click on Yes");
-  //   setIsModalVisible(true);
-  //   console.log("isModalVisible:", isModalVisible); // Debugging log
-  // };
-
-  //pop confirm report
-  // const confirm = (e) => {
-  //   console.log(e);
-  //   message.success("Click on Yes");
-  //   setIsModalVisible(true);
-  // };
   const handleModalVisible = () => {
     setIsModalOpen(true);
   };
@@ -113,6 +102,15 @@ const Ragams = () => {
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
+
+  //Checkbox
+  const [value, setValue] = useState();
+  const Report = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
+
+  //Handle submit report
 
   //modal section
   const modalSection = () => {
@@ -301,25 +299,35 @@ const Ragams = () => {
               </Popconfirm>
 
               <Modal
-                title="Why are you reporting this post?"
+                title="Why are you reporting this ragam?"
                 open={isModalVisible} // Pastikan ini
                 onCancel={handleModalCancel}
                 onConfirm={confirm}
                 footer={null}
               >
                 <div>
-                  <p>I just don't like it</p>
-                  <p>Bullying or unwanted contact</p>
-                  <p>Suicide, self-injury or eating disorders</p>
-                  <p>Violence, hate or exploitation</p>
-                  <p>Selling or promoting restricted items</p>
-                  <p>Nudity or sexual activity</p>
-                  <p>Scam, fraud or spam</p>
-                  <p>False information</p>
+                  <Radio.Group
+                    onChange={Report}
+                    value={value}
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
+                    <Radio value={1}>Fraud or Scam</Radio>
+                    <Radio value={2}>Spam</Radio>
+                    <Radio value={3}>Harmful Content</Radio>
+                    <Radio value={4}>Hateful Content</Radio>
+                    <Radio value={5}>Canceled Ragam</Radio>
+                    <Radio value={6}>Copyright Infringement</Radio>
+                    <Radio value={7}>Violence</Radio>
+                    <Radio value={8}>Sexual Activity</Radio>
+                    <Radio value={9}>Regulated Activity</Radio>
+                  </Radio.Group>
                 </div>
-                <Button onClick={handleModalCancel} type="primary">
-                  Close
-                </Button>
+                <br />
+                <div style={{ textAlign: "right" }}>
+                  <Button onClick={handleModalCancel} type="primary">
+                    Submit
+                  </Button>
+                </div>
               </Modal>
             </div>
           </Row>
@@ -349,37 +357,6 @@ const Ragams = () => {
         console.error(err);
         setLoading(false);
       });
-  };
-
-  const slides = [
-    {
-      id: 1,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+1')",
-    },
-    {
-      id: 2,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+2')",
-    },
-    {
-      id: 3,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+3')",
-    },
-    {
-      id: 4,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+4')",
-    },
-  ];
-
-  const contentStyle = {
-    height: "360px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
   };
 
   return (
@@ -455,7 +432,7 @@ const Ragams = () => {
             </Row>
           </div>
         </div>
-        <div className="p-6 w-full">
+        <div className="p-6 w-full flex flex-col items-center justify-center">
           <Row className="mt-6">
             <Col lassName="w-full">
               <div className="flex flex-col items-center justify-center mb-8">
@@ -500,22 +477,8 @@ const Ragams = () => {
             </Col>
           </Row>
         </div>
-        <div>
-          <Carousel autoplay>
-            <div>
-              <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>3</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>4</h3>
-            </div>
-          </Carousel>
-        </div>
+
+        <Divider />
         <div>
           <Row justify="center" id="events" className="mt-16">
             <Col span={22}>
@@ -538,9 +501,6 @@ const Ragams = () => {
                   className="flex items-center justify-between pr-5 pl-5 mt-10"
                   style={{ marginBottom: "20px" }}
                 >
-                  {/* <Title level={3} className="font-bold">
-                    Ragams
-                  </Title> */}
                   <Button
                     icon={<PlusOutlined />}
                     onClick={() => navigate("/create-ragam")}
