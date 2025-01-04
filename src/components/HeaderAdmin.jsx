@@ -92,7 +92,7 @@ const AdminHeader = () => {
               onClick={() => navigate("/signup", { replace: true })}
             >
               <LogoutOutlined />
-              <span>Sign Up</span>
+              <span>Sign Out</span>
             </a>
           </Col>
         </div>
