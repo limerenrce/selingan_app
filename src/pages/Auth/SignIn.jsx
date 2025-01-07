@@ -12,11 +12,11 @@ import {
 } from "antd";
 import Logo from "../../assets/images/main-logo.png";
 import { LockOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { sendData, getDataPrivate } from "../../utils/api";
-import { jwtStorage } from "../../utils/jwt_storage";
+import { useState, useContext } from "react";
+import { sendData } from "../../utils/api";
 
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const { Title } = Typography;
 const { Footer, Content, Header } = Layout;
@@ -24,75 +24,43 @@ const { Text } = Typography;
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  //provider login hookerd
+  const { signin } = useContext(AuthContext);
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [form] = Form.useForm();
 
-  // Handle the form submission
-  const handleSignIn = () => {
-    setLoading(true);
-    setError(null); // Clear previous error
-
-    // Get the form values
-    const username = form.getFieldValue("username");
-    const password = form.getFieldValue("password");
-
-    // Prepare the data for submission
-    const formData = new FormData();
+  const handleSignIn = async () => {
+    let formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
 
-    // Make the API request (assuming sign-in endpoint is `/api/v1/auth/signin`)
     sendData("/api/v1/auth/signin", formData)
       .then((resp) => {
-        // Check if the response contains a token
         if (resp?.access_token) {
-          // Success: Store the token securely
-          jwtStorage.storeToken(resp.access_token);
-
-          // Now handle role-based redirection
-          handleRoleBasedRedirect(resp.access_token);
+          signin(resp?.access_token, resp?.role);
         } else {
-          // If the response doesn't contain the expected token or message
-          setError("Login failed. Please try again.");
+          setIsUnauthorized(true);
+          failedLogin();
         }
       })
       .catch((err) => {
-        // Handle any errors that occurred during the request
-        notification.error({
-          message: "Login Failed",
-          description: err.toString(),
-        });
-      })
-      .finally(() => {
-        setLoading(false); // Set loading to false when done
+        console.log(err);
+        failedLogin();
+        setIsUnauthorized(true);
       });
   };
 
-  // Handle role-based redirection
-  const handleRoleBasedRedirect = () => {
-    // Fetch the user role after successful sign-in
-
-    getDataPrivate("/api/v1/protected/data")
-      .then((data) => {
-        const userRole = data.user_info["role"];
-        if (userRole === "user") {
-          navigate("/ragam", { replace: true });
-        } else if (userRole === "admin") {
-          navigate("/report-user", { replace: true });
-        } else {
-          notification.error({
-            message: "Role Error",
-            description: "Invalid role, unable to redirect.",
-          });
-        }
-      })
-      .catch((err) => {
-        notification.error({
-          message: "Error fetching user data",
-          description: err.toString(),
-        });
-      });
+  const failedLogin = () => {
+    api.error({
+      message: "Failed to Login",
+      description: "Incorrect username or password",
+    });
   };
 
   return (
@@ -161,14 +129,14 @@ const SignIn = () => {
               </Text>
               <br />
               <Form
-                form={form}
-                onFinish={handleSignIn}
+                onFinish={() => handleSignIn()}
                 layout="vertical"
                 className="w-full"
               >
                 <Form.Item
                   className="username w-full"
                   name="username"
+                  onChange={(e) => setUsername(e.target.value)}
                   rules={[
                     { required: true, message: "Please input your username!" },
                   ]}
@@ -183,6 +151,7 @@ const SignIn = () => {
                 <Form.Item
                   className="password w-full"
                   name="password"
+                  onChange={(e) => setPassword(e.target.value)}
                   rules={[
                     { required: true, message: "Please input your password!" },
                   ]}
