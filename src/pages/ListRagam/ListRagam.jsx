@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
-import { getData } from "../../utils/api";
+import { getData, sendDataPrivate } from "../../utils/api";
 import {
   Card,
   List,
@@ -17,6 +17,8 @@ import {
   Popconfirm,
   Carousel,
   Radio,
+  Form,
+  Input,
 } from "antd";
 import {
   PlusOutlined,
@@ -31,6 +33,11 @@ import dayjs from "dayjs";
 import "./ListRagam.css";
 import { MoreOutlined } from "@ant-design/icons";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import { fromJSON } from "postcss";
+import { form } from "framer-motion/client";
+import { CategoryOutlined } from "@mui/icons-material";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -110,7 +117,49 @@ const Ragams = () => {
     setValue(e.target.value);
   };
 
-  //Handle submit report
+  //Handle Report Submit
+  const [form] = Form.useForm();
+
+  const handleReportSubmit = () => {
+    form
+      .validateFields() // Validasi field di form
+      .then((values) => {
+        // Jika validasi berhasil, values berisi data form
+        console.log("Form values:", values);
+
+        // Simpan data ke server
+        const formData = new FormData();
+        formData.append("category", values.category);
+        formData.append("description", values.description);
+
+        console.log("Data siap dikirim:", Array.from(formData.entries()));
+
+        // Gunakan sendDataPrivate untuk mengirim data
+        sendDataPrivate("/api/v1/report_ragam/create", formData)
+          .then((response) => {
+            // Memeriksa status response dan memproses data
+            if (response.isExpiredJWT) {
+              alert("Session expired, please login again.");
+              // Redirect ke halaman login jika token expired
+            } else if (response && response.message === "OK") {
+              alert("Data berhasil dikirim!");
+              form.resetFields(); // Reset form setelah berhasil
+            } else {
+              alert(
+                "Gagal mengirim data: " + (response.message || "Unknown error")
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Error saat mengirim data:", error);
+            alert("Terjadi kesalahan saat mengirim data.");
+          });
+      })
+      .catch((error) => {
+        console.error("Validasi gagal:", error);
+        alert("Mohon lengkapi semua field yang diperlukan.");
+      });
+  };
 
   //modal section
   const modalSection = () => {
@@ -305,26 +354,31 @@ const Ragams = () => {
                 onConfirm={confirm}
                 footer={null}
               >
-                <div>
-                  <Radio.Group
-                    onChange={Report}
-                    value={value}
-                    style={{ display: "flex", flexDirection: "column" }}
-                  >
-                    <Radio value={1}>Fraud or Scam</Radio>
-                    <Radio value={2}>Spam</Radio>
-                    <Radio value={3}>Harmful Content</Radio>
-                    <Radio value={4}>Hateful Content</Radio>
-                    <Radio value={5}>Canceled Ragam</Radio>
-                    <Radio value={6}>Copyright Infringement</Radio>
-                    <Radio value={7}>Violence</Radio>
-                    <Radio value={8}>Sexual Activity</Radio>
-                    <Radio value={9}>Regulated Activity</Radio>
-                  </Radio.Group>
-                </div>
+                <Form form={form} layout="vertical">
+                  <Form.Item name="category" label="Choose Category">
+                    <Radio.Group
+                      onChange={Report}
+                      value={value}
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
+                      <Radio value={1}>Fraud or Scam</Radio>
+                      <Radio value={2}>Spam</Radio>
+                      <Radio value={3}>Harmful Content</Radio>
+                      <Radio value={4}>Hateful Content</Radio>
+                      <Radio value={5}>Canceled Ragam</Radio>
+                      <Radio value={6}>Copyright Infringement</Radio>
+                      <Radio value={7}>Violence</Radio>
+                      <Radio value={8}>Sexual Activity</Radio>
+                      <Radio value={9}>Regulated Activity</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item name="description" label="Description">
+                    <Input.TextArea Placeholder="Add Description" />
+                  </Form.Item>
+                </Form>
                 <br />
                 <div style={{ textAlign: "right" }}>
-                  <Button onClick={handleModalCancel} type="primary">
+                  <Button onClick={handleReportSubmit} type="primary">
                     Submit
                   </Button>
                 </div>

@@ -108,7 +108,7 @@ const Explore = () => {
   ];
 
   const handleItemClick = () => {
-    navigate("/list-ragam");
+    navigate("/ragam");
   };
 
   const upcomingEvents = Events.filter((event) => event.status === "going");
