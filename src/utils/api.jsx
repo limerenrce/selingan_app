@@ -9,7 +9,7 @@ export const getDataPublic = (url) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => {
       return data;
@@ -23,7 +23,7 @@ export const getData = async (url) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => {
       return data;
@@ -43,7 +43,7 @@ export const getDataPrivate = async (url) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => {
       return data;
@@ -63,7 +63,7 @@ export const sendData = async (url, data) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -93,10 +93,10 @@ export const sendDataPrivate = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -129,10 +129,10 @@ export const editDataPrivatePut = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -157,10 +157,10 @@ export const editDataPrivateURLEncoded = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -185,10 +185,10 @@ export const deleteDataPrivateURLEncoded = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -213,10 +213,10 @@ export const deleteDataPrivateJSON = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
