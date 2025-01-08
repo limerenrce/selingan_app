@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { message } from "antd"; // Ensure this import is present
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
-import { getData } from "../../utils/api";
+import { getData, sendDataPrivate } from "../../utils/api";
 import {
   Card,
   List,
@@ -16,6 +17,9 @@ import {
   DatePicker,
   Popconfirm,
   Carousel,
+  Radio,
+  Form,
+  Input,
 } from "antd";
 import {
   PlusOutlined,
@@ -30,6 +34,11 @@ import dayjs from "dayjs";
 import "./ListRagam.css";
 import { MoreOutlined } from "@ant-design/icons";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import { fromJSON } from "postcss";
+import { form } from "framer-motion/client";
+import { CategoryOutlined } from "@mui/icons-material";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -80,18 +89,6 @@ const Ragams = () => {
   //const untuk modal report
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // const handleConfirm = () => {
-  //   message.success("Click on Yes");
-  //   setIsModalVisible(true);
-  //   console.log("isModalVisible:", isModalVisible); // Debugging log
-  // };
-
-  //pop confirm report
-  // const confirm = (e) => {
-  //   console.log(e);
-  //   message.success("Click on Yes");
-  //   setIsModalVisible(true);
-  // };
   const handleModalVisible = () => {
     setIsModalOpen(true);
   };
@@ -115,6 +112,81 @@ const Ragams = () => {
   // Fungsi untuk menutup modal
   const handleModalCancel = () => {
     setIsModalVisible(false);
+  };
+
+  //Checkbox
+  const [value, setValue] = useState();
+  const Report = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
+
+  //Handle Report Submit
+  const [form] = Form.useForm();
+
+  // Handle submit form
+  const handleReportSubmit = () => {
+    // Validate the form before proceeding
+    form
+      .validateFields()
+      .then((values) => {
+        // Extract values from the form fields
+        let reportedRagam = selectedEvent?.id;
+        let category = form.getFieldValue("category");
+        let description = form.getFieldValue("description");
+
+        // Ensure the selected event is valid
+        if (!reportedRagam) {
+          message.error("Please select an event."); // Show error message
+          return;
+        }
+
+        // Ensure required fields are filled
+        if (!category || !description) {
+          message.error("Please fill in all required fields."); // Show error message
+          return;
+        }
+
+        // Prepare the FormData object
+        let formData = new FormData();
+        formData.append("reported_ragam", reportedRagam);
+        formData.append("category", category);
+        formData.append("description", description);
+
+        // Send the data
+        let request = sendDataPrivate("/api/v1/report_ragam/create", formData);
+
+        request
+          .then((resp) => {
+            if (resp?.message === "Report created successfully") {
+              message.success("Report submitted successfully!"); // Show success message
+              form.resetFields(); // Clear the form fields
+              setIsReportModalVisible(false); // Close the modal
+            } else {
+              message.error(
+                resp?.message ||
+                  "Unknown error occurred while submitting the report."
+              ); // Show error message
+            }
+          })
+          .catch((err) => {
+            message.error(
+              err?.message ||
+                "Unknown error occurred while submitting the report."
+            ); // Show error message
+          });
+
+        // Debugging log
+        console.log("Form Data:", {
+          reportedRagam,
+          category,
+          description,
+        });
+      })
+      .catch((error) => {
+        // If validation fails, show an error alert
+        message.error("Please fill in all required fields."); // Show error message
+      });
   };
 
   //modal section
@@ -304,25 +376,44 @@ const Ragams = () => {
               </Popconfirm>
 
               <Modal
-                title="Why are you reporting this post?"
+                title="Why are you reporting this ragam?"
                 open={isModalVisible} // Pastikan ini
                 onCancel={handleModalCancel}
                 onConfirm={confirm}
                 footer={null}
               >
-                <div>
-                  <p>I just don't like it</p>
-                  <p>Bullying or unwanted contact</p>
-                  <p>Suicide, self-injury or eating disorders</p>
-                  <p>Violence, hate or exploitation</p>
-                  <p>Selling or promoting restricted items</p>
-                  <p>Nudity or sexual activity</p>
-                  <p>Scam, fraud or spam</p>
-                  <p>False information</p>
+                <Form form={form} layout="vertical">
+                  <Form.Item name="category" label="Choose Category">
+                    <Radio.Group
+                      onChange={Report}
+                      value={value}
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
+                      <Radio value={"fraud or scam"}>Fraud or Scam</Radio>
+                      <Radio value={"spam"}>Spam</Radio>
+                      <Radio value={"harmful content"}>Harmful Content</Radio>
+                      <Radio value={"hateful content"}>Hateful Content</Radio>
+                      <Radio value={"canceled ragam"}>Canceled Ragam</Radio>
+                      <Radio value={"copyright infingement"}>
+                        Copyright Infringement
+                      </Radio>
+                      <Radio value={"violence"}>Violence</Radio>
+                      <Radio value={"sexual activity"}>Sexual Activity</Radio>
+                      <Radio value={"regulated activity"}>
+                        Regulated Activity
+                      </Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item name="description" label="Description">
+                    <Input.TextArea Placeholder="Add Description" />
+                  </Form.Item>
+                </Form>
+                <br />
+                <div style={{ textAlign: "right" }}>
+                  <Button onClick={handleReportSubmit} type="primary">
+                    Submit
+                  </Button>
                 </div>
-                <Button onClick={handleModalCancel} type="primary">
-                  Close
-                </Button>
               </Modal>
             </div>
           </Row>
@@ -352,53 +443,6 @@ const Ragams = () => {
         console.error(err);
         setLoading(false);
       });
-  };
-
-  const cities = [
-    { id: 1, name: "Denpasar" },
-    { id: 2, name: "Ubud" },
-    { id: 3, name: "Singaraja" },
-    { id: 4, name: "Kuta" },
-    { id: 5, name: "Gianyar" },
-    { id: 6, name: "Tabanan" },
-  ];
-
-  const handleCityClick = (city) => {
-    setSelectedCity(city);
-
-    const cityEvent = dataSource.filter((item) => item.loca == 1);
-    setEventsMap([]);
-  }
-
-  const slides = [
-    {
-      id: 1,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+1')",
-    },
-    {
-      id: 2,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+2')",
-    },
-    {
-      id: 3,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+3')",
-    },
-    {
-      id: 4,
-      backgroundImage:
-        "url('https://via.placeholder.com/800x360?text=Slide+4')",
-    },
-  ];
-
-  const contentStyle = {
-    height: "360px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
   };
 
   return (
@@ -474,7 +518,7 @@ const Ragams = () => {
             </Row>
           </div>
         </div>
-        <div className="p-6 w-full">
+        <div className="p-6 w-full flex flex-col items-center justify-center">
           <Row className="mt-6">
             <Col lassName="w-full">
               <div className="flex flex-col items-center justify-center mb-8">
@@ -519,22 +563,8 @@ const Ragams = () => {
             </Col>
           </Row>
         </div>
-        <div>
-          <Carousel autoplay>
-            <div>
-              <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>3</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>4</h3>
-            </div>
-          </Carousel>
-        </div>
+
+        <Divider />
         <div>
           <Row justify="center" id="events" className="mt-16">
             <Col span={22}>
@@ -557,9 +587,6 @@ const Ragams = () => {
                   className="flex items-center justify-between pr-5 pl-5 mt-10"
                   style={{ marginBottom: "20px" }}
                 >
-                  {/* <Title level={3} className="font-bold">
-                    Ragams
-                  </Title> */}
                   <Button
                     icon={<PlusOutlined />}
                     onClick={() => navigate("/create-ragam")}
