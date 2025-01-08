@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { message } from "antd"; // Ensure this import is present
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
 import { getData, sendDataPrivate } from "../../utils/api";
@@ -123,44 +124,68 @@ const Ragams = () => {
   //Handle Report Submit
   const [form] = Form.useForm();
 
+  // Handle submit form
   const handleReportSubmit = () => {
+    // Validate the form before proceeding
     form
-      .validateFields() // Validasi field di form
+      .validateFields()
       .then((values) => {
-        // Jika validasi berhasil, values berisi data form
-        console.log("Form values:", values);
+        // Extract values from the form fields
+        let reportedRagam = selectedEvent?.id;
+        let category = form.getFieldValue("category");
+        let description = form.getFieldValue("description");
 
-        // Simpan data ke server
-        const formData = new FormData();
-        formData.append("category", values.category);
-        formData.append("description", values.description);
+        // Ensure the selected event is valid
+        if (!reportedRagam) {
+          message.error("Please select an event."); // Show error message
+          return;
+        }
 
-        console.log("Data siap dikirim:", Array.from(formData.entries()));
+        // Ensure required fields are filled
+        if (!category || !description) {
+          message.error("Please fill in all required fields."); // Show error message
+          return;
+        }
 
-        // Gunakan sendDataPrivate untuk mengirim data
-        sendDataPrivate("/api/v1/report_ragam/create", formData)
-          .then((response) => {
-            // Memeriksa status response dan memproses data
-            if (response.isExpiredJWT) {
-              alert("Session expired, please login again.");
-              // Redirect ke halaman login jika token expired
-            } else if (response && response.message === "OK") {
-              alert("Data berhasil dikirim!");
-              form.resetFields(); // Reset form setelah berhasil
+        // Prepare the FormData object
+        let formData = new FormData();
+        formData.append("reported_ragam", reportedRagam);
+        formData.append("category", category);
+        formData.append("description", description);
+
+        // Send the data
+        let request = sendDataPrivate("/api/v1/report_ragam/create", formData);
+
+        request
+          .then((resp) => {
+            if (resp?.message === "Report created successfully") {
+              message.success("Report submitted successfully!"); // Show success message
+              form.resetFields(); // Clear the form fields
+              setIsReportModalVisible(false); // Close the modal
             } else {
-              alert(
-                "Gagal mengirim data: " + (response.message || "Unknown error")
-              );
+              message.error(
+                resp?.message ||
+                  "Unknown error occurred while submitting the report."
+              ); // Show error message
             }
           })
-          .catch((error) => {
-            console.error("Error saat mengirim data:", error);
-            alert("Terjadi kesalahan saat mengirim data.");
+          .catch((err) => {
+            message.error(
+              err?.message ||
+                "Unknown error occurred while submitting the report."
+            ); // Show error message
           });
+
+        // Debugging log
+        console.log("Form Data:", {
+          reportedRagam,
+          category,
+          description,
+        });
       })
       .catch((error) => {
-        console.error("Validasi gagal:", error);
-        alert("Mohon lengkapi semua field yang diperlukan.");
+        // If validation fails, show an error alert
+        message.error("Please fill in all required fields."); // Show error message
       });
   };
 
@@ -364,15 +389,19 @@ const Ragams = () => {
                       value={value}
                       style={{ display: "flex", flexDirection: "column" }}
                     >
-                      <Radio value={1}>Fraud or Scam</Radio>
-                      <Radio value={2}>Spam</Radio>
-                      <Radio value={3}>Harmful Content</Radio>
-                      <Radio value={4}>Hateful Content</Radio>
-                      <Radio value={5}>Canceled Ragam</Radio>
-                      <Radio value={6}>Copyright Infringement</Radio>
-                      <Radio value={7}>Violence</Radio>
-                      <Radio value={8}>Sexual Activity</Radio>
-                      <Radio value={9}>Regulated Activity</Radio>
+                      <Radio value={"fraud or scam"}>Fraud or Scam</Radio>
+                      <Radio value={"spam"}>Spam</Radio>
+                      <Radio value={"harmful content"}>Harmful Content</Radio>
+                      <Radio value={"hateful content"}>Hateful Content</Radio>
+                      <Radio value={"canceled ragam"}>Canceled Ragam</Radio>
+                      <Radio value={"copyright infingement"}>
+                        Copyright Infringement
+                      </Radio>
+                      <Radio value={"violence"}>Violence</Radio>
+                      <Radio value={"sexual activity"}>Sexual Activity</Radio>
+                      <Radio value={"regulated activity"}>
+                        Regulated Activity
+                      </Radio>
                     </Radio.Group>
                   </Form.Item>
                   <Form.Item name="description" label="Description">
