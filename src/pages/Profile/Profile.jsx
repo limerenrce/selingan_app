@@ -33,13 +33,17 @@ import "./Style.css";
 
 import { motion } from "framer-motion";
 import { slideBottom, slideToRight } from "../../utils/animation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+
+const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 const { Title, Text } = Typography;
 const Profile = () => {
   const [dataUser, setDataUser] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const {userProfile} = useContext(AuthContext);
 
   useEffect(() => {
     getDataRagam();
@@ -48,11 +52,11 @@ const Profile = () => {
 
   const getDataUser = () => {
     setIsLoading(true)
-    getDataPrivate("/api/v1/protected/data")
+    getDataPrivate(`/api/v1/profile/read/${userProfile.user_logged}`)
       .then((resp) => {
         console.log(resp); // Debug to confirm the data structure
-        if (resp && resp.user_info) {
-          setDataUser(resp.user_info); // Use the "datas" array directly
+        if (resp && resp.datas) {
+          setDataUser(resp.datas); // Use the "datas" array directly
         }
         setIsLoading(false);
       })
@@ -124,8 +128,8 @@ const Profile = () => {
   ];
 
   //FILTER STATUS
-  const upcomingEvents = dataSource.filter((item) => item.is_active == 1);
-  const pastEvents = dataSource.filter((item) => item.is_active == 0);
+  const upcomingEvents = dataSource.filter((item) => item.is_active == 1 && item.created_by == userProfile.user_logged);
+  const pastEvents = dataSource.filter((item) => item.is_active == 0 && item.created_by == userProfile.user_logged);
 
   return (
     <>
@@ -158,7 +162,8 @@ const Profile = () => {
               <Avatar
                 size={120}
                 style={{ backgroundColor: "white" }}
-                src="/kevala-logo.png"
+                // src="/kevala-logo.png"
+                src={`${REACT_APP_API_URL}/${dataUser.image_path}`}
               />
             </Col>
           </motion.div>
@@ -381,12 +386,13 @@ const Profile = () => {
                         }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleTimeString("en-US", {
+                        {new Date(item.start_time).toLocaleTimeString("en-ID", {
                           hour: "2-digit", // e.g., 06
                           minute: "2-digit", // e.g., 00
                           hour12: false, // 24-hour format
-                          timeZone: "UTC"
+                          // timeZone: "UTC"
                         })}
+                        {/* {item.start_time} */}
                       </Text>
 
                     </Row>
@@ -427,7 +433,7 @@ const Profile = () => {
                     >
                       {item.price == null
                         ? `Free`
-                        : `Rp${item.price}0/pax`}
+                        : `Rp${new Intl.NumberFormat('id-ID').format(item.price)}/pax`}
                     </Text>
                     {/* </Col> */}
                   </Col>
