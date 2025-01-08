@@ -10,6 +10,7 @@ import {
   Upload,
   FloatButton,
   Button,
+  notification
 } from "antd";
 import {
   GlobalOutlined,
@@ -18,16 +19,21 @@ import {
   YoutubeFilled,
 } from "@ant-design/icons";
 import "./Style.css";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   FacebookFilled,
   InstagramOutlined,
   XOutlined,
 } from "@ant-design/icons";
+import { EmailRounded } from "@mui/icons-material";
+import { AuthContext } from "../../providers/AuthProvider";
+import { editDataPrivatePut, getDataPrivate } from "../../utils/api";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 const { TabPane } = Tabs;
+
+const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -38,45 +44,155 @@ const getBase64 = (file) =>
   });
 
 const Settings = () => {
+  const [form] = Form.useForm();
+  const [api, contextHolder] = notification.useNotification();
+  const [alert, setAlert] = useState(null);
+
   const [previewImage, setPreviewImage] = useState("");
   const [hover, setHover] = useState(false);
+  const [dataUser, setDataUser] = useState([]);
+  const { userProfile } = useContext(AuthContext);
+  const [isImageChanged, setIsImageChanged] = useState(false);
   // const [profileImage, setProfileImage] = useState(null);
 
-  const handleUpload = (info) => {
-    if (info.file.status === "done") {
-      const reader = new FileReader();
-      reader.onload = () => setImageUrl(reader.result);
-      reader.readAsDataURL(info.file.originFileObj);
-    } else if (info.file.status === "error") {
-      message.error("Failed to upload image");
+  const showAlert = (status, title, description) => {
+    setAlert({ status, title, description }); // Set the alert to be triggered
+  };
+
+  useEffect(() => {
+    getDataUser();
+  }, [])
+
+  useEffect(() => {
+    if (alert) {
+      // Trigger notification inside useEffect
+      notification[alert.status]({
+        message: alert.title,
+        description: alert.description,
+      });
+      setAlert(null); // Clear the alert after showing
+    }
+  }, [alert]);
+
+  const getDataUser = () => {
+    getDataPrivate(`/api/v1/profile/read/${userProfile.user_logged}`)
+      .then((resp) => {
+        // console.log("Full Response:", resp); 
+        if (resp && resp.datas) {
+          // console.log("Data User:", resp.datas); 
+          setDataUser(resp.datas); // Ensure this matches your response structure
+          setPreviewImage(resp.datas.image_path);
+
+          // form.setFieldsValue({
+          //   name: dataUser.name || "",
+          //   username: dataUser.username || "",
+          //   bio: dataUser.bio || "",
+          //   email: dataUser.email || "",
+          //   instagram: dataUser.instagram || "",
+          //   youtube: dataUser.youtube || "",
+          //   tiktok: dataUser.tiktok || "",
+          //   facebook: dataUser.facebook || "",
+          //   website: dataUser.website || "",
+          // });
+
+          form.setFieldValue("name", resp.datas.name);
+          form.setFieldValue("username", resp.datas.username);
+          form.setFieldValue("bio", resp.datas.bio);
+          form.setFieldValue("instagram", resp.datas.instagram);
+          form.setFieldValue("email", resp.datas.email);
+          form.setFieldValue("youtube", resp.datas.youtube);
+          form.setFieldValue("tiktok", resp.datas.tiktok);
+          form.setFieldValue("facebook", resp.datas.facebook);
+          form.setFieldValue("website", resp.datas.website);
+
+          console.log(resp.datas);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+      });
+  };
+
+
+
+  const handleUpload = ({ file }) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+      message.error("You can only upload image files!");
+      return;
+    }
+
+    // Preview the uploaded image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result); // Set preview image
+      setIsImageChanged(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+
+  const handlePreview = (file) => {
+    // This can be used if you want to preview a file before upload, 
+    // but here handleUpload already does the preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result); // Set preview image
+      setIsImageChanged(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Handle form changes
+  const handleFormChange = (field, value) => {
+    setDataUser((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleEditProfile = async () => {
+    const formValues = form.getFieldsValue(true); // Get all form values
+    const formData = new FormData();
+
+    // Append form values
+    Object.entries(formValues).forEach(([key, value]) => {
+      formData.append(key, value || ""); // Append non-empty values
+    });
+
+    // Append image if it is changed
+    if (isImageChanged && previewImage) {
+      const file = dataURLtoFile(previewImage, "profile-image.png");
+      formData.append("image", file);
+    }
+
+    try {
+      const response = await editDataPrivatePut(`/api/v1/profile/update/${userProfile.user_logged}`, formData);
+
+      if (response?.message === "Profile updated successfully") {
+        showAlert("success", "Success", "Your data has been updated.");
+        getDataUser(); // Refresh user data
+        setPreviewImage(dataUser.image_path);
+      } else {
+        const errorMessage = response?.message || "Failed to update your data.";
+        showAlert("error", "Failed", errorMessage);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      showAlert("error", "Error", "An unexpected error occurred.");
     }
   };
 
-  // const handleUpload = async (info) => {
-  //   const file = info.file.originFileObj || info.file;
 
-  //   if (file && file.type.startsWith("image/")) {
-  //     try {
-  //       const reader = new FileReader();
-  //       reader.onload = () => setProfileImage(reader.result); // Update profile image
-  //       reader.readAsDataURL(file);
-  //     } catch (error) {
-  //       console.error("Error uploading the image:", error);
-  //       message.error("Failed to upload image");
-  //     }
-  //   } else {
-  //     message.error("You can only upload image files!");
-  //   }
-  // };
+  const dataURLtoFile = (dataurl, filename) => {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
 
-  const handlePreview = async (file) => {
-    console.log("want to know the file", file);
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    console.log(file.url);
-    console.log(file.preview);
-    setPreviewImage(file.url || file.preview);
+
+    return new File([u8arr], filename, { type: mime });
   };
 
   return (
@@ -134,10 +250,14 @@ const Settings = () => {
                 }}
               >
                 <Form
+                  form={form}
                   layout="vertical"
                   style={{ maxWidth: "300px", width: "100%" }}
+                // name="name"
+                // form={form}
                 >
                   <Form.Item
+                    name="name"
                     label={
                       <span
                         style={{
@@ -151,10 +271,14 @@ const Settings = () => {
                   >
                     <Input
                       placeholder="Masukkan Namamu"
-                      defaultValue="Kevala Pottery Studio"
+                    // defaultValue={`${dataUser?.name}` || ""}
+                    // value={dataUser?.name}
+                    // onChange={(e) => handleFormChange("name", e.target.value)}
+                    // onChange={}
                     />
                   </Form.Item>
                   <Form.Item
+                    name="username"
                     label={
                       <span
                         style={{
@@ -169,10 +293,13 @@ const Settings = () => {
                     <Input
                       prefix="@"
                       placeholder="Enter your username"
-                      defaultValue="kevalastudiobali"
+                    // defaultValue={`${dataUser?.username}` || ""}
+                    // value={dataUser?.username}
+                    // onChange={(e) => handleFormChange("username", e.target.value)}
                     />
                   </Form.Item>
                   <Form.Item
+                    name="bio"
                     label={
                       <span
                         style={{
@@ -187,6 +314,9 @@ const Settings = () => {
                     <Input.TextArea
                       rows={4}
                       placeholder="Share a little about your background and interests."
+                    // defaultValue={`${dataUser?.bio}` || ""}
+                    // value={dataUser.bio}
+                    // onChange={(e) => handleFormChange("bio", e.target.value)}
                     />
                   </Form.Item>
                 </Form>
@@ -207,7 +337,7 @@ const Settings = () => {
                 <Text style={{ marginBottom: "8px" }}>Profile Picture</Text>
                 <Avatar
                   size={128}
-                  src={previewImage}
+                  src={isImageChanged ? previewImage : `${REACT_APP_API_URL}/${previewImage}` || "default-profile-icon.png"}
                   style={{ marginBottom: "16px" }}
                 />
                 <Upload
@@ -235,33 +365,6 @@ const Settings = () => {
                     }}
                   />
                 </Upload>
-                {/* <Avatar
-                  size={128}
-                  src={profileImage || "default-profile-icon.png"} // Default or uploaded image
-                  style={{ marginBottom: "16px" }}
-                />
-                <Upload
-                  showUploadList={false}
-                  onChange={handleUpload}
-                  beforeUpload={(file) => {
-                    const isImage = file.type.startsWith("image/");
-                    if (!isImage) {
-                      message.error("You can only upload image files!");
-                    }
-                    return isImage;
-                  }}
-                >
-                  <FloatButton
-                    tooltip={<div>Upload Image</div>}
-                    type="default"
-                    icon={<PictureOutlined />}
-                    style={{
-                      position: "absolute",
-                      top: "calc(35% + 55px)",
-                      right: "0px",
-                    }}
-                  />
-                </Upload> */}
               </div>
             </Row>
             {/* SOCIAL SETTINGS */}
@@ -287,15 +390,10 @@ const Settings = () => {
                   marginRight: "40px",
                 }}
               >
-                <Form
-                  layout="horizontal"
-                  style={{
-                    maxWidth: "400px",
-                    width: "100%",
-                  }}
-                >
-                  {/* INSTA */}
+                <Form form={form}>
+                  {/* INSTAGRAM */}
                   <Form.Item
+                    name="instagram"
                     label={
                       <InstagramOutlined
                         style={{ fontSize: "24px", color: "grey" }}
@@ -303,120 +401,66 @@ const Settings = () => {
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        instagram.com/
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                      />
-                    </div>
+                      addonBefore="instagram.com/"
+                      placeholder="username"
+                    />
                   </Form.Item>
 
-                  {/* TWITTER */}
+                  {/* EMAIL */}
                   <Form.Item
+                    name="email"
                     label={
-                      <XOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                      <EmailRounded
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        // backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        x.com/
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                      />
-                    </div>
+                      // addonBefore="instagram.com/"
+                      placeholder="Your Email"
+                    />
                   </Form.Item>
 
                   {/* FACEBOOK */}
                   <Form.Item
+                    name="facebook"
                     label={
                       <FacebookFilled
-                        style={{
-                          fontSize: "24px",
-                          color: "grey",
-                          borderRadius: "5px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        facebook.com/
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                      />
-                    </div>
+                      addonBefore="facebook.com/"
+                      placeholder="username"
+                    />
                   </Form.Item>
                 </Form>
               </Col>
@@ -431,138 +475,77 @@ const Settings = () => {
                   marginRight: "30px",
                 }}
               >
-                <Form
-                  layout="horizontal"
-                  style={{ maxWidth: "400px", width: "100%" }}
-                >
+                <Form form={form}>
                   {/* TIKTOK */}
                   <Form.Item
+                    name="tiktok"
                     label={
                       <TikTokOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        tiktok.com/@
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                      />
-                    </div>
+                      addonBefore="tiktok.com/@"
+                      placeholder="username"
+                    />
                   </Form.Item>
 
                   {/* YOUTUBE */}
                   <Form.Item
+                    name="youtube"
                     label={
                       <YoutubeFilled
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        youtube.com/@
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                      />
-                    </div>
+                      addonBefore="youtube.com/@"
+                      placeholder="username"
+                    />
                   </Form.Item>
 
-                  {/* WEB */}
+                  {/* WEBSITE */}
                   <Form.Item
+                    name="website"
                     label={
                       <GlobalOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        // backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      {/* <span
-                        style={{
-                          backgroundColor: "#f0f0f0", // Gray background for the prefix
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px", // Rounded left corners
-                          // borderRight: "1px solid #d9d9d9", // Border separating prefix from input
-                        }}
-                      >
-                        facebook.com/
-                      </span> */}
-                      <Input
-                        placeholder="Your Website"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                      />
-                    </div>
+                      // addonBefore="facebook.com/"
+                      placeholder="Your Website"
+                    />
                   </Form.Item>
                 </Form>
               </Col>
@@ -575,22 +558,13 @@ const Settings = () => {
               variant="solid"
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
+              onClick={handleEditProfile}
             >
               Save Changes
             </Button>
           </TabPane>
-          {/* <TabPane tab="test" key="2"></TabPane> */}
         </Tabs>
       </Row>
-      {/* </Col> */}
-      {/* <Divider
-            style={{
-              position: "absolute",
-              top: "130px", // Adjust based on the distance from "Profile Settings"
-              left: 0,
-              width: "100%",
-            }}
-          /> */}
     </Content>
   );
 };

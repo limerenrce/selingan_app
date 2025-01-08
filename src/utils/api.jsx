@@ -126,28 +126,52 @@ export const deleteData = async (url, data) => {
     .catch((err) => console.log(err));
 };
 
-export const editDataPrivatePut = async (url, data) => {
-  //401 -> jwt expired, flow process to login
-  //400 -> jwt malformed
-  //204 -> No Content, but success
-  //NOTE : You must special handle for HTTP status above
+// export const editDataPrivatePut = async (url, data) => {
+//   //401 -> jwt expired, flow process to login
+//   //400 -> jwt malformed
+//   //204 -> No Content, but success
+//   //NOTE : You must special handle for HTTP status above
+//   let token = await jwtStorage.retrieveToken();
+//   return fetch(REACT_APP_API_URL + url, {
+//     method: "PUT",
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   })
+//     .then((response) =>
+//       response.status === 401
+//         ? { isExpiredJWT: true }
+//         : response.status >= 200 &&
+//             response.status <= 299 &&
+//             response.status !== 204
+//           ? response.json()
+//           : response,
+//     )
+//     .then((data) => data)
+//     .catch((err) => console.log(err));
+// };
+
+
+export const editDataPrivatePut = async (url, formData) => {
   let token = await jwtStorage.retrieveToken();
   return fetch(REACT_APP_API_URL + url, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json", // Remove this header
     },
-    body: JSON.stringify(data),
+    body: formData, // Send FormData directly
   })
     .then((response) =>
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response,
     )
     .then((data) => data)
     .catch((err) => console.log(err));

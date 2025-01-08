@@ -43,6 +43,9 @@ const Ragams = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [eventsMap, setEventsMap] = useState([]);
+
   // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
 
   //Random color for avatar
@@ -350,6 +353,22 @@ const Ragams = () => {
         setLoading(false);
       });
   };
+
+  const cities = [
+    { id: 1, name: "Denpasar" },
+    { id: 2, name: "Ubud" },
+    { id: 3, name: "Singaraja" },
+    { id: 4, name: "Kuta" },
+    { id: 5, name: "Gianyar" },
+    { id: 6, name: "Tabanan" },
+  ];
+
+  const handleCityClick = (city) => {
+    setSelectedCity(city);
+
+    const cityEvent = dataSource.filter((item) => item.loca == 1);
+    setEventsMap([]);
+  }
 
   const slides = [
     {
