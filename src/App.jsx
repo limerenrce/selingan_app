@@ -18,6 +18,7 @@ import "./App.css";
 import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
 import AuthProvider from "./providers/AuthProvider";
+import ExploreMap from "./components/ExploreMap";
 // import ExploreMap from "./components/ExploreMap";
 
 // const GlobalStyle = createGlobalStyle`
@@ -56,7 +57,8 @@ function App() {
           <Route
             exact
             path="/explore"
-            element={<SelinganPrivateRoute component={<Explore />} />}
+            // element={<SelinganPrivateRoute component={<Explore />} />}
+            element={<SelinganPrivateRoute component={<ExploreMap/>} />}
           />
           <Route
             exact

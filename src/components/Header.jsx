@@ -2,14 +2,18 @@
 import { motion } from "framer-motion";
 import { Row, Col, Dropdown, notification } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
+import { jwtStorage } from "../utils/jwt_storage";
 import "@fontsource/poppins";
+// import { useContext } from "react";
+// import { AuthContext } from "../providers/AuthProvider";
 import Logo from "../assets/images/main-logo.png";
 import ProfileIcon from "../assets/images/default-ava.png";
-import { sendDataPrivate } from "../utils/api";
 
 // import { style } from "framer-motion/m";
 
 const InHeader = () => {
+  // const { userProfile } = useContext(AuthContext);
+
   // const [selectedLink, setSelectedLink] = useState(""); // Fixing state for active link
   const navigate = useNavigate();
 
@@ -48,29 +52,19 @@ const InHeader = () => {
     {
       key: "signOut",
       label: "Sign Out",
-      onClick: () => handleSignOut(),
+      onClick: () => {
+        handleSignOut();
+      },
     },
-  ]; 
+  ];
 
   const handleSignOut = () => {
-    sendDataPrivate("/api/v1/auth/signout")
-    .then((resp) => {
-      const username = resp.username["username"];
-      // Assuming the response includes a message and username
-      if (username){
-        notification.success({
-          message: `Bye bye ${username}`,
-          description: `Successfully signed out from Selingan`,
-        });
-        navigate("/signin", { replace: true });
-      }
-    })
-    .catch((err) => {
-      notification.error({
-        message: "Can't sign out right now",
-        description: err.response ? err.response.data : err.toString(),
-      });
+    jwtStorage.removeItem();
+    notification.success({
+      message: `Bye bye`,
+      description: `Successfully signed out from Selingan`,
     });
+    navigate("/signin", { replace: true });
   };
 
   // Handle active link styling

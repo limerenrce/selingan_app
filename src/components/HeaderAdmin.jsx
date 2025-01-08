@@ -1,6 +1,7 @@
-import React from "react";
+// import React from "react";
 import { motion } from "framer-motion";
-import { Row, Col } from "antd";
+import { Row, Col, notification } from "antd";
+import { jwtStorage } from "../utils/jwt_storage";
 import { useNavigate, NavLink } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons"; // Import LogoutOutlined icon
 import "@fontsource/poppins";
@@ -21,6 +22,15 @@ const NavLinks = [
 
 const AdminHeader = () => {
   const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    jwtStorage.removeItem();
+    notification.success({
+      message: `Bye bye`,
+      description: `Successfully signed out from Selingan`,
+    });
+    navigate("/signin", { replace: true });
+  };
 
   return (
     <motion.div
@@ -89,7 +99,7 @@ const AdminHeader = () => {
           >
             <a
               className="text-gray-600 font-semibold hover:text-primary space-x-2 mr-5"
-              onClick={() => navigate("/signup", { replace: true })}
+              onClick={() => {handleSignOut()}}
             >
               <LogoutOutlined />
               <span>Sign Out</span>

@@ -336,7 +336,7 @@ const Ragams = () => {
   }, []);
 
   const getDataRagam = () => {
-    setLoading(false);
+    setLoading(true);
     getData("/api/v1/ragam/read")
       .then((resp) => {
         console.log(resp); // Debug to confirm the data structure

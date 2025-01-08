@@ -5,6 +5,7 @@ import { getDataPrivate, signoutAPI } from "../utils/api";
 import { jwtStorage } from "../utils/jwt_storage";
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 

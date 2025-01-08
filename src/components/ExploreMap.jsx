@@ -1,80 +1,97 @@
-import { Fragment, useState } from "react";
-import {
-  GoogleMap,
-  useLoadScript,
-  MarkerF,
-  InfoWindowF,
-} from "@react-google-maps/api";
-const GOOGLE_MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
-
-const markers = [
-  {
-    id: 1,
-    name: "Poetry",
-    position: { lat: -8.41284, lgn: 115.223808 },
-  },
-  {
-    id: 2,
-    name: "Bucket",
-    position: { lat: -8.643281, lgn: 115.258344 },
-  },
-  {
-    id: 3,
-    name: "Bake",
-    position: { lat: -8.68, lgn: 115.24 },
-  },
-];
+import { Fragment, useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { getData } from "../utils/api";
+import { Skeleton } from "antd";
 
 const ExploreMap = () => {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: GOOGLE_MAP_API_KEY,
-  });
+  const [areas, setAreas] = useState([]); // Updated to store areas with clusters
+  const [loading, setLoading] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(10); // Initial zoom level
 
-  const [activeMarker, setActiveMarker] = useState(null);
+  const center = [-8.4095, 115.1889]; // Center of Bali
 
-  const handleActiveMarker = (marker) => {
-    if (marker == activeMarker) {
-      return;
-    }
-    setActiveMarker(marker);
+  useEffect(() => {
+    getDataLocation();
+  }, []);
+
+  const getDataLocation = () => {
+    setLoading(true);
+    getData("/api/v1/location/read")
+      .then((resp) => {
+        console.log(resp);
+        if (resp && resp.datas) {
+          setAreas(resp.datas); // Store areas instead of locations
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }; 
+
+  // Handle zoom change event
+  const handleZoom = (e) => {
+    const newZoom = e.target.getZoom();
+    setZoomLevel(newZoom);
   };
 
   return (
     <Fragment>
       <div className="container">
-        <p className="text-center mt-[100px]">aaaaf</p>
+        <p className="text-center mt-[100px]">Explore Clusters</p>
         <div style={{ width: "100%", height: "90vh" }}>
-          {isLoaded ? (
-            <GoogleMap
-              center={{
-                lat: -8.65,
-                lng: 115.2167,
-              }}
-              zoom={13}
-              onClick={() => setActiveMarker(null)}
-              mapContainerStyle={{
-                width: "100%",
-                height: "90vh",
-              }}
+          {loading ? (
+            <Skeleton active />
+          ) : areas.length > 0 ? (
+            <MapContainer
+              center={center}
+              zoom={zoomLevel}
+              style={{ height: "100%", width: "100%" }}
+              onzoom={handleZoom}
             >
-              {/* Markers here */}
-              {markers.map(({ id, name, position }) => (
-                <MarkerF
-                  key={id}
-                  position={position}
-                  onClick={() => handleActiveMarker(id)}
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+              />
+
+              {/* Draw circles around the clusters */}
+              {areas.map((area, areaIndex) => (
+                <Circle
+                  key={areaIndex}
+                  center={[area.lat, area.long]} // Coordinates of the cluster center
+                  radius={area.radius} // Radius for each cluster
+                  color="blue"
+                  fillColor="blue"
+                  fillOpacity={0.3}
                 >
-                  {activeMarker === id ? (
-                    <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                      <div>
-                        <p>{name}</p>
-                      </div>
-                    </InfoWindowF>
-                  ) : null}
-                </MarkerF>
+                  <Popup>
+                    <span>{area.name}</span>
+                  </Popup>
+                </Circle>
               ))}
-            </GoogleMap>
-          ) : null}
+
+              {/* Markers for the locations inside each cluster */}
+              {areas.map((area, areaIndex) =>
+                area.locations.map((location, locIndex) => (
+                  <Marker
+                    key={`${areaIndex}-${locIndex}`} // Unique key for each marker
+                    position={[
+                      parseFloat(location.lat), // Convert lat from string to float
+                      parseFloat(location.long), // Convert long from string to float
+                    ]}
+                  >
+                    <Popup>
+                      <span>{location.location}</span>
+                    </Popup>
+                  </Marker>
+                ))
+              )}
+            </MapContainer>
+          ) : (
+            <p>No areas available.</p>
+          )}
         </div>
       </div>
     </Fragment>
