@@ -9,7 +9,7 @@ export const getDataPublic = (url) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => {
       return data;
@@ -23,7 +23,7 @@ export const getData = async (url) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => {
       return data;
@@ -58,7 +58,7 @@ export const getDataPrivate = async (url) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => {
       return data;
@@ -78,43 +78,53 @@ export const sendData = async (url, data) => {
       response.status <= 299 &&
       response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
 };
 
-export const sendDataPrivate = async (url, data) => {
-  //401 -> jwt expired, flow process to login
-  //400 -> jwt malformed
-  //204 -> No Content, but success
-  //NOTE : You must special handle for HTTP status above
+export const sendDataPrivate = async (url, formData) => {
+  try {
+    // Retrieve JWT token
+    const token = await jwtStorage.retrieveToken();
 
-  let token = await jwtStorage.retrieveToken();
-  const options = {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  // Add body only if data exists
-  if (data) {
-    options.body = data;
+    // Debug: log the JWT token and FormData
+    console.log("JWT Token:", token);
+    console.log("FormData:", Array.from(formData.entries()));
+
+    // Make the POST request
+    const response = await fetch(REACT_APP_API_URL + url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the JWT token in the Authorization header
+        // Note: No need to set Content-Type as FormData handles it
+      },
+      body: formData, // Send FormData directly
+    });
+
+    // Handle response
+    if (response.status === 401) {
+      return { isExpiredJWT: true }; // JWT token expired
+    }
+
+    if (response.ok) {
+      const contentType = response.headers.get("content-type");
+      return contentType?.includes("application/json")
+        ? await response.json()
+        : await response.text();
+    }
+
+    // Handle non-2xx responses
+    return {
+      success: false,
+      message: `Unexpected status: ${response.status}`,
+      error: await response.text(), // Retrieve error message if available
+    };
+  } catch (err) {
+    console.error("Error in sendDataPrivate:", err);
+    return { success: false, error: err.message || "Unknown error occurred" };
   }
-  console.log(options);
-
-  return fetch(REACT_APP_API_URL + url, options)
-    .then((response) =>
-      response.status === 401
-        ? { isExpiredJWT: true }
-        : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
-    )
-    .then((data) => data)
-    .catch((err) => console.log(err));
 };
 
 export const deleteData = async (url, data) => {
@@ -153,7 +163,6 @@ export const deleteData = async (url, data) => {
 //     .catch((err) => console.log(err));
 // };
 
-
 export const editDataPrivatePut = async (url, formData) => {
   let token = await jwtStorage.retrieveToken();
   return fetch(REACT_APP_API_URL + url, {
@@ -171,7 +180,7 @@ export const editDataPrivatePut = async (url, formData) => {
           response.status <= 299 &&
           response.status !== 204
         ? response.json()
-        : response,
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -196,10 +205,10 @@ export const editDataPrivateURLEncoded = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -224,10 +233,10 @@ export const deleteDataPrivateURLEncoded = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -252,10 +261,10 @@ export const deleteDataPrivateJSON = async (url, data) => {
       response.status === 401
         ? { isExpiredJWT: true }
         : response.status >= 200 &&
-            response.status <= 299 &&
-            response.status !== 204
-          ? response.json()
-          : response,
+          response.status <= 299 &&
+          response.status !== 204
+        ? response.json()
+        : response
     )
     .then((data) => data)
     .catch((err) => console.log(err));
