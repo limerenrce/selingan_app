@@ -190,7 +190,7 @@ const signUp = () => {
                 ]}
                 type="password"
               >
-                <Input
+                <Input.Password
                   prefix={<LockOutlined />}
                   type="password"
                   placeholder="Password"
@@ -205,7 +205,7 @@ const signUp = () => {
                 ]}
                 type="password"
               >
-                <Input
+                <Input.Password
                   prefix={<LockOutlined />}
                   type="password"
                   placeholder="Confirm Password"

@@ -99,9 +99,9 @@ const LocationPicker = ({ onLocationChange }) => {
     React.useEffect(() => {
       const searchControl = new GeoSearchControl({
         provider,
-        style: "bar", // Search bar style
-        showMarker: false, // Don't show markers by default
-        autoClose: true, // Close results after selection
+        style: "bar",
+        showMarker: false,
+        autoClose: true,
       });
 
       map.addControl(searchControl);
@@ -159,19 +159,33 @@ const LocationPicker = ({ onLocationChange }) => {
   }
 
   return (
-    <MapContainer
-      center={position}
-      zoom={13}
-      style={{ height: "400px", width: "100%" }}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; OpenStreetMap contributors"
+    <div>
+      <input
+        type="text"
+        value={address}
+        readOnly
+        style={{ marginBottom: "10px", width: "100%" }}
       />
-      <Marker position={position} />
-      <SearchControl />
-      <MapClickHandler />
-    </MapContainer>
+      <MapContainer
+        center={position}
+        zoom={13}
+        style={{ height: "400px", width: "100%" }}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution="&copy; OpenStreetMap contributors"
+        />
+        <Marker
+          position={position}
+          draggable={true}
+          eventHandlers={{
+            dragend: handleMarkerDragEnd,
+          }}
+        />
+        <SearchControl />
+        <MapClickHandler />
+      </MapContainer>
+    </div>
   );
 };
 

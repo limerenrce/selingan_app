@@ -302,7 +302,7 @@ const Host = () => {
             <Row gutter={16} justify="start" style={{ marginTop: "20px" }}>
               {filteredData.map((item) => (
                 <Col span={8} key={item.key} style={{}}>
-                  <div className="group relative cursor-pointer overflow-hidden bg-white  transition-all duration-300">
+                  <div className="group relative   transition-all duration-300">
                     <Card
                       hoverable="true"
                       size="small"

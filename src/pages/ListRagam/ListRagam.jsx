@@ -51,6 +51,9 @@ const Ragams = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [eventsMap, setEventsMap] = useState([]);
+
   // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
 
   //Random color for avatar
