@@ -61,7 +61,7 @@ const Settings = () => {
 
   useEffect(() => {
     getDataUser();
-  }, [form])
+  }, [])
 
   useEffect(() => {
     if (alert) {
@@ -82,6 +82,19 @@ const Settings = () => {
           // console.log("Data User:", resp.datas); 
           setDataUser(resp.datas); // Ensure this matches your response structure
           setPreviewImage(resp.datas.image_path);
+
+          // form.setFieldsValue({
+          //   name: dataUser.name || "",
+          //   username: dataUser.username || "",
+          //   bio: dataUser.bio || "",
+          //   email: dataUser.email || "",
+          //   instagram: dataUser.instagram || "",
+          //   youtube: dataUser.youtube || "",
+          //   tiktok: dataUser.tiktok || "",
+          //   facebook: dataUser.facebook || "",
+          //   website: dataUser.website || "",
+          // });
+
           form.setFieldValue("name", resp.datas.name);
           form.setFieldValue("username", resp.datas.username);
           form.setFieldValue("bio", resp.datas.bio);
@@ -91,6 +104,7 @@ const Settings = () => {
           form.setFieldValue("tiktok", resp.datas.tiktok);
           form.setFieldValue("facebook", resp.datas.facebook);
           form.setFieldValue("website", resp.datas.website);
+
           console.log(resp.datas);
         }
       })
@@ -98,6 +112,7 @@ const Settings = () => {
         console.error("Error fetching data:", err);
       });
   };
+
 
 
   const handleUpload = ({ file }) => {
@@ -136,24 +151,25 @@ const Settings = () => {
   const handleEditProfile = async () => {
     const formValues = form.getFieldsValue(true); // Get all form values
     const formData = new FormData();
-  
+
     // Append form values
     Object.entries(formValues).forEach(([key, value]) => {
       formData.append(key, value || ""); // Append non-empty values
     });
-  
+
     // Append image if it is changed
     if (isImageChanged && previewImage) {
       const file = dataURLtoFile(previewImage, "profile-image.png");
       formData.append("image", file);
     }
-  
+
     try {
       const response = await editDataPrivatePut(`/api/v1/profile/update/${userProfile.user_logged}`, formData);
-  
+
       if (response?.message === "Profile updated successfully") {
         showAlert("success", "Success", "Your data has been updated.");
         getDataUser(); // Refresh user data
+        setPreviewImage(dataUser.image_path);
       } else {
         const errorMessage = response?.message || "Failed to update your data.";
         showAlert("error", "Failed", errorMessage);
@@ -163,7 +179,7 @@ const Settings = () => {
       showAlert("error", "Error", "An unexpected error occurred.");
     }
   };
-  
+
 
   const dataURLtoFile = (dataurl, filename) => {
     const arr = dataurl.split(",");
@@ -255,9 +271,9 @@ const Settings = () => {
                   >
                     <Input
                       placeholder="Masukkan Namamu"
-                      // defaultValue={`${dataUser?.name}` || ""}
-                      // value={dataUser?.name}
-                      // onChange={(e) => handleFormChange("name", e.target.value)}
+                    // defaultValue={`${dataUser?.name}` || ""}
+                    // value={dataUser?.name}
+                    // onChange={(e) => handleFormChange("name", e.target.value)}
                     // onChange={}
                     />
                   </Form.Item>
@@ -277,9 +293,9 @@ const Settings = () => {
                     <Input
                       prefix="@"
                       placeholder="Enter your username"
-                      // defaultValue={`${dataUser?.username}` || ""}
-                      // value={dataUser?.username}
-                      // onChange={(e) => handleFormChange("username", e.target.value)}
+                    // defaultValue={`${dataUser?.username}` || ""}
+                    // value={dataUser?.username}
+                    // onChange={(e) => handleFormChange("username", e.target.value)}
                     />
                   </Form.Item>
                   <Form.Item
@@ -298,9 +314,9 @@ const Settings = () => {
                     <Input.TextArea
                       rows={4}
                       placeholder="Share a little about your background and interests."
-                      // defaultValue={`${dataUser?.bio}` || ""}
-                      // value={dataUser.bio}
-                      // onChange={(e) => handleFormChange("bio", e.target.value)}
+                    // defaultValue={`${dataUser?.bio}` || ""}
+                    // value={dataUser.bio}
+                    // onChange={(e) => handleFormChange("bio", e.target.value)}
                     />
                   </Form.Item>
                 </Form>
@@ -374,15 +390,8 @@ const Settings = () => {
                   marginRight: "40px",
                 }}
               >
-                <Form
-                  form={form}
-                  layout="horizontal"
-                  style={{
-                    maxWidth: "400px",
-                    width: "100%",
-                  }}
-                >
-                  {/* INSTA */}
+                <Form form={form}>
+                  {/* INSTAGRAM */}
                   <Form.Item
                     name="instagram"
                     label={
@@ -392,66 +401,42 @@ const Settings = () => {
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        instagram.com/
-                      </span>
-                      <Input
-                        name="instagram"
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        // defaultValue={`${dataUser?.instagram}` || ""}
-                        // value={dataUser?.instagram}
-                        // onChange={(e) => handleFormChange("instagram", e.target.value)}
-                      />
-                    </div>
+                      addonBefore="instagram.com/"
+                      placeholder="username"
+                    />
                   </Form.Item>
 
-                  {/* Email */}
+                  {/* EMAIL */}
                   <Form.Item
                     name="email"
                     label={
                       <EmailRounded
-                        style={{fontSize: "20px", color: "grey", marginRight: "4px"}}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
-                      style={{display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: "8px",
+                    <Input
+                      style={{
+                        // backgroundColor: "#f0f0f0",
+                        display: "flex",
+                        alignItems: "center",
+                        // border: "1px solid #d9d9d9",
+                        borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <Input
-                        placeholder="Your Email"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        // defaultValue={`${dataUser?.email}` || ""}
-                        // value={dataUser?.email}
-                        // onChange={(e) => handleFormChange("email", e.target.value)}
-                      />
-                    </div>
+                      // addonBefore="instagram.com/"
+                      placeholder="Your Email"
+                    />
                   </Form.Item>
 
                   {/* FACEBOOK */}
@@ -459,46 +444,23 @@ const Settings = () => {
                     name="facebook"
                     label={
                       <FacebookFilled
-                        style={{
-                          fontSize: "24px",
-                          color: "grey",
-                          borderRadius: "5px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        facebook.com/
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        // defaultValue={`${dataUser?.facebook}` || ""}
-                        // value={dataUser?.facebook}
-                        // onChange={(e) => handleFormChange("facebook", e.target.value)}
-                      />
-                    </div>
+                      addonBefore="facebook.com/"
+                      placeholder="username"
+                    />
                   </Form.Item>
                 </Form>
               </Col>
@@ -513,56 +475,29 @@ const Settings = () => {
                   marginRight: "30px",
                 }}
               >
-                <Form
-                form={form}
-                  layout="horizontal"
-                  style={{ maxWidth: "400px", width: "100%" }}
-                >
+                <Form form={form}>
                   {/* TIKTOK */}
                   <Form.Item
-                  name="tiktok"
+                    name="tiktok"
                     label={
                       <TikTokOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        tiktok.com/@
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        // defaultValue={`${dataUser?.tiktok}` || ""}
-                        // value={dataUser?.tiktok}
-                        // onChange={(e) => handleFormChange("tiktok", e.target.value)}
-                      />
-                    </div>
+                      addonBefore="tiktok.com/@"
+                      placeholder="username"
+                    />
                   </Form.Item>
 
                   {/* YOUTUBE */}
@@ -570,82 +505,47 @@ const Settings = () => {
                     name="youtube"
                     label={
                       <YoutubeFilled
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <span
-                        style={{
-                          backgroundColor: "#f0f0f0",
-                          padding: "0 8px",
-                          lineHeight: "32px",
-                          color: "grey",
-                          borderRadius: "7px 0 0 7px",
-                        }}
-                      >
-                        youtube.com/@
-                      </span>
-                      <Input
-                        placeholder="username"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        // defaultValue={`${dataUser?.youtube}` || ""}
-                        // value={dataUser?.youtube}
-                        // onChange={(e) => handleFormChange("youtube", e.target.value)}
-                      />
-                    </div>
+                      addonBefore="youtube.com/@"
+                      placeholder="username"
+                    />
                   </Form.Item>
 
-                  {/* WEB */}
+                  {/* WEBSITE */}
                   <Form.Item
-                  name="website"
+                    name="website"
                     label={
                       <GlobalOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "grey",
-                          marginRight: "4px",
-                        }}
+                        style={{ fontSize: "24px", color: "grey" }}
                       />
                     }
                     colon={false}
                   >
-                    <div
+                    <Input
                       style={{
+                        // backgroundColor: "#f0f0f0",
                         display: "flex",
                         alignItems: "center",
-                        border: "1px solid #d9d9d9",
+                        // border: "1px solid #d9d9d9",
                         borderRadius: "8px",
                         fontFamily: "Poppins, sans-serif",
                       }}
-                    >
-                      <Input
-                        placeholder="Your Website"
-                        style={{
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        // defaultValue={`${dataUser?.website}` || ""}
-                        // value={dataUser?.website}
-                        // onChange={(e) => handleFormChange("website", e.target.value)}
-                      />
-                    </div>
+                      // addonBefore="facebook.com/"
+                      placeholder="Your Website"
+                    />
                   </Form.Item>
                 </Form>
               </Col>
