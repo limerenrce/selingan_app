@@ -1,5 +1,15 @@
-import { Card, Row, Col, Layout, Typography, Tooltip, Image } from "antd";
+import {
+  Card,
+  Row,
+  Col,
+  Layout,
+  Typography,
+  Tooltip,
+  Image,
+  Segmented,
+} from "antd";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {
   AccessTimeRounded,
   EventRounded,
@@ -7,111 +17,248 @@ import {
 } from "@mui/icons-material";
 import "./style.css";
 
-const { Title, Text } = Typography;
 const { Content } = Layout;
+const { Text, Title } = Typography;
 
 const Explore = () => {
+  const [selectedSegment, setSelectedSegment] = useState("Upcoming");
   const navigate = useNavigate();
 
-  const city = [
-    {
-      icon: "Icon for Denpasar",
-      city: "Denpasar",
-      events: 25,
-    },
-    {
-      icon: "Icon for Ubud",
-      city: "Ubud",
-      events: 15,
-    },
-    {
-      icon: "Icon for Seminyak",
-      city: "Seminyak",
-      events: 20,
-    },
-    {
-      icon: "Icon for Kuta",
-      city: "Kuta",
-      events: 30,
-    },
-    {
-      icon: "Icon for Nusa Dua",
-      city: "Nusa Dua",
-      events: 10,
-    },
-    {
-      icon: "Icon for Canggu",
-      city: "Canggu",
-      events: 18,
-    },
-    {
-      icon: "Icon for Sanur",
-      city: "Sanur",
-      events: 12,
-    },
-    {
-      icon: "Icon for Lovina",
-      city: "Lovina",
-      events: 5,
-    },
-    {
-      icon: "Icon for Amed",
-      city: "Amed",
-      events: 7,
-    },
-    {
-      icon: "Icon for Jimbaran",
-      city: "Jimbaran",
-      events: 8,
-    },
-  ];
-
-  const category = [
-    {
-      category: "Cooking",
-      events: 283,
-    },
-    {
-      category: "Photography",
-      events: 926,
-    },
-    {
-      category: "Plant",
-      events: 100,
-    },
-    {
-      category: "Dessert",
-      events: 30,
-    },
-  ];
-
-  const Events = [
-    {
-      nama: "Pottery Class Beginner",
-      deskripsi:
-        "Dive into creativity with our pottery class! Get your hands dirty as you learn to mold clay into beautiful pieces. With us, you will create unique masterpieces while having a blast!",
-      waktu: "10:00 AM",
-      tanggal: "Tue, 12 Nov 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "Free",
-      status: "going",
-    },
-    {
-      nama: "Ceramic Painting",
-      deskripsi: "Paint, relax, and create your own ceramic masterpiece!",
-      waktu: "3:00 PM",
-      tanggal: "Sun, 17 Nov 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "25.000",
-      status: "going",
-    },
-  ];
-
   const handleItemClick = () => {
-    navigate("/ragam");
+    navigate("/event-detail");
   };
 
-  const upcomingEvents = Events.filter((event) => event.status === "going");
+  const sampleData = [
+    {
+      key: "1",
+      title:
+        "Poetry Reading Night : An Inspiring Night of Poetry and Connection",
+      description: "An evening of poetry readings by local poets.",
+      location: "Café Poetry",
+      day: "Sun, 10 Nov 2024",
+      time: "6:00 AM",
+      start_time: "18:00:00 ",
+      end_time: "20:00:00",
+      created_by: "Kavala",
+      created_at: "2024-10-15 22:06:32",
+      updated_at: "2024-10-15 22:06:32",
+      capacity: 50,
+      is_active: 1,
+      image: Image,
+      is_free: 1,
+      requires_approval: 0,
+      price: "Free",
+      email: "1@example.com",
+      status: "Going",
+      checkedIn: "No",
+    },
+    {
+      key: "2",
+      title: "Baking Basics Workshop : Learn Essential Baking Skills Together",
+      description: "Learn the fundamentals of baking delicious pastries.",
+      location: "Culinary Studio",
+      time: "6:00 AM",
+      day: "Sun, 10 Nov 2024",
+      start_time: "18:00:00",
+      end_time: "20:00:00",
+      created_by: 2,
+      created_at: "2024-10-15 22:06:32",
+      updated_at: "2024-10-15 22:06:32",
+      capacity: 20,
+      is_active: 1,
+      image: Image,
+      is_free: 0,
+      requires_approval: 1,
+      price: 29.99,
+      email: "2@example.com",
+      status: "Going",
+      checkedIn: "No",
+    },
+    {
+      key: "3",
+      title:
+        "Flower Arrangement Class : Create stunning floral arrangements with ease",
+      description: "Join us for a hands-on class in floral design.",
+      location: "Floral Shop",
+      time: "9:00 AM",
+      day: "Mon, 11 Nov 2024",
+      start_time: " 09:00:00",
+      end_time: "11:00:00",
+      created_by: 3,
+      created_at: "2024-10-15 22:06:32",
+      updated_at: "2024-10-15 22:06:32",
+      capacity: 15,
+      is_active: 1,
+      image: Image,
+      is_free: 1,
+      requires_approval: 0,
+      price: "Free",
+      email: "3@example.com",
+      status: "Going",
+      checkedIn: "No",
+    },
+    {
+      key: "4",
+      title: "Open Mic Poetry Slam : Express yourself through spoken word.",
+      description:
+        "Share your poetry in front of an audience and compete for prizes.",
+      location: "Community Center",
+      day: "Mon, 11 Nov 2024",
+      time: "7:00 AM",
+      start_time: "19:00:00",
+      end_time: " 21:00:00 ",
+      created_by: 1,
+      created_at: "2024-10-13 ",
+      updated_at: "2024-10-15 ",
+      capacity: 30,
+      is_active: 1,
+      image: Image,
+      is_free: 1,
+      requires_approval: 1,
+      price: 15.0,
+      email: "1@example.com",
+      status: "Done",
+      checkedIn: "No",
+    },
+    {
+      key: "5",
+      title: "Baking with Kids : Fun and easy baking for families",
+      description: "A fun baking class for children and their parents.",
+      location: "Local Bakery",
+      day: "Mon, 11 Nov 2024",
+      time: "3:00 AM",
+      start_time: " 10:00:00",
+      end_time: " 12:00:00",
+      created_by: 2,
+      created_at: "2024-10-13 ",
+      updated_at: "2024-10-15 ",
+      capacity: 25,
+      is_active: 1,
+      image: Image,
+      is_free: 0,
+      requires_approval: 0,
+      price: "Free",
+      email: "2@example.com",
+      status: "Done",
+      checkedIn: "No",
+    },
+    {
+      key: "6",
+      title: "Cooking 101",
+      description: "Learn the basics of cooking delicious meals.",
+      location: "Culinary Academy",
+      day: " Wed, 13 Nov 2024",
+      time: "10:00 AM",
+      start_time: " 14:00:00",
+      end_time: " 15:30:00",
+      created_by: 2,
+      created_at: "2024-10-13",
+      updated_at: "2024-10-15 ",
+      capacity: 20,
+      is_active: 1,
+      image: Image,
+      is_free: 0,
+      requires_approval: 0,
+      price: 49.99,
+      email: "2@example.com",
+      status: "Done",
+      checkedIn: "No",
+    },
+    {
+      key: "7",
+      title: "Dessert Decoration Class",
+      description: "Master the art of dessert decoration.",
+      location: "Pastry Shop",
+      day: " Wed, 13 Nov 2024",
+      time: "2:00 PM",
+      start_time: " 14:00:00",
+      end_time: "16:00:00",
+      created_by: 3,
+      created_at: "2024-10-13",
+      updated_at: "2024-10-15 ",
+      capacity: 15,
+      is_active: 1,
+      image: Image,
+      is_free: 0,
+      requires_approval: 1,
+      price: 39.99,
+      email: "3@example.com",
+      status: "Done",
+      checkedIn: "No",
+    },
+    {
+      key: "8",
+      title: "Clay Pottery Workshop",
+      description: "Create your own pottery in this hands-on workshop.",
+      location: "Art Studio",
+      day: " Wed, 13 Nov 2024",
+      time: "9:00 AM",
+      start_time: " 09:00:00",
+      end_time: " 12:00:00",
+      created_by: 4,
+      created_at: "2024-10-15 ",
+      updated_at: "2024-10-18",
+      capacity: 12,
+      is_active: 1,
+      image: Image,
+      is_free: 1,
+      requires_approval: 0,
+      price: "Free",
+      email: "4@example.com",
+      status: "Done",
+      checkedIn: "No",
+    },
+    {
+      key: "9",
+      title: "Sushi Making Class",
+      description: "Learn to make sushi from a professional chef.",
+      location: "Sushi Bar",
+      time: "6:00 PM",
+      day: " Fri, 15 Nov 2024",
+      start_time: "18:00:00",
+      end_time: "19:30:00 ",
+      created_by: 1,
+      created_at: "2024-10-12",
+      updated_at: "2024-10-15 ",
+      capacity: 25,
+      is_active: 1,
+      image: Image,
+      is_free: 0,
+      requires_approval: 1,
+      price: 45.0,
+      email: "1@example.com",
+      status: "Done",
+      checkedIn: "No",
+    },
+    {
+      key: "10",
+      title: "Wine and Paint Night",
+      description: "Enjoy a night of painting while sipping wine.",
+      location: "Art Gallery",
+      day: " Fri, 15 Nov 2024",
+      time: "5:00 AM",
+      start_time: "17:00:00",
+      end_time: "19:00:00",
+      created_by: 5,
+      created_at: "2024-10-15 22:06:32",
+      updated_at: "2024-10-15 22:06:32",
+      capacity: 30,
+      is_active: 1,
+      image: Image,
+      is_free: 1,
+      requires_approval: 1,
+      price: 30.0,
+      email: "5@example.com",
+      status: "Going",
+      checkedIn: "No",
+    },
+  ];
+
+  const filteredData = sampleData.filter((item) =>
+    selectedSegment === "Upcoming"
+      ? item.status === "Going"
+      : item.status === "Done"
+  );
 
   return (
     <>
@@ -124,257 +271,162 @@ const Explore = () => {
         }}
         className="font-sans"
       >
-        <div style={{ maxWidth: "800px", width: "100%", padding: "0px" }}>
-          {/* C O L U M N */}
-
+        <div
+          style={{
+            maxWidth: "800px",
+            width: "100%",
+            padding: "0px",
+          }}
+        >
           <Col>
-            <div className="ml-3 mt-20">
-              <h1 className="font-bold text-grey-800 text-4xl font-sans">
-                Explore Ragam
-              </h1>
-              <p className="mt-3 text-grey-200 text-lg font-sans">
-                Explore popular ragam near you, browse by category, or check out
-                some of the great community calendars.
+            <div className="ml-3 mt-20 font-sans">
+              <h1 className="font-bold text-grey-800 text-4xl">Scedule</h1>
+              <p className="mt-3 text-grey-200 text-lg">
+                Review past events and plan for the upcoming ones with ease.
+                Stay in control of your time and always know what's on the
+                horizon!
               </p>
             </div>
-
-            {/* EVENTS SECTION */}
-            <div>
-              <p className="ml-3 mt-8 font-bold text-gray-600 text-xl font-sans">
-                Popular Ragam This Week
-              </p>
-            </div>
-            <Row
-              gutter={8}
-              justify="start"
+            <Segmented
+              options={["Upcoming", "Past"]}
+              onChange={(value) => setSelectedSegment(value)}
               style={{
-                marginLeft: 2,
-                overflow: "auto",
-                gap: "10px",
+                marginLeft: 10,
+                marginTop: "10px",
+                tabSize: "large",
+                color: "#C4B7E5",
               }}
-            >
-              {upcomingEvents.map((item, index) => (
-                <div
-                  key={index}
-                  className="group relative cursor-pointer overflow-hidden bg-white  transition-all duration-300"
-                >
-                  <Card
-                    hoverable="true"
-                    size="small"
-                    bordered={false}
-                    style={{
-                      boxShadow: "none",
-                      padding: 0,
-                      margin: 10,
-                      maxWidth: "320px",
-                      width: "100%",
-                    }}
-                    className="duration-300 group relative border-2 border-gray-100 group-hover:border-[#a3a3f5]"
-                  >
-                    <Col style={{ gap: "10px", maxWidth: "300px" }}>
-                      <Image
-                        style={{
-                          borderRadius: "5%",
-                          objectFit: "cover",
-                          width: "300px",
-                          height: "150px",
-                        }}
-                        src="/pottery-class.jfif"
-                      />
-                      <Title level={5} style={{ marginBottom: "0px" }}>
-                        {item.nama}
-                      </Title>
-                      <Tooltip title={item.deskripsi}>
-                        <p
-                          style={{
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            color: "grey",
-                            marginBottom: "2px",
-                            fontFamily: "Poppins, sans-serif",
-                          }}
-                        >
-                          {item.deskripsi}
-                        </p>
-                      </Tooltip>
-                      <Row
-                        style={{
-                          alignItems: "center",
-                          gap: "5px",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        <EventRounded
-                          style={{ fontSize: "18", color: "grey" }}
-                        />
-                        <Text style={{ color: "grey" }}>{item.tanggal}</Text>
-                      </Row>
-                      <Row
-                        style={{
-                          marginTop: "5px",
-                          alignItems: "center",
-                          gap: "5px",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        <AccessTimeRounded
-                          style={{
-                            fontSize: "18",
-                            color: "grey",
-                            // marginLeft: "10px",
-                          }}
-                        />
-                        <Text style={{ color: "grey" }}>{item.waktu}</Text>
-                      </Row>
-                      <Row
-                        style={{
-                          marginTop: "5px",
-                          alignItems: "center",
-                          gap: "5px",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        <LocationOnRounded
-                          style={{
-                            fontSize: "18",
-                            color: "grey",
-                          }}
-                        />
-                        <Tooltip title={item.lokasi}>
-                          <Text
-                            style={{
-                              color: "grey",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              maxWidth: "190px",
-                            }}
-                          >
-                            {item.lokasi}
-                          </Text>
-                        </Tooltip>
-                      </Row>
-                      <Text
-                        style={{
-                          color: item.harga != "Free" ? "#A3A3F5" : "green",
-                          fontWeight: "700",
-                        }}
-                      >
-                        {item.harga != "Free"
-                          ? `Rp${item.harga}/pax`
-                          : item.harga}
-                      </Text>
-                    </Col>
-                  </Card>
-                </div>
-              ))}
-            </Row>
+            />
 
-            {/* F E A T U R E D  C I T I E S  S E C T I O N */}
-            <div>
-              <p className="ml-3 mt-8 mb-2 font-bold text-gray-600 text-xl font-sans">
-                Featured Cities
-              </p>
-            </div>
-
-            {/* C I T I E S  C A R D */}
-            <Row gutter={0} justify="start">
-              {/* Change justify to "start" */}
-              {city.map((item, index) => (
-                <Col
-                  span={6}
-                  key={index}
-                  style={{ padding: "0" }}
-                  onClick={() => handleItemClick(item)}
-                >
-                  {/* Adjust span here */}
-                  <div className="group relative cursor-pointer transition-all duration-300">
+            {/* UPCOMING / PAST EVENTS */}
+            <Row gutter={16} justify="start" style={{ marginTop: "20px" }}>
+              {filteredData.map((item) => (
+                <Col span={8} key={item.key} style={{}}>
+                  <div className="group relative cursor-pointer overflow-hidden bg-white  transition-all duration-300">
                     <Card
                       hoverable="true"
                       size="small"
                       bordered={false}
                       style={{
-                        textAlign: "left",
-                        border: "none",
-                        boxShadow: "none",
-                        padding: 0,
-                        margin: 2,
-                        fontFamily: "Poppins, sans-serif",
-                      }}
-                      className="transition-all duration-200 bg-#fefdff group-hover:bg-[#c5c5fe]"
-                    >
-                      <div className="flex items-center">
-                        <div className="relative">
-                          <img
-                            className="h-10 w-10 rounded-full object-cover"
-                            src="https://randomuser.me/api/portraits/women/87.jpg"
-                            alt="Avatar"
-                          />
-                          <div className="absolute inset-0 rounded-full shadow-inner" />
-                        </div>
-                        <div className="ml-2">
-                          <p className="font-semibold text-gray-800 text-lg">
-                            {item.city}
-                          </p>
-                          <p className="text-gray-600 text-md">
-                            {item.events} Events
-                          </p>
-                        </div>
-                      </div>
-                    </Card>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-            {/* END C I T I E S  C A R D */}
-
-            {/* C A T E G O R Y  S E C T I O N */}
-            <div>
-              <p className="ml-3 mt-8 font-bold text-gray-600 text-xl font-sans">
-                Browse by Category
-              </p>
-            </div>
-
-            {/* C A T E G O R Y  C A R D */}
-            <Row gutter={0} justify="start">
-              {category.map((item, index) => (
-                <Col span={8} key={index} style={{ padding: "0px" }}>
-                  <div className="group relative cursor-pointer overflow-hidden bg-white  transition-all duration-300">
-                    <Card
-                      hoverable="true"
-                      size="small"
-                      bordered={"false"}
-                      style={{
-                        textAlign: "left",
                         boxShadow: "none",
                         padding: 0,
                         margin: 10,
+                        maxWidth: "247px",
+                        width: "100%",
                         fontFamily: "Poppins, sans-serif",
                       }}
                       className="duration-300 group relative border-2 border-gray-100 group-hover:border-[#a3a3f5]"
                     >
-                      <div className="relative z-10 mx-auto max-w-md">
-                        <img
-                          className="h-10 w-10 text-white transition-all rounded-full object-cover"
-                          src="https://randomuser.me/api/portraits/women/87.jpg"
-                          alt="Avatar"
+                      <Col style={{ gap: "10px", maxWidth: "300px" }}>
+                        <Image
+                          style={{
+                            borderRadius: "5%",
+                            objectFit: "cover",
+                            width: "300px",
+                            height: "150px",
+                          }}
+                          src="/pottery-class.jfif"
                         />
-                        <div className="font-semibold text-gray-800 text-lg pt-2 transition-all duration-300  ">
-                          <p>{item.category}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600 text-md transition-all duration-300 font-sans">
-                            {item.events} Events
+                        <Tooltip title={item.title}>
+                          <Title
+                            onClick={() => handleItemClick()}
+                            level={5}
+                            style={{
+                              marginBottom: "0px",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {item.title}
+                          </Title>
+                        </Tooltip>
+                        <Tooltip title={item.description}>
+                          <p
+                            style={{
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              color: "grey",
+                              marginBottom: "2px",
+                              fontFamily: "Poppins, sans-serif",
+                            }}
+                          >
+                            {item.description}
                           </p>
-                        </div>
-                      </div>
+                        </Tooltip>
+                        <Row
+                          style={{
+                            alignItems: "center",
+                            gap: "3px",
+                            marginBottom: "2px",
+                          }}
+                        >
+                          <EventRounded
+                            style={{ fontSize: "18", color: "grey" }}
+                          />
+                          <Text style={{ color: "grey" }}>{item.day}</Text>
+                        </Row>
+                        <Row
+                          style={{
+                            marginTop: "5px",
+                            alignItems: "center",
+                            gap: "5px",
+                            marginBottom: "2px",
+                          }}
+                        >
+                          <AccessTimeRounded
+                            style={{
+                              fontSize: "18",
+                              color: "grey",
+                            }}
+                          />
+                          <Text style={{ color: "grey" }}>{item.time}</Text>
+                        </Row>
+                        <Row
+                          style={{
+                            marginTop: "5px",
+                            alignItems: "center",
+                            gap: "5px",
+                            marginBottom: "2px",
+                          }}
+                        >
+                          <LocationOnRounded
+                            style={{
+                              fontSize: "18",
+                              color: "grey",
+                            }}
+                          />
+                          <Tooltip title={item.location}>
+                            <Text
+                              style={{
+                                color: "grey",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                maxWidth: "190px",
+                              }}
+                            >
+                              {item.location}
+                            </Text>
+                          </Tooltip>
+                        </Row>
+                        <Text
+                          style={{
+                            color: item.price != "Free" ? "#A3A3F5" : "green",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {item.price != "Free"
+                            ? `Rp${item.price}/pax`
+                            : item.price}
+                        </Text>
+                      </Col>
                     </Card>
                   </div>
                 </Col>
               ))}
             </Row>
-            {/* END C A T E G O R Y  C A R D */}
           </Col>
         </div>
       </Content>
