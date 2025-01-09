@@ -32,6 +32,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import dayjs from "dayjs"; 
 import ExploreMap from "../../components/ExploreMap"; 
 import ExploreHero from "../../components/ExploreHero";
+import {AuthContext} from "../../providers/AuthProvider";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -43,10 +44,7 @@ const Ragams = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [eventsMap, setEventsMap] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null); 
 
   //Random color for avatar
   const getRandomColor = () => {

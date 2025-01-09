@@ -56,8 +56,7 @@ const InHeader = () => {
         handleSignOut();
       },
     },
-  ];
-  ];
+  ]; 
 
   const handleSignOut = () => {
     jwtStorage.removeItem();

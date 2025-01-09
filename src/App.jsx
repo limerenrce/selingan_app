@@ -17,8 +17,7 @@ import "@fontsource/poppins";
 import "./App.css";
 import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
-import AuthProvider from "./providers/AuthProvider";
-import ExploreMap from "./components/ExploreMap";
+import AuthProvider from "./providers/AuthProvider"; 
 import EditRagam from "./pages/EditRagam/EditRagam";
 // import ExploreMap from "./components/ExploreMap";
 
@@ -64,8 +63,7 @@ function App() {
           <Route
             exact
             path="/explore"
-            // element={<SelinganPrivateRoute component={<Explore />} />}
-            element={<SelinganPrivateRoute component={<ExploreMap />} />}
+            element={<SelinganPrivateRoute component={<Explore />} />} 
           />
           <Route
             exact

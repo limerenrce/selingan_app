@@ -10,7 +10,8 @@ import {
   Upload,
   FloatButton,
   Button,
-  notification
+  notification,
+  message
 } from "antd";
 import {
   GlobalOutlined,
@@ -22,8 +23,7 @@ import "./Style.css";
 import { useContext, useEffect, useState } from "react";
 import {
   FacebookFilled,
-  InstagramOutlined,
-  XOutlined,
+  InstagramOutlined, 
 } from "@ant-design/icons";
 import { EmailRounded } from "@mui/icons-material";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -35,17 +35,17 @@ const { TabPane } = Tabs;
 
 const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+// const getBase64 = (file) =>
+//   new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(reader.result);
+//     reader.onerror = (error) => reject(error);
+//   });
 
 const Settings = () => {
   const [form] = Form.useForm();
-  const [api, contextHolder] = notification.useNotification();
+  // const [api, contextHolder] = notification.useNotification();
   const [alert, setAlert] = useState(null);
 
   const [previewImage, setPreviewImage] = useState("");
@@ -144,9 +144,9 @@ const Settings = () => {
   };
 
   // Handle form changes
-  const handleFormChange = (field, value) => {
-    setDataUser((prev) => ({ ...prev, [field]: value }));
-  };
+  // const handleFormChange = (field, value) => {
+  //   setDataUser((prev) => ({ ...prev, [field]: value }));
+  // };
 
   const handleEditProfile = async () => {
     const formValues = form.getFieldsValue(true); // Get all form values
@@ -337,7 +337,7 @@ const Settings = () => {
                 <Text style={{ marginBottom: "8px" }}>Profile Picture</Text>
                 <Avatar
                   size={128}
-                  src={isImageChanged ? previewImage : `${REACT_APP_API_URL}/${previewImage}` || "default-profile-icon.png"}
+                  src={isImageChanged ? previewImage : `${REACT_APP_API_URL}/${previewImage}`}
                   style={{ marginBottom: "16px" }}
                 />
                 <Upload

@@ -6,16 +6,15 @@ import {
   Avatar,
   Card,
   Col,
-  Form, 
+  // Form, 
   Row,
   Skeleton,
   Typography,
-} from "antd";
-import ModalRagam from "./ModalRagam";
+} from "antd"; 
 
 const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
-const { Text, Paragraph, Title } = Typography;
+const { Text } = Typography;
 const { Meta } = Card;
 
 const ExploreMap = () => {
@@ -23,8 +22,8 @@ const ExploreMap = () => {
   const [loading, setLoading] = useState(true); // Loading state for data
   const [center, setCenter] = useState([-8.4095, 115.1889]); // Initial center of Bali
   const [zoomLevel, setZoomLevel] = useState(10); // Initial zoom level
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null); 
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedEvent, setSelectedEvent] = useState(null); 
 
   useEffect(() => {
     getDataLocation();
@@ -61,27 +60,27 @@ const ExploreMap = () => {
   };
 
   //const handle untuk modal
-  const handleModal = (item) => {
+  // const handleModal = (item) => {
     
-                            {/* Pass the modal visibility and selected event as props to ModalRagam */}
-                            // <ModalRagam
-                            //   isModalOpen={isModalOpen}
-                            //   setIsModalOpen={setIsModalOpen}
-                            //   selectedEvent={selectedEvent}
-                            // />
-    setSelectedEvent(item);
-    setIsModalOpen(true);
-  };
+  //                           {/* Pass the modal visibility and selected event as props to ModalRagam */}
+  //                           // <ModalRagam
+  //                           //   isModalOpen={isModalOpen}
+  //                           //   setIsModalOpen={setIsModalOpen}
+  //                           //   selectedEvent={selectedEvent}
+  //                           // />
+  //   setSelectedEvent(item);
+  //   setIsModalOpen(true);
+  // };
 
-  //Checkbox
-  const [value, setValue] = useState();
-  const Report = (e) => {
-    console.log("radio checked", e.target.value);
-    setValue(e.target.value);
-  };
+  // //Checkbox
+  // const [value, setValue] = useState();
+  // const Report = (e) => {
+  //   console.log("radio checked", e.target.value);
+  //   setValue(e.target.value);
+  // };
 
-  //Handle Report Submit
-  const [form] = Form.useForm();
+  // //Handle Report Submit
+  // const [form] = Form.useForm();
 
   return (
     <Row className="mt-6">
@@ -165,7 +164,7 @@ const ExploreMap = () => {
                     >
                       <Popup   title="Title">
                         <Card
-                          onClick={() => handleModal(location)}
+                          onClick={() => {}}
                           hoverable={true}
                           bordered={false} // This removes the border
                           style={{

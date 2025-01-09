@@ -82,50 +82,7 @@ const Profile = () => {
       });
   };
 
-
-
-
-  // DATA DEFINITION
-  const Events = [
-    {
-      nama: "Pottery Class Beginner",
-      deskripsi:
-        "Dive into creativity with our pottery class! Get your hands dirty as you learn to mold clay into beautiful pieces. With us, you will create unique masterpieces while having a blast!",
-      waktu: "10:00",
-      tanggal: "Sel, 12 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "Free",
-      status: "going",
-    },
-    {
-      nama: "Pottery Class Advanced ayusdtxca",
-      deskripsi:
-        "Dive into creativity with our pottery class! Get your hands dirty as you learn to mold clay into beautiful pieces. With us, you will create unique masterpieces while having a blast!",
-      waktu: "14:00",
-      tanggal: "Sab, 16 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "50.000",
-      status: "done",
-    },
-    {
-      nama: "Ceramic Painting",
-      deskripsi: "Paint, relax, and create your own ceramic masterpiece!",
-      waktu: "15.00",
-      tanggal: "Ming, 17 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "25.000",
-      status: "going",
-    },
-    {
-      nama: "Ceramic Painting ABC",
-      deskripsi: "Paint, relax, and create your own ceramic masterpiece!",
-      waktu: "15.00",
-      tanggal: "Sab, 3 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "25.000",
-      status: "done",
-    },
-  ];
+ 
 
   //FILTER STATUS
   const upcomingEvents = dataSource.filter((item) => item.is_active == 1 && item.created_by == userProfile.user_logged);
