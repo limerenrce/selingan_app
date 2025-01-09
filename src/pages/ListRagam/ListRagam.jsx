@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { message } from "antd"; // Ensure this import is present
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
@@ -37,6 +37,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { fromJSON } from "postcss";
 import { form } from "framer-motion/client";
 import { CategoryOutlined } from "@mui/icons-material";
+import { AuthContext } from "../.././providers/AuthProvider";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -55,8 +56,6 @@ const Ragams = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [eventsMap, setEventsMap] = useState([]);
 
-  // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
-
   //Random color for avatar
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -70,6 +69,7 @@ const Ragams = () => {
   //const handle untuk modal
   const handleModal = (item) => {
     setSelectedEvent(item);
+    setEventId(item.id); // Menyimpan event_id
     setIsModalOpen(true);
   };
 
@@ -126,67 +126,130 @@ const Ragams = () => {
 
   // Handle submit form
   const handleReportSubmit = () => {
-    // Validate the form before proceeding
     form
       .validateFields()
       .then((values) => {
-        // Extract values from the form fields
+        // Extract form values
         let reportedRagam = selectedEvent?.id;
         let category = form.getFieldValue("category");
         let description = form.getFieldValue("description");
 
-        // Ensure the selected event is valid
         if (!reportedRagam) {
-          message.error("Please select an event."); // Show error message
+          message.error("Please select an event.");
           return;
         }
 
-        // Ensure required fields are filled
         if (!category || !description) {
-          message.error("Please fill in all required fields."); // Show error message
+          message.error("Please fill in all required fields.");
           return;
         }
 
-        // Prepare the FormData object
+        // Prepare FormData
         let formData = new FormData();
         formData.append("reported_ragam", reportedRagam);
         formData.append("category", category);
         formData.append("description", description);
 
-        // Send the data
+        // Log FormData for debugging
+        formData.forEach((value, key) => {
+          console.log(key + ": " + value); // Log form data key-value pairs
+        });
+
+        // Send data to the server via sendDataPrivate function
         let request = sendDataPrivate("/api/v1/report_ragam/create", formData);
 
+        // Handle server response
         request
           .then((resp) => {
+            // Log the response for debugging
+            console.log("Server Response:", resp);
+
+            // If report submission is successful
             if (resp?.message === "Report created successfully") {
-              message.success("Report submitted successfully!"); // Show success message
-              form.resetFields(); // Clear the form fields
+              message.success("Report submitted successfully!");
+              form.resetFields(); // Reset form fields
               setIsReportModalVisible(false); // Close the modal
             } else {
+              // If there was an error in the response
               message.error(
                 resp?.message ||
                   "Unknown error occurred while submitting the report."
-              ); // Show error message
+              );
             }
           })
           .catch((err) => {
+            // Log error for debugging
+            console.error("Error during report submission:", err);
             message.error(
               err?.message ||
                 "Unknown error occurred while submitting the report."
-            ); // Show error message
+            );
           });
-
-        // Debugging log
-        console.log("Form Data:", {
-          reportedRagam,
-          category,
-          description,
-        });
       })
       .catch((error) => {
-        // If validation fails, show an error alert
-        message.error("Please fill in all required fields."); // Show error message
+        message.error("Please fill in all required fields.");
       });
+  };
+
+  //modal to registration
+  const [isModalRegisOpen, setIsModalRegisOpen] = useState(false);
+  const [eventId, setEventId] = useState();
+  const { userProfile } = useContext(AuthContext);
+
+  const modalRegis = () => {
+    if (!userProfile?.id) {
+      message.error("You are not logged in. Please log in to register.");
+      return;
+    }
+
+    if (!selectedEvent) {
+      message.error("Please select an event to register.");
+      return;
+    }
+
+    if (!eventId) {
+      message.error("Event ID is missing.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("user_id", userProfile.id); // Menggunakan user_id
+
+    const headers = {
+      Authorization: `Bearer ${userProfile.token}`,
+    };
+
+    sendDataPrivate(`/api/v1/attendance/create/${eventId}`, formData, {
+      headers,
+    })
+      .then((resp) => {
+        if (resp?.message === "Joined event successfully") {
+          message.success("You have successfully registered for the event!");
+          setIsModalOpen(false); // Menutup modal event setelah registrasi
+          setIsModalRegisOpen(true); // Menampilkan modal registrasi sukses
+          console.log("Modal Registrasi Dibuka");
+        } else {
+          message.error(
+            resp?.message || "Unknown error occurred during registration."
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error during registration:", error);
+        message.error("An error occurred while registering. Please try again.");
+      });
+
+    setIsModalRegisOpen(true);
+  };
+
+  const handleOk = () => {
+    console.log("OK clicked");
+    setIsModalRegisOpen(false);
+  };
+
+  const handleClose = () => {
+    console.log("Close clicked");
+    setIsModalRegisOpen(false);
   };
 
   //modal section
@@ -313,16 +376,45 @@ const Ragams = () => {
                 <div className="flex items-center space-x-2 ml-1 my-3 mt-5">
                   <Avatar size={24} icon={<UserOutlined />} />{" "}
                   <p className="m-0 text-base">
-                    <span className="font-medium">Aprillia Kusuma</span>{" "}
+                    <span className="font-medium">{userProfile.id}</span>{" "}
                   </p>
                 </div>
                 <Button
-                  style={{}}
                   className="w-full bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md"
                   //  hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300
+                  onClick={modalRegis}
                 >
                   Register
                 </Button>
+                <Modal
+                  // title="Basic Modal"
+                  open={isModalRegisOpen}
+                  onCancel={handleClose}
+                  footer={null}
+                >
+                  <div>
+                    <Title
+                      level={4}
+                      // className="justify-center items-center flex"
+                    >
+                      Congratulations! You’ve Successfully Registered!
+                    </Title>
+                    <br />
+                    <Text>
+                      Get ready for an unforgettable experience that will expand
+                      your knowledge and connections. You’ll have the chance to
+                      learn from top experts, exchange ideas, and meet amazing
+                      fellow participants.
+                    </Text>
+                    <br />
+                  </div>
+                  <br />
+                  <div style={{ textAlign: "right" }}>
+                    <Button onClick={handleClose} type="primary">
+                      Close
+                    </Button>
+                  </div>
+                </Modal>
               </Card>
               <div
                 className="mt-10 my-5"

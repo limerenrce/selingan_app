@@ -27,7 +27,7 @@ const InHeader = () => {
     },
     {
       id: 3,
-      title: "Explore",
+      title: "Schedule",
       path: "/explore",
     },
   ];
@@ -50,27 +50,27 @@ const InHeader = () => {
       label: "Sign Out",
       onClick: () => handleSignOut(),
     },
-  ]; 
+  ];
 
   const handleSignOut = () => {
     sendDataPrivate("/api/v1/auth/signout")
-    .then((resp) => {
-      const username = resp.username["username"];
-      // Assuming the response includes a message and username
-      if (username){
-        notification.success({
-          message: `Bye bye ${username}`,
-          description: `Successfully signed out from Selingan`,
+      .then((resp) => {
+        const username = resp.username["username"];
+        // Assuming the response includes a message and username
+        if (username) {
+          notification.success({
+            message: `Bye bye ${username}`,
+            description: `Successfully signed out from Selingan`,
+          });
+          navigate("/signin", { replace: true });
+        }
+      })
+      .catch((err) => {
+        notification.error({
+          message: "Can't sign out right now",
+          description: err.response ? err.response.data : err.toString(),
         });
-        navigate("/signin", { replace: true });
-      }
-    })
-    .catch((err) => {
-      notification.error({
-        message: "Can't sign out right now",
-        description: err.response ? err.response.data : err.toString(),
       });
-    });
   };
 
   // Handle active link styling
