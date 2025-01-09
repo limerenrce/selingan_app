@@ -127,6 +127,19 @@ export const sendDataPrivate = async (url, formData) => {
   }
 };
 
+// export const sendDataPrivate = async (url, formData) => {
+//   const token = localStorage.getItem("access_token"); // Assuming you store JWT in localStorage
+//   const response = await fetch(url, {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${token}`, // Include JWT token
+//     },
+//     body: formData, // Send the FormData object
+//   });
+//   return response.json();
+// };
+
+
 export const deleteData = async (url, data) => {
   return fetch(REACT_APP_API_URL + url, {
     method: "DELETE",

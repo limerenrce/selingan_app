@@ -19,6 +19,7 @@ import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
 import AuthProvider from "./providers/AuthProvider";
 import ExploreMap from "./components/ExploreMap";
+import EditRagam from "./pages/EditRagam/EditRagam";
 // import ExploreMap from "./components/ExploreMap";
 
 // const GlobalStyle = createGlobalStyle`
@@ -56,9 +57,15 @@ function App() {
           />
           <Route
             exact
+            path="/edit-ragam/:id"
+            element={<SelinganPrivateRoute component={<EditRagam />} />}
+          />
+
+          <Route
+            exact
             path="/explore"
             // element={<SelinganPrivateRoute component={<Explore />} />}
-            element={<SelinganPrivateRoute component={<ExploreMap/>} />}
+            element={<SelinganPrivateRoute component={<ExploreMap />} />}
           />
           <Route
             exact

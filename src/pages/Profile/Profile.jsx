@@ -335,7 +335,8 @@ const Profile = () => {
                       }}
                       // width={200}
                       // height={200}
-                      src="/pottery-class.jfif"
+                      // src="/pottery-class.jfif"
+                      src={`${REACT_APP_API_URL}/${item.image_path}`}
                     />
                     {/* <Col style={{ maxWidth: "490px" }}> */}
                     <Title level={4} style={{
@@ -371,7 +372,7 @@ const Profile = () => {
                         style={{ fontSize: "18", color: "grey" }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleDateString("id-ID", {
+                        {new Date(item.start_time).toLocaleDateString("en-ID", {
                           weekday: "short", // e.g., Sun
                           day: "2-digit",   // e.g., 03
                           month: "short",   // e.g., Nov
@@ -390,7 +391,7 @@ const Profile = () => {
                           hour: "2-digit", // e.g., 06
                           minute: "2-digit", // e.g., 00
                           hour12: false, // 24-hour format
-                          // timeZone: "UTC"
+                          timeZone: "UTC"
                         })}
                         {/* {item.start_time} */}
                       </Text>
@@ -431,7 +432,7 @@ const Profile = () => {
                         fontWeight: "700",
                       }}
                     >
-                      {item.price == null
+                      {item.price == null || item.price == 0
                         ? `Free`
                         : `Rp${new Intl.NumberFormat('id-ID').format(item.price)}/pax`}
                     </Text>
@@ -524,7 +525,7 @@ const Profile = () => {
                         style={{ fontSize: "18", color: "grey" }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleDateString("id-ID", {
+                        {new Date(item.start_time).toLocaleDateString("en-ID", {
                           weekday: "short", // e.g., Sun
                           day: "2-digit",   // e.g., 03
                           month: "short",   // e.g., Nov
@@ -539,7 +540,7 @@ const Profile = () => {
                         }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleTimeString("en-US", {
+                        {new Date(item.start_time).toLocaleTimeString("en-ID", {
                           hour: "2-digit", // e.g., 06
                           minute: "2-digit", // e.g., 00
                           hour12: false, // 24-hour format
@@ -580,7 +581,7 @@ const Profile = () => {
                         fontWeight: "700",
                       }}
                     >
-                      {item.price == null
+                      {item.price == null || item.price == 0
                         ? `Free`
                         : `Rp${item.price}0/pax`}
                     </Text>

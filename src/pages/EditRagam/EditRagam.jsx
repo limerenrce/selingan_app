@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Row,
   Col,
@@ -26,8 +26,9 @@ import dayjs from "dayjs";
 import { AuthContext } from "../../providers/AuthProvider";
 
 import LocationPicker from "../../components/LocationPicker";
-import { sendDataPrivate } from "../../utils/api";
+import { getData, sendDataPrivate } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 // import moment from "moment";
 
 const { Content } = Layout;
@@ -42,7 +43,7 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-const CreateRagam = () => {
+const EditRagam = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   // const defaultImage = "https://via.placeholder.com/350";
@@ -71,8 +72,46 @@ const CreateRagam = () => {
   const [isPublic, setIsPublic] = useState(1);
   const [approvalStatus, setApprovalStatus] = useState(0);
 
+  const { id } = useParams();
+  const [dataSource, setDataSource] = useState([]);
+
+
   const handleButtonClick = () => {
     setIsChecked(!isChecked);
+  };
+  useEffect(() => {
+    getDataRagam();
+  }, []);
+
+  const getDataRagam = async () => {
+    try {
+      const response = await getData(`/api/v1/ragam/specific/${id}`);
+      if (response && response.datas) {
+        const ragam = response.datas;
+        // Populate form fields and states with fetched data
+        form.setFieldsValue({
+          title: ragam.title,
+          description: ragam.description,
+          location: ragam.location,
+          price: ragam.price,
+          capacity: ragam.capacity,
+        });
+        setImageUrl(ragam.image_path);
+        setPreviewImage(ragam.image_path);
+        setIsPublic(ragam.is_public);
+        setApprovalStatus(ragam.requires_approval);
+        setLocation({
+          lat: ragam.lat,
+          lng: ragam.lng,
+          address: ragam.location,
+        });
+        setStartTime(ragam.start_time);
+        setEndTime(ragam.end_time);
+      }
+    } catch (error) {
+      console.error("Error fetching ragam data:", error);
+      message.error("Failed to fetch ragam data.");
+    }
   };
 
   const publicSegmentChange = (value) => {
@@ -137,20 +176,19 @@ const CreateRagam = () => {
   };
 
 
-  const handleUpload2 = ({ file }) => {
-    const isImage = file.type.startsWith("image/");
-    if (!isImage) {
+  const handleUpload2 = async (info) => {
+    const file = info.file.originFileObj || info.file;
+    if (file && file.type.startsWith("image/")) {
+      try {
+        const base64Image = await getBase64(file); // Convert file to base64
+        setImageUrl(base64Image); // Update the image background
+      } catch (error) {
+        console.error("Error uploading the image:", error);
+        message.error("Failed to upload image");
+      }
+    } else {
       message.error("You can only upload image files!");
-      return;
     }
-
-    // Preview the uploaded image
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result); // Set preview image
-      setIsImageChanged(true);
-    };
-    reader.readAsDataURL(file);
   };
 
   const handlePreview2 = (file) => {
@@ -207,69 +245,36 @@ const CreateRagam = () => {
   // };
 
   const onFinish = async (values) => {
-    let title = form.getFieldValue("title");
-    let price = form.getFieldValue("price");
-    let capacity = form.getFieldValue("capacity");
-    let description = form.getFieldValue("description");
-
-    const formData = new FormData();
-
-    // Required fields
-    formData.append("title", title); // Event name
-    formData.append("description", description);
-    formData.append("created_by", userProfile.id); // Replace with the actual user ID
-    formData.append("is_allowed", isAllowed);
-    formData.append("start_time", startTime); // Append start_time
-    formData.append("end_time", endTime);
-    formData.append("is_free", isFree);
+    let formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("description", values.description);
+    formData.append("created_by", userProfile.id);
     formData.append("is_public", isPublic);
-    formData.append("price", price);
-    formData.append("capacity", capacity);
-    formData.append("location", location.address);
-    formData.append("long", location.lng);
-    formData.append("lat", location.lat);
     formData.append("requires_approval", approvalStatus);
+    formData.append("start_time", startTime);
+    formData.append("end_time", endTime);
+    formData.append("location", location.address);
+    formData.append("lat", location.lat);
+    formData.append("lng", location.lng);
 
-    // Handle optional fields
-    if (values.location_name) formData.append("location", values.location_name);
+    if (values.price) formData.append("price", values.price);
     if (values.capacity) formData.append("capacity", values.capacity);
-    formData.append("is_active", 1); // Example default value
-    formData.append("is_free", isPricingDisabled ? 1 : 0);
-    if (!isPricingDisabled && values.price) formData.append("price", values.price);
 
-    // Image handling
     if (isImageChanged && previewImage) {
-      // User uploaded a new image
-      // const file = dataURLtoFile(previewImage, "uploaded-image.png");
-      const file = dataURLtoFile(previewImage, `${title}-cover.png`);
+      const file = dataURLtoFile(previewImage, `${values.title}-cover.png`);
       formData.append("image", file);
-    } else {
-      // Use the default image URL to create a file object
-      const fetchDefaultImage = async () => {
-        try {
-          const response = await fetch(defaultImage);
-          const blob = await response.blob();
-          const defaultFile = new File([blob], "default-image.png", { type: blob.type });
-          formData.append("image", defaultFile);
-        } catch (error) {
-          console.error("Error fetching default image:", error);
-        }
-      };
-
-      await fetchDefaultImage();
     }
 
-
     try {
-      const result = await sendDataPrivate("/api/v1/ragam/create", formData); // Your API call logic
-      if (result?.message === "Inserted") {
-        message.success("Event created successfully!");
+      const result = await sendDataPrivate("/api/v1/ragam/update", formData); // Your API call logic
+      if (result?.message === "Updated") {
+        message.success("Ragam updated successfully!");
         navigate("/host");
       } else {
-        message.error(result.message || "Failed to create event.");
+        message.error(result.message || "Failed to update ragam.");
       }
     } catch (err) {
-      console.error("Error creating event:", err);
+      console.error("Error updating ragam:", err);
       message.error("An error occurred. Please try again.");
     }
   };
@@ -310,19 +315,14 @@ const CreateRagam = () => {
               >
                 {/* Upload Button */}
                 <Upload
-                  // showUploadList={false}
-                  // beforeUpload={() => false}
-                  // onChange={handleUpload}
                   showUploadList={false}
-                  onChange={handleUpload2}
-                  onPreview={handlePreview2}
+                  onChange={handleUpload}
                   beforeUpload={(file) => {
                     const isImage = file.type.startsWith("image/");
-                    console.log(file);
-                    handlePreview(file);
-                    if (!isImage) {
-                      message.error("You can only upload image files!");
+                    if (isImage) {
+                      return false;
                     }
+                    message.error("You can only upload image files!");
                     return false;
                   }}
                 >
@@ -338,6 +338,7 @@ const CreateRagam = () => {
                     }}
                   />
                 </Upload>
+
 
                 {/* Reset to Default Button */}
                 <FloatButton
@@ -360,44 +361,23 @@ const CreateRagam = () => {
                   <Segmented
                     options={["Public", "Private"]}
                     onChange={publicSegmentChange}
-                    style={{
-                      marginTop: "10px",
-                      color: "#6C6CC6",
-                      alignItems: "left",
-                    }}
+                    style={{ marginTop: "10px", color: "#6C6CC6", alignItems: "left" }}
+                    value={isPublic === 1 ? "Public" : "Private"} // Bind to state
                   />
 
                   <Switch
                     style={{ marginLeft: "20px" }}
-                    defaultChecked={false}
+                    checked={approvalStatus === 1} // Bind to state
                     onChange={handleSwitchChange}
                   /><Text style={{ marginLeft: "10px" }}>Needs Approval</Text>
                 </Form>
-                <Form
-                  layout="vertical"
-                  // name="event_name"
-                  form={form}
-                  variant="borderless"
-                  style={{ height: "72px" }}
-                  onFinish={onFinish}
-                // onFinish={onFinish}
+                <Form form={form} onFinish={onFinish}>
+                <Form.Item
+                  name="title"
+                  rules={[{ required: true, message: "Please input event name!" }]}
                 >
-                  <Form.Item
-                    name="title"
-                    style={{ marginTop: 24 }}
-                    rules={[
-                      { required: true, message: "Please input event name!" },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Event Name"
-                      style={{
-                        height: "100%",
-                        fontSize: "40px",
-                        padding: "0",
-                      }}
-                    />
-                  </Form.Item>
+                  <Input placeholder="Event Name" />
+                </Form.Item>
                 </Form>
                 <Form
                   layout="vertical"
@@ -585,4 +565,4 @@ const CreateRagam = () => {
   );
 };
 
-export default CreateRagam;
+export default EditRagam;
