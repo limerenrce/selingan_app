@@ -44,7 +44,11 @@ const Ragams = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null); 
+  const [selectedDate, setSelectedDate] = useState(null);
+  const { userProfile } = useContext(AuthContext);
+
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [eventsMap, setEventsMap] = useState([]);
 
   //Random color for avatar
   const getRandomColor = () => {
@@ -85,12 +89,11 @@ const Ragams = () => {
 
   const handleConfirm = () => {
     setIsModalVisible(true);
-    console.log("isModalVisible:", isModalVisible); // Debugging log
+    console.log("isModalVisible:", isModalVisible);
   };
 
-  // Fungsi untuk konfirmasi laporan
   const confirm = (e) => {
-    console.log("Confirm clicked", e); // Pastikan ini tercetak
+    console.log("Confirm clicked", e);
     handleConfirm();
   };
 
@@ -99,53 +102,33 @@ const Ragams = () => {
     message.error("Click on No");
   };
 
-  // Fungsi untuk menutup modal
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
 
-  //Checkbox
   const [value, setValue] = useState();
   const Report = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
-  //Handle Report Submit
   const [form] = Form.useForm();
 
-  // Handle submit form
   const handleReportSubmit = () => {
     form
       .validateFields()
       .then((values) => {
-        // Extract form values
-        let reportedRagam = selectedEvent?.id;
+        let reported_ragam = selectedEvent?.id;
         let category = form.getFieldValue("category");
         let description = form.getFieldValue("description");
+        let submitted_by = userProfile.id;
 
-        if (!reportedRagam) {
-          message.error("Please select an event.");
-          return;
-        }
-
-        if (!category || !description) {
-          message.error("Please fill in all required fields.");
-          return;
-        }
-
-        // Prepare FormData
         let formData = new FormData();
-        formData.append("reported_ragam", reportedRagam);
+        formData.append("reported_ragam", reported_ragam);
         formData.append("category", category);
         formData.append("description", description);
+        formData.append("submitted_by", submitted_by);
 
-        // Log FormData for debugging
-        formData.forEach((value, key) => {
-          console.log(key + ": " + value); // Log form data key-value pairs
-        });
-
-        // Send data to the server via sendDataPrivate function
         let request = sendDataPrivate("/api/v1/report_ragam/create", formData);
 
         // Handle server response
@@ -157,8 +140,7 @@ const Ragams = () => {
             // If report submission is successful
             if (resp?.message === "Report created successfully") {
               message.success("Report submitted successfully!");
-              form.resetFields(); // Reset form fields
-              setIsReportModalVisible(false); // Close the modal
+              form.resetFields();
             } else {
               // If there was an error in the response
               message.error(
@@ -173,11 +155,21 @@ const Ragams = () => {
             message.error(
               err?.message ||
                 "Unknown error occurred while submitting the report."
-            );
+            ); // Show error message
           });
+
+        console.log("Form Data:", {
+          reported_ragam,
+          category,
+          description,
+        });
       })
       .catch((error) => {
-        message.error("Please fill in all required fields.");
+        showAlert(
+          "error",
+          "Form validation failed",
+          "Please fill in all required fields."
+        );
       });
   };
 
