@@ -3,6 +3,7 @@ import { message } from "antd"; // Ensure this import is present
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
 import { getData, sendDataPrivate } from "../../utils/api";
+const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 import {
   Card,
   List,
@@ -37,6 +38,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { fromJSON } from "postcss";
 import { form } from "framer-motion/client";
 import { CategoryOutlined } from "@mui/icons-material";
+import ExploreMap from "../../components/ExploreMap";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -204,7 +206,7 @@ const Ragams = () => {
             <Flex vertical style={{ padding: "40px", width: "100%" }}>
               <div style={{ justifyItems: "center", marginBottom: "30px" }}>
                 <img
-                  src="/pottery-class.jfif"
+                src={`${REACT_APP_API_URL}/${selectedEvent?.image_path}`}
                   alt=""
                   style={{ width: "350px" }}
                 />
@@ -518,50 +520,8 @@ const Ragams = () => {
             </Row>
           </div>
         </div>
-        <div className="p-6 w-full flex flex-col items-center justify-center">
-          <Row className="mt-6">
-            <Col lassName="w-full">
-              <div className="flex flex-col items-center justify-center mb-8">
-                <Text className="text-3xl font-bold">
-                  Discover the Best Events in{" "}
-                  <span className="text-[#7658B2]">Your Chosen Location!</span>
-                </Text>
-                <br />
-                <Text className="text-sm font-normal">
-                  Looking to attend exciting events in your city?{" "}
-                  <span className="text-[#7658B2]">
-                    Simply select your location on the map and explore a list of
-                    events happening near you!
-                  </span>
-                </Text>
-              </div>
-
-              <div className="flex w-full gap-10">
-                <div className="flex-grow flex flex-col gap-4">
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 1</h2>
-                    <p>Description for card 1.</p>
-                  </Card>
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 2</h2>
-                    <p>Description for card 2.</p>
-                  </Card>
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 3</h2>
-                    <p>Description for card 3.</p>
-                  </Card>
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 4</h2>
-                    <p>Description for card 4.</p>
-                  </Card>
-                </div>
-
-                <div className="w-2/3">
-                  <div className="h-48 bg-gray-300 rounded"></div>
-                </div>
-              </div>
-            </Col>
-          </Row>
+        <div className="p-2 w-full flex flex-col items-center justify-center">
+         <ExploreMap/>
         </div>
 
         <Divider />
@@ -628,7 +588,7 @@ const Ragams = () => {
                         >
                           <Row>
                             <Col span={5} className="pr-4">
-                              <img src="/pottery-class.jfif" alt="" />
+                              <img src={`${REACT_APP_API_URL}/${item.image_path}`}alt="" />
                             </Col>
 
                             <Col span={19}>

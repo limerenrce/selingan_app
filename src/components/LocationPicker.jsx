@@ -160,12 +160,12 @@ const LocationPicker = ({ onLocationChange }) => {
 
   return (
     <div>
-      <input
+      {/* <input
         type="text"
         value={address}
         readOnly
         style={{ marginBottom: "10px", width: "100%" }}
-      />
+      /> */}
       <MapContainer
         center={position}
         zoom={13}
@@ -178,9 +178,9 @@ const LocationPicker = ({ onLocationChange }) => {
         <Marker
           position={position}
           draggable={true}
-          eventHandlers={{
-            dragend: handleMarkerDragEnd,
-          }}
+          // eventHandlers={{
+          //   dragend: handleMarkerDragEnd,
+          // }}
         />
         <SearchControl />
         <MapClickHandler />

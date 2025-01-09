@@ -43,7 +43,7 @@ const AuthProvider = ({ children }) => {
     if (role === "user") {
       navigate("/ragam", { replace: true });
     } else {
-      navigate("/report-user", { replace: true });
+      navigate("/report-ragam", { replace: true });
     }
   };
 
