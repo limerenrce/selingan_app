@@ -203,19 +203,19 @@ const Ragams = () => {
                 }}
               >
                 <Row style={{ gap: "10px", alignItems: "center" }}>
-                  <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
+                  <div className="font-sans flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
                     <LocationOnIcon style={{ height: 30, marginTop: 10 }} />
                   </div>
                   <Text>{selectedEvent?.location}</Text>
                 </Row>
                 <Row gutter={10}>
                   <Col>
-                    <div className="flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
+                    <div className="font-sans flex group bg-purple-300 shadow-lg light-shadow rounded-lg mx-1 cursor-pointer justify-center relative w-14 min-h-12 content-center">
                       <span className="flex h-3 w-3 absolute -top-1 -right-1">
                         <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-purple-400 "></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
                       </span>
-                      <div className="flex items-center px-4">
+                      <div className="font-sans flex items-center px-4">
                         <div className="text-center">
                           <p className="text-purple-900 text-sm">
                             {new Date(
@@ -286,13 +286,16 @@ const Ragams = () => {
                 title="Registration"
                 className="shadow-lg w-[700px]"
               >
-                <div className="ml-2">
-                  <p className="text-lg">
+                <div
+                  className="ml-2 font-sans"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                >
+                  <p className="text-lg font-sans">
                     To join the event, please register below.
                   </p>
                   <p>50 seats left!</p>
                 </div>
-                <div className="flex items-center space-x-2 ml-1 my-3 mt-5">
+                <div className="font-sans flex items-center space-x-2 ml-1 my-3 mt-5">
                   <Avatar size={24} icon={<UserOutlined />} />{" "}
                   <p className="m-0 text-base">
                     <span className="font-medium">Aprillia Kusuma</span>{" "}
