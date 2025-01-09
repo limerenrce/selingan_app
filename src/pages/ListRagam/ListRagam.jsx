@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { message } from "antd"; // Ensure this import is present
+import { useContext, useEffect, useState } from "react";
+import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
 import { getData, sendDataPrivate } from "../../utils/api";
@@ -37,6 +37,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { fromJSON } from "postcss";
 import { form } from "framer-motion/client";
 import { CategoryOutlined } from "@mui/icons-material";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -51,11 +52,10 @@ const Ragams = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const { userProfile } = useContext(AuthContext);
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [eventsMap, setEventsMap] = useState([]);
-
-  // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
 
   //Random color for avatar
   const getRandomColor = () => {
@@ -95,12 +95,11 @@ const Ragams = () => {
 
   const handleConfirm = () => {
     setIsModalVisible(true);
-    console.log("isModalVisible:", isModalVisible); // Debugging log
+    console.log("isModalVisible:", isModalVisible);
   };
 
-  // Fungsi untuk konfirmasi laporan
   const confirm = (e) => {
-    console.log("Confirm clicked", e); // Pastikan ini tercetak
+    console.log("Confirm clicked", e);
     handleConfirm();
   };
 
@@ -109,59 +108,40 @@ const Ragams = () => {
     message.error("Click on No");
   };
 
-  // Fungsi untuk menutup modal
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
 
-  //Checkbox
   const [value, setValue] = useState();
   const Report = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
-  //Handle Report Submit
   const [form] = Form.useForm();
 
-  // Handle submit form
   const handleReportSubmit = () => {
-    // Validate the form before proceeding
     form
       .validateFields()
       .then((values) => {
-        // Extract values from the form fields
-        let reportedRagam = selectedEvent?.id;
+        let reported_ragam = selectedEvent?.id;
         let category = form.getFieldValue("category");
         let description = form.getFieldValue("description");
+        let submitted_by = userProfile.id;
 
-        // Ensure the selected event is valid
-        if (!reportedRagam) {
-          message.error("Please select an event."); // Show error message
-          return;
-        }
-
-        // Ensure required fields are filled
-        if (!category || !description) {
-          message.error("Please fill in all required fields."); // Show error message
-          return;
-        }
-
-        // Prepare the FormData object
         let formData = new FormData();
-        formData.append("reported_ragam", reportedRagam);
+        formData.append("reported_ragam", reported_ragam);
         formData.append("category", category);
         formData.append("description", description);
+        formData.append("submitted_by", submitted_by);
 
-        // Send the data
         let request = sendDataPrivate("/api/v1/report_ragam/create", formData);
 
         request
           .then((resp) => {
             if (resp?.message === "Report created successfully") {
-              message.success("Report submitted successfully!"); // Show success message
-              form.resetFields(); // Clear the form fields
-              setIsReportModalVisible(false); // Close the modal
+              message.success("Report submitted successfully!");
+              form.resetFields();
             } else {
               message.error(
                 resp?.message ||
@@ -176,16 +156,18 @@ const Ragams = () => {
             ); // Show error message
           });
 
-        // Debugging log
         console.log("Form Data:", {
-          reportedRagam,
+          reported_ragam,
           category,
           description,
         });
       })
       .catch((error) => {
-        // If validation fails, show an error alert
-        message.error("Please fill in all required fields."); // Show error message
+        showAlert(
+          "error",
+          "Form validation failed",
+          "Please fill in all required fields."
+        );
       });
   };
 
