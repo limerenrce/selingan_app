@@ -1,0 +1,29 @@
+.ant-input {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.ant-segmented {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.ant-button {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.ant-select {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.ant-select-item-option {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.ant-select-item-option-selected {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.content {
+  margin-top: 4px; 
+  z-index: 0;
+  position: relative;
+}

@@ -5,6 +5,7 @@ import { getDataPrivate, signoutAPI } from "../utils/api";
 import { jwtStorage } from "../utils/jwt_storage";
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 
@@ -42,7 +43,7 @@ const AuthProvider = ({ children }) => {
     if (role === "user") {
       navigate("/ragam", { replace: true });
     } else {
-      navigate("/report-user", { replace: true });
+      navigate("/report-ragam", { replace: true });
     }
   };
 

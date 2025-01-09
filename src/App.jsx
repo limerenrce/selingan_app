@@ -17,7 +17,8 @@ import "@fontsource/poppins";
 import "./App.css";
 import "./index.css";
 import Ragams from "./pages/ListRagam/ListRagam";
-import AuthProvider from "./providers/AuthProvider";
+import AuthProvider from "./providers/AuthProvider"; 
+import EditRagam from "./pages/EditRagam/EditRagam";
 // import ExploreMap from "./components/ExploreMap";
 
 // const GlobalStyle = createGlobalStyle`
@@ -43,7 +44,7 @@ function App() {
           />
           <Route
             exact
-            path="/report-event"
+            path="/report-ragam"
             element={<SelinganPrivateRoute component={<ReportEvent />} />}
           />
 
@@ -55,8 +56,14 @@ function App() {
           />
           <Route
             exact
+            path="/edit-ragam/:id"
+            element={<SelinganPrivateRoute component={<EditRagam />} />}
+          />
+
+          <Route
+            exact
             path="/explore"
-            element={<SelinganPrivateRoute component={<Explore />} />}
+            element={<SelinganPrivateRoute component={<Explore />} />} 
           />
           <Route
             exact

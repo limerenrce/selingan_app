@@ -31,6 +31,21 @@ export const getData = async (url) => {
     .catch((err) => console.log(err));
 };
 
+export const getLocation = async (url) => {
+  return fetch(REACT_APP_API_URL + url)  // Fetching data from the provided URL
+    .then((response) => 
+      // Check if response status is OK (between 200 and 299) and not 204 (No Content)
+      response.status >= 200 && response.status <= 299 && response.status !== 204
+        ? response.json()  // If valid, parse the JSON data
+        : response  // If not valid, return the response itself (for error handling, etc.)
+    )
+    .then((data) => {
+      return data;  // Return the data from the API response
+    })
+    .catch((err) => console.log(err));  // Log any errors that happen during the request
+};
+
+
 export const getDataPrivate = async (url) => {
   let token = await jwtStorage.retrieveToken();
   return fetch(REACT_APP_API_URL + url, {
@@ -111,6 +126,19 @@ export const sendDataPrivate = async (url, formData) => {
     return { success: false, error: err.message || "Unknown error occurred" };
   }
 };
+
+// export const sendDataPrivate = async (url, formData) => {
+//   const token = localStorage.getItem("access_token"); // Assuming you store JWT in localStorage
+//   const response = await fetch(url, {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${token}`, // Include JWT token
+//     },
+//     body: formData, // Send the FormData object
+//   });
+//   return response.json();
+// };
+
 
 export const deleteData = async (url, data) => {
   return fetch(REACT_APP_API_URL + url, {

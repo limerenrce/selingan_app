@@ -5,6 +5,7 @@ import { useMap } from "react-leaflet/hooks";
 import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 import { fontGrid } from "@mui/material/styles/cssUtils";
+import { address } from "framer-motion/client";
 
 const LocationPicker = ({ onLocationChange }) => {
   // const [position, setPosition] = useState([51.505, -0.09]); // Default location (London)
@@ -160,12 +161,13 @@ const LocationPicker = ({ onLocationChange }) => {
 
   return (
     <div>
+     
       {/* <input
         type="text"
         value={address}
         readOnly
         style={{ marginBottom: "10px", width: "100%" }}
-      /> */}
+      /> */} 
       <MapContainer
         center={position}
         zoom={13}
@@ -178,9 +180,9 @@ const LocationPicker = ({ onLocationChange }) => {
         <Marker
           position={position}
           draggable={true}
-          // eventHandlers={{
-          //   dragend: handleMarkerDragEnd,
-          // }}
+          eventHandlers={{
+            // dragend: handleMarkerDragEnd,
+          }}
         />
         <SearchControl />
         <MapClickHandler />

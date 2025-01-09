@@ -82,50 +82,7 @@ const Profile = () => {
       });
   };
 
-
-
-
-  // DATA DEFINITION
-  const Events = [
-    {
-      nama: "Pottery Class Beginner",
-      deskripsi:
-        "Dive into creativity with our pottery class! Get your hands dirty as you learn to mold clay into beautiful pieces. With us, you will create unique masterpieces while having a blast!",
-      waktu: "10:00",
-      tanggal: "Sel, 12 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "Free",
-      status: "going",
-    },
-    {
-      nama: "Pottery Class Advanced ayusdtxca",
-      deskripsi:
-        "Dive into creativity with our pottery class! Get your hands dirty as you learn to mold clay into beautiful pieces. With us, you will create unique masterpieces while having a blast!",
-      waktu: "14:00",
-      tanggal: "Sab, 16 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "50.000",
-      status: "done",
-    },
-    {
-      nama: "Ceramic Painting",
-      deskripsi: "Paint, relax, and create your own ceramic masterpiece!",
-      waktu: "15.00",
-      tanggal: "Ming, 17 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "25.000",
-      status: "going",
-    },
-    {
-      nama: "Ceramic Painting ABC",
-      deskripsi: "Paint, relax, and create your own ceramic masterpiece!",
-      waktu: "15.00",
-      tanggal: "Sab, 3 November 2024",
-      lokasi: "Jl. Danau Poso No.20, Sanur Kauh 80228 Sanur",
-      harga: "25.000",
-      status: "done",
-    },
-  ];
+ 
 
   //FILTER STATUS
   const upcomingEvents = dataSource.filter((item) => item.is_active == 1 && item.created_by == userProfile.user_logged);
@@ -335,7 +292,8 @@ const Profile = () => {
                       }}
                       // width={200}
                       // height={200}
-                      src="/pottery-class.jfif"
+                      // src="/pottery-class.jfif"
+                      src={`${REACT_APP_API_URL}/${item.image_path}`}
                     />
                     {/* <Col style={{ maxWidth: "490px" }}> */}
                     <Title level={4} style={{
@@ -371,7 +329,7 @@ const Profile = () => {
                         style={{ fontSize: "18", color: "grey" }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleDateString("id-ID", {
+                        {new Date(item.start_time).toLocaleDateString("en-ID", {
                           weekday: "short", // e.g., Sun
                           day: "2-digit",   // e.g., 03
                           month: "short",   // e.g., Nov
@@ -390,7 +348,7 @@ const Profile = () => {
                           hour: "2-digit", // e.g., 06
                           minute: "2-digit", // e.g., 00
                           hour12: false, // 24-hour format
-                          // timeZone: "UTC"
+                          timeZone: "UTC"
                         })}
                         {/* {item.start_time} */}
                       </Text>
@@ -431,7 +389,7 @@ const Profile = () => {
                         fontWeight: "700",
                       }}
                     >
-                      {item.price == null
+                      {item.price == null || item.price == 0
                         ? `Free`
                         : `Rp${new Intl.NumberFormat('id-ID').format(item.price)}/pax`}
                     </Text>
@@ -524,7 +482,7 @@ const Profile = () => {
                         style={{ fontSize: "18", color: "grey" }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleDateString("id-ID", {
+                        {new Date(item.start_time).toLocaleDateString("en-ID", {
                           weekday: "short", // e.g., Sun
                           day: "2-digit",   // e.g., 03
                           month: "short",   // e.g., Nov
@@ -539,7 +497,7 @@ const Profile = () => {
                         }}
                       />
                       <Text style={{ color: "grey" }}>
-                        {new Date(item.start_time).toLocaleTimeString("en-US", {
+                        {new Date(item.start_time).toLocaleTimeString("en-ID", {
                           hour: "2-digit", // e.g., 06
                           minute: "2-digit", // e.g., 00
                           hour12: false, // 24-hour format
@@ -580,7 +538,7 @@ const Profile = () => {
                         fontWeight: "700",
                       }}
                     >
-                      {item.price == null
+                      {item.price == null || item.price == 0
                         ? `Free`
                         : `Rp${item.price}0/pax`}
                     </Text>

@@ -1,26 +1,40 @@
-import React from "react";
+// import React from "react";
 import { motion } from "framer-motion";
-import { Row, Col } from "antd";
+import { Row, Col, notification } from "antd";
+import { jwtStorage } from "../utils/jwt_storage";
 import { useNavigate, NavLink } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons"; // Import LogoutOutlined icon
 import "@fontsource/poppins";
 import Logo from "../assets/images/main-logo.png";
+import { useEffect } from "react";
 
 const NavLinks = [
   {
     id: 1,
-    title: "Report User",
-    path: "/report-user",
+    title: "Report Ragam",
+    path: "/report-ragam",
+   
   },
   {
     id: 2,
-    title: "Report Event",
-    path: "/report-event",
+    title: "Report User",
+    path: "/report-user",
   },
 ];
 
 const AdminHeader = () => {
+  
   const navigate = useNavigate();
+
+
+  const handleSignOut = () => {
+    jwtStorage.removeItem();
+    notification.success({
+      message: `Bye bye`,
+      description: `Successfully signed out from Selingan`,
+    });
+    navigate("/signin", { replace: true });
+  };
 
   return (
     <motion.div
@@ -89,7 +103,7 @@ const AdminHeader = () => {
           >
             <a
               className="text-gray-600 font-semibold hover:text-primary space-x-2 mr-5"
-              onClick={() => navigate("/signup", { replace: true })}
+              onClick={() => {handleSignOut()}}
             >
               <LogoutOutlined />
               <span>Sign Out</span>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -17,249 +17,79 @@ import {
   EventRounded,
   LocationOnRounded,
 } from "@mui/icons-material";
+import { AuthContext } from "../../providers/AuthProvider";
+import { editDataPrivatePut, getData } from "../../utils/api";
+import { DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
+
+const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
 
 const Host = () => {
   const [selectedSegment, setSelectedSegment] = useState("Upcoming");
+  const [dataSource, setDataSource] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { userProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleItemClick = () => {
     navigate("/event-detail");
   };
 
-  const sampleData = [
-    {
-      key: "1",
-      title:
-        "Poetry Reading Night : An Inspiring Night of Poetry and Connection",
-      description: "An evening of poetry readings by local poets.",
-      location: "Café Poetry",
-      day: "Sun, 10 Nov 2024",
-      time: "6:00 AM",
-      start_time: "18:00:00 ",
-      end_time: "20:00:00",
-      created_by: "Kavala",
-      created_at: "2024-10-15 22:06:32",
-      updated_at: "2024-10-15 22:06:32",
-      capacity: 50,
-      is_active: 1,
-      image: Image,
-      is_free: 1,
-      requires_approval: 0,
-      price: "Free",
-      email: "1@example.com",
-      status: "Going",
-      checkedIn: "No",
-    },
-    {
-      key: "2",
-      title: "Baking Basics Workshop : Learn Essential Baking Skills Together",
-      description: "Learn the fundamentals of baking delicious pastries.",
-      location: "Culinary Studio",
-      time: "6:00 AM",
-      day: "Sun, 10 Nov 2024",
-      start_time: "18:00:00",
-      end_time: "20:00:00",
-      created_by: 2,
-      created_at: "2024-10-15 22:06:32",
-      updated_at: "2024-10-15 22:06:32",
-      capacity: 20,
-      is_active: 1,
-      image: Image,
-      is_free: 0,
-      requires_approval: 1,
-      price: 29.99,
-      email: "2@example.com",
-      status: "Going",
-      checkedIn: "No",
-    },
-    {
-      key: "3",
-      title:
-        "Flower Arrangement Class : Create stunning floral arrangements with ease",
-      description: "Join us for a hands-on class in floral design.",
-      location: "Floral Shop",
-      time: "9:00 AM",
-      day: "Mon, 11 Nov 2024",
-      start_time: " 09:00:00",
-      end_time: "11:00:00",
-      created_by: 3,
-      created_at: "2024-10-15 22:06:32",
-      updated_at: "2024-10-15 22:06:32",
-      capacity: 15,
-      is_active: 1,
-      image: Image,
-      is_free: 1,
-      requires_approval: 0,
-      price: "Free",
-      email: "3@example.com",
-      status: "Going",
-      checkedIn: "No",
-    },
-    {
-      key: "4",
-      title: "Open Mic Poetry Slam : Express yourself through spoken word.",
-      description:
-        "Share your poetry in front of an audience and compete for prizes.",
-      location: "Community Center",
-      day: "Mon, 11 Nov 2024",
-      time: "7:00 AM",
-      start_time: "19:00:00",
-      end_time: " 21:00:00 ",
-      created_by: 1,
-      created_at: "2024-10-13 ",
-      updated_at: "2024-10-15 ",
-      capacity: 30,
-      is_active: 1,
-      image: Image,
-      is_free: 1,
-      requires_approval: 1,
-      price: 15.0,
-      email: "1@example.com",
-      status: "Done",
-      checkedIn: "No",
-    },
-    {
-      key: "5",
-      title: "Baking with Kids : Fun and easy baking for families",
-      description: "A fun baking class for children and their parents.",
-      location: "Local Bakery",
-      day: "Mon, 11 Nov 2024",
-      time: "3:00 AM",
-      start_time: " 10:00:00",
-      end_time: " 12:00:00",
-      created_by: 2,
-      created_at: "2024-10-13 ",
-      updated_at: "2024-10-15 ",
-      capacity: 25,
-      is_active: 1,
-      image: Image,
-      is_free: 0,
-      requires_approval: 0,
-      price: "Free",
-      email: "2@example.com",
-      status: "Done",
-      checkedIn: "No",
-    },
-    {
-      key: "6",
-      title: "Cooking 101",
-      description: "Learn the basics of cooking delicious meals.",
-      location: "Culinary Academy",
-      day: " Wed, 13 Nov 2024",
-      time: "10:00 AM",
-      start_time: " 14:00:00",
-      end_time: " 15:30:00",
-      created_by: 2,
-      created_at: "2024-10-13",
-      updated_at: "2024-10-15 ",
-      capacity: 20,
-      is_active: 1,
-      image: Image,
-      is_free: 0,
-      requires_approval: 0,
-      price: 49.99,
-      email: "2@example.com",
-      status: "Done",
-      checkedIn: "No",
-    },
-    {
-      key: "7",
-      title: "Dessert Decoration Class",
-      description: "Master the art of dessert decoration.",
-      location: "Pastry Shop",
-      day: " Wed, 13 Nov 2024",
-      time: "2:00 PM",
-      start_time: " 14:00:00",
-      end_time: "16:00:00",
-      created_by: 3,
-      created_at: "2024-10-13",
-      updated_at: "2024-10-15 ",
-      capacity: 15,
-      is_active: 1,
-      image: Image,
-      is_free: 0,
-      requires_approval: 1,
-      price: 39.99,
-      email: "3@example.com",
-      status: "Done",
-      checkedIn: "No",
-    },
-    {
-      key: "8",
-      title: "Clay Pottery Workshop",
-      description: "Create your own pottery in this hands-on workshop.",
-      location: "Art Studio",
-      day: " Wed, 13 Nov 2024",
-      time: "9:00 AM",
-      start_time: " 09:00:00",
-      end_time: " 12:00:00",
-      created_by: 4,
-      created_at: "2024-10-15 ",
-      updated_at: "2024-10-18",
-      capacity: 12,
-      is_active: 1,
-      image: Image,
-      is_free: 1,
-      requires_approval: 0,
-      price: "Free",
-      email: "4@example.com",
-      status: "Done",
-      checkedIn: "No",
-    },
-    {
-      key: "9",
-      title: "Sushi Making Class",
-      description: "Learn to make sushi from a professional chef.",
-      location: "Sushi Bar",
-      time: "6:00 PM",
-      day: " Fri, 15 Nov 2024",
-      start_time: "18:00:00",
-      end_time: "19:30:00 ",
-      created_by: 1,
-      created_at: "2024-10-12",
-      updated_at: "2024-10-15 ",
-      capacity: 25,
-      is_active: 1,
-      image: Image,
-      is_free: 0,
-      requires_approval: 1,
-      price: 45.0,
-      email: "1@example.com",
-      status: "Done",
-      checkedIn: "No",
-    },
-    {
-      key: "10",
-      title: "Wine and Paint Night",
-      description: "Enjoy a night of painting while sipping wine.",
-      location: "Art Gallery",
-      day: " Fri, 15 Nov 2024",
-      time: "5:00 AM",
-      start_time: "17:00:00",
-      end_time: "19:00:00",
-      created_by: 5,
-      created_at: "2024-10-15 22:06:32",
-      updated_at: "2024-10-15 22:06:32",
-      capacity: 30,
-      is_active: 1,
-      image: Image,
-      is_free: 1,
-      requires_approval: 1,
-      price: 30.0,
-      email: "5@example.com",
-      status: "Going",
-      checkedIn: "No",
-    },
-  ];
+  useEffect(() => {
+    getDataRagam();
+    // getDataUser();
+  }, [])
 
-  const filteredData = sampleData.filter((item) =>
-    selectedSegment === "Upcoming"
-      ? item.status === "Going"
-      : item.status === "Done"
-  );
+  const getDataRagam = () => {
+    setIsLoading(true);
+    getData("/api/v1/ragam/read")
+      .then((resp) => {
+        console.log(resp); // Debug to confirm the data structure
+        if (resp && resp.datas) {
+          setDataSource(resp.datas); // Use the "datas" array directly
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false);
+      });
+  };
+
+  const filteredData = dataSource.filter((item) => {
+    if (selectedSegment === "Upcoming") {
+      return item.is_active == 1 && item.created_by == userProfile.user_logged;
+    } else if (selectedSegment === "Past") {
+      return item.is_active == 0 && item.created_by == userProfile.user_logged;
+    }
+    return false; // Default case if the segment doesn't match "Upcoming" or "Past"
+  });
+
+  const handleEditClick = (item) => {
+    navigate(`/edit-ragam/${item}`);
+  };
+
+  const handleDeleteRagam = async (item) => {
+    try {
+      const response = await editDataPrivatePut(`/api/v1/ragam/delete/${item}`);
+      if (response?.message === "Ragam deleted successfully") {
+        // showAlert("success", "Success", "Your data has been updated.");
+        getDataRagam(); // Refresh user data
+        // setPreviewImage(dataUser.image_path);
+        console.log("Message: ", response)
+      } else {
+        // const errorMessage = response?.message || "Failed to update your data.";
+        // showAlert("error", "Failed", errorMessage);
+        console.log("Message: ", response)
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      // showAlert("error", "Error", "An unexpected error occurred.");
+    
+    }
+  }
 
   return (
     <>
@@ -316,6 +146,10 @@ const Host = () => {
                         fontFamily: "Poppins, sans-serif",
                       }}
                       className="duration-300 group relative border-2 border-gray-100 group-hover:border-[#a3a3f5]"
+                      actions={[
+                        <EditOutlined key="edit" onClick={() => handleEditClick(item.id)} />,
+                        <DeleteOutlined key="delete"  onClick={() => handleDeleteRagam(item.id)}/>,
+                      ]}
                     >
                       <Col style={{ gap: "10px", maxWidth: "300px" }}>
                         <Image
@@ -325,7 +159,7 @@ const Host = () => {
                             width: "300px",
                             height: "150px",
                           }}
-                          src="/pottery-class.jfif"
+                          src={`${REACT_APP_API_URL}/${item.image_path}`}
                         />
                         <Tooltip title={item.title}>
                           <Title
@@ -365,7 +199,14 @@ const Host = () => {
                           <EventRounded
                             style={{ fontSize: "18", color: "grey" }}
                           />
-                          <Text style={{ color: "grey" }}>{item.day}</Text>
+                          <Text style={{ color: "grey" }}>
+                            {new Date(item.start_time).toLocaleDateString("en-ID", {
+                              weekday: "short", // e.g., Sun
+                              day: "2-digit",   // e.g., 03
+                              month: "short",   // e.g., Nov
+                              year: "numeric",  // e.g., 2024
+                            })}
+                          </Text>
                         </Row>
                         <Row
                           style={{
@@ -379,9 +220,17 @@ const Host = () => {
                             style={{
                               fontSize: "18",
                               color: "grey",
+                              // marginLeft: "10px",
                             }}
                           />
-                          <Text style={{ color: "grey" }}>{item.time}</Text>
+                          <Text style={{ color: "grey" }}>
+                            {new Date(item.start_time).toLocaleTimeString("en-US", {
+                              hour: "2-digit", // e.g., 06
+                              minute: "2-digit", // e.g., 00
+                              hour12: false, // 24-hour format
+                              timeZone: "UTC"
+                            })}
+                          </Text>
                         </Row>
                         <Row
                           style={{
@@ -404,7 +253,7 @@ const Host = () => {
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                maxWidth: "190px",
+                                maxWidth: "175px",
                               }}
                             >
                               {item.location}
@@ -413,13 +262,13 @@ const Host = () => {
                         </Row>
                         <Text
                           style={{
-                            color: item.price != "Free" ? "#A3A3F5" : "green",
+                            color: item.is_free == 0 ? "#6C6CC6" : "green",
                             fontWeight: "700",
                           }}
                         >
-                          {item.price != "Free"
-                            ? `Rp${item.price}/pax`
-                            : item.price}
+                          {item.price == null || item.price == 0
+                            ? `Free`
+                            : `Rp${new Intl.NumberFormat('id-ID').format(item.price)}/pax`}
                         </Text>
                       </Col>
                     </Card>

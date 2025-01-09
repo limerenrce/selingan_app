@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Row,
   Col,
@@ -26,8 +26,9 @@ import dayjs from "dayjs";
 import { AuthContext } from "../../providers/AuthProvider";
 
 import LocationPicker from "../../components/LocationPicker";
-import { sendDataPrivate } from "../../utils/api";
+import { getData, sendDataPrivate } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 // import moment from "moment";
 
 const { Content } = Layout;
@@ -42,7 +43,7 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-const CreateRagam = () => {
+const EditRagam = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   // const defaultImage = "https://via.placeholder.com/350";
@@ -71,9 +72,73 @@ const CreateRagam = () => {
   const [isPublic, setIsPublic] = useState(1);
   const [approvalStatus, setApprovalStatus] = useState(0);
 
+  const { id } = useParams();
+  const [dataSource, setDataSource] = useState([]);
+
+
   const handleButtonClick = () => {
     setIsChecked(!isChecked);
   };
+  useEffect(() => {
+    getDataRagam();
+  }, [])
+  useEffect(() => {
+    form.setFieldsValue({
+      is_public: isPublic === 1 ? "Public" : "Private",
+      requires_approval: approvalStatus,
+    });
+  }, [isPublic, approvalStatus]);
+
+  useEffect(() => {
+    console.log("Fetched data:", dataSource);
+  }, [dataSource]);
+
+  const getDataRagam = () => {
+    getData(`/api/v1/ragam/specific/${id}`)
+      .then((resp) => {
+        if (resp && resp.datas && resp.datas.length > 0) {
+          const data = resp.datas[0]; // Access the first object in the array
+
+          // Destructure the fields
+          const { title, description, capacity, price, image_path, is_free, is_public, requires_approval } = data;
+
+          // Update state
+          setDataSource(data);
+          setPreviewImage(image_path || defaultImage);
+          setIsFree(is_free);
+          setIsPublic(is_public);
+          setApprovalStatus(requires_approval);
+          setLocation(location.address, location.lat, location.lng)
+
+          // Populate the form
+          form.setFieldsValue({
+            title,
+            description,
+            capacity,
+            price,
+          });
+
+          const { start_time, end_time } = data;
+
+          // Convert ISO strings to Moment objects (if using Moment.js)
+          const formattedStartTime = start_time ? moment(start_time) : null;
+          const formattedEndTime = end_time ? moment(end_time) : null;
+
+          // Set form values for the RangePicker
+          form.setFieldsValue({
+            range: [formattedStartTime, formattedEndTime], // 'range' matches the Form.Item name
+          });
+
+          // Update component state if needed
+          setStartTime(formattedStartTime);
+          setEndTime(formattedEndTime);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+      });
+  };
+
 
   const publicSegmentChange = (value) => {
     // Update isAllowed based on the selected value
@@ -86,14 +151,21 @@ const CreateRagam = () => {
     console.log("Need approval value:", newStatus);
   };
 
-  const onRangeChange = (dates, dateStrings) => {
-    if (dates) {
-      // Update the start and end times in YYYY-MM-DD HH:mm:ss format
-      setStartTime(dayjs(dates[0]).format("YYYY-MM-DD HH:mm:ss"));
-      setEndTime(dayjs(dates[1]).format("YYYY-MM-DD HH:mm:ss"));
+  const onRangeChange = (values) => {
+    if (values) {
+      const [start, end] = values;
+      setStartTime(start);
+      setEndTime(end);
+  
+      // Update the form values
+      form.setFieldsValue({
+        range: values,
+      });
     } else {
+      // Reset state and form if no values are selected
       setStartTime(null);
       setEndTime(null);
+      form.resetFields(["range"]);
     }
   };
 
@@ -201,6 +273,10 @@ const CreateRagam = () => {
   const handleLocationChange = ([lat, lng, address]) => {
     setLocation({ lat, lng, address }); // Update the location state
   };
+
+  useEffect(() => {
+    getDataRagam();
+  }, []);
 
   // const onFinish = (values) => {
   //   console.log("Form Submitted: ", values);
@@ -310,19 +386,16 @@ const CreateRagam = () => {
               >
                 {/* Upload Button */}
                 <Upload
-                  // showUploadList={false}
-                  // beforeUpload={() => false}
-                  // onChange={handleUpload}
                   showUploadList={false}
                   onChange={handleUpload2}
                   onPreview={handlePreview2}
                   beforeUpload={(file) => {
                     const isImage = file.type.startsWith("image/");
-                    console.log(file);
-                    handlePreview(file);
-                    if (!isImage) {
-                      message.error("You can only upload image files!");
+                    if (isImage) {
+                      handlePreview(file);
+                      return false; // Prevent the upload action, as we're handling it in preview
                     }
+                    message.error("You can only upload image files!");
                     return false;
                   }}
                 >
@@ -338,6 +411,7 @@ const CreateRagam = () => {
                     }}
                   />
                 </Upload>
+
 
                 {/* Reset to Default Button */}
                 <FloatButton
@@ -359,19 +433,18 @@ const CreateRagam = () => {
                 <Form form={form} onFinish={onFinish}>
                   <Segmented
                     options={["Public", "Private"]}
-                    onChange={publicSegmentChange}
-                    style={{
-                      marginTop: "10px",
-                      color: "#6C6CC6",
-                      alignItems: "left",
+                    value={isPublic === 1 ? "Public" : "Private"} // Controlled by state
+                    onChange={(value) => {
+                      setIsPublic(value === "Public" ? 1 : 0); // Update state
                     }}
                   />
 
                   <Switch
+                    checked={approvalStatus === 1} // Controlled by state
+                    onChange={(checked) => setApprovalStatus(checked ? 1 : 0)}
                     style={{ marginLeft: "20px" }}
-                    defaultChecked={false}
-                    onChange={handleSwitchChange}
-                  /><Text style={{ marginLeft: "10px" }}>Needs Approval</Text>
+                  />
+                  <Text style={{ marginLeft: "10px" }}>Needs Approval</Text>
                 </Form>
                 <Form
                   layout="vertical"
@@ -384,18 +457,13 @@ const CreateRagam = () => {
                 >
                   <Form.Item
                     name="title"
-                    style={{ marginTop: 24 }}
-                    rules={[
-                      { required: true, message: "Please input event name!" },
-                    ]}
+                    rules={[{ required: true, message: "Please input event name!" }]}
                   >
                     <Input
                       placeholder="Event Name"
-                      style={{
-                        height: "100%",
-                        fontSize: "40px",
-                        padding: "0",
-                      }}
+                      style={{ height: "100%", fontSize: "40px", padding: "0" }}
+                    // value={form.getFieldValue("title") || ""} // Set initial value from form
+                    // onChange={(e) => form.setFieldsValue({ title: e.target.value })} // Update form value on change
                     />
                   </Form.Item>
                 </Form>
@@ -423,7 +491,7 @@ const CreateRagam = () => {
                 <Row gutter={[16, 16]}>
                   <Col xs={10} sm={10} md={10} lg={14} xl={14}>
                     <Form form={form} onFinish={onFinish}>
-                      <Space direction="vertical" size={12}>
+                      <Form.Item name="range"> {/* 'range' must match the name in setFieldsValue */}
                         <RangePicker
                           showTime
                           style={{
@@ -431,9 +499,9 @@ const CreateRagam = () => {
                             fontFamily: "Poppins, sans-serif",
                           }}
                           size="large"
-                          onChange={onRangeChange} // Update start and end times on change
+                          onChange={onRangeChange} // Update state or handle user input
                         />
-                      </Space>
+                      </Form.Item>
                     </Form>
                   </Col>
                   {/* <Col xs={4} sm={4} md={8} lg={8} xl={8}>
@@ -585,4 +653,4 @@ const CreateRagam = () => {
   );
 };
 
-export default CreateRagam;
+export default EditRagam;
