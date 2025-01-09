@@ -3,6 +3,7 @@ import { message } from "antd"; // Ensure this import is present
 import { useNavigate } from "react-router-dom";
 import { Typography } from "antd";
 import { getData, sendDataPrivate } from "../../utils/api";
+const REACT_APP_API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 import {
   Card,
   List,
@@ -15,30 +16,22 @@ import {
   Modal,
   Divider,
   DatePicker,
-  Popconfirm,
-  Carousel,
+  Popconfirm, 
   Radio,
   Form,
   Input,
+  Flex 
 } from "antd";
 import {
   PlusOutlined,
   EnvironmentOutlined,
   UserOutlined,
-  WarningOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
-import { Image, Flex } from "antd";
+  WarningOutlined, 
+} from "@ant-design/icons"; 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import dayjs from "dayjs";
-import "./ListRagam.css";
-import { MoreOutlined } from "@ant-design/icons";
-import { ExclamationCircleFilled } from "@ant-design/icons";
-import { fromJSON } from "postcss";
-import { form } from "framer-motion/client";
-import { CategoryOutlined } from "@mui/icons-material";
-
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import dayjs from "dayjs"; 
+import ExploreMap from "../../components/ExploreMap"; 
+import ExploreHero from "../../components/ExploreHero";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -50,10 +43,7 @@ const Ragams = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [eventsMap, setEventsMap] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null); 
 
   // const [isModalReportVisible, setIsModalReportVisible] = useState(false);
 
@@ -204,7 +194,7 @@ const Ragams = () => {
             <Flex vertical style={{ padding: "40px", width: "100%" }}>
               <div style={{ justifyItems: "center", marginBottom: "30px" }}>
                 <img
-                  src="/pottery-class.jfif"
+                src={`${REACT_APP_API_URL}/${selectedEvent?.image_path}`}
                   alt=""
                   style={{ width: "350px" }}
                 />
@@ -448,126 +438,15 @@ const Ragams = () => {
   return (
     <>
       <Content>
-        <div className="w-full h-[90vh]  bg-gradient-to-r from-[#E7DBFF] to-[#EEDDED]">
-          <svg
-            className="absolute bottom-0 left-0 w-full"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1400 310"
-          >
-            <path
-              fill="#FFFFFF"
-              fillOpacity="1"
-              d="M0,224L80,208C160,192,320,160,480,160C640,160,800,192,960,202.7C1120,213,1280,203,1360,197.3L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-            ></path>
-          </svg>
-          <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mr-6 ml-6 mt-[50px]">
-            {/* Left Section */}
-            <div className="md:w-1/2 space-y-4">
-              <h1 className="text-4xl font-bold leading-snug">
-                Turn Your Leisure <br /> Into Something <br />{" "}
-                <span className="text-[#7658B2]">Extraordinary</span>
-              </h1>
-              <p className="text-gray-600">
-                Dengan beragam pilihan acara yang menarik, waktu luangmu <br />
-                bisa menjadi peluang untuk bersantai, mengeksplorasi hal baru,{" "}
-                <br />
-                atau menikmati kegiatan yang membuatmu lebih bahagia.
-              </p>
-              <Button className="bg-gradient-to-r from-[#A594F9] to-[#E4B1F0] text-white font-semibold py-2 rounded-md hover:bg-[#CB9DF0] hover:text-purple-600 transition duration-300">
-                <a href="#events">Choose Ragam</a>
-              </Button>
-            </div>
-            {/* Right Section */}
-            <Row gutter={[16, 16]} className="md:w-1/2 mt-8 md:mt-0">
-              <Col span={12}>
-                <div className="w-full h-40 bg-gray-300 rounded-lg">
-                  <img
-                    src="/pottery-class.jfif"
-                    alt="Event Image 1"
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-              </Col>
-              <Col span={12}>
-                <div className="w-full h-40 bg-gray-300 rounded-lg">
-                  <img
-                    src="/macaron-class.jfif"
-                    alt="Event Image 2"
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-              </Col>
-              <Col span={12}>
-                <div className="w-full h-40 bg-gray-300 rounded-lg">
-                  <img
-                    src="/flower-class.jpg"
-                    alt="Event Image 2"
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-              </Col>
-              <Col span={12}>
-                <div className="w-full h-40 bg-gray-300 rounded-lg">
-                  <img
-                    src="/painting-class.jpg"
-                    alt="Event Image 2"
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </div>
-        <div className="p-6 w-full flex flex-col items-center justify-center">
-          <Row className="mt-6">
-            <Col lassName="w-full">
-              <div className="flex flex-col items-center justify-center mb-8">
-                <Text className="text-3xl font-bold">
-                  Discover the Best Events in{" "}
-                  <span className="text-[#7658B2]">Your Chosen Location!</span>
-                </Text>
-                <br />
-                <Text className="text-sm font-normal">
-                  Looking to attend exciting events in your city?{" "}
-                  <span className="text-[#7658B2]">
-                    Simply select your location on the map and explore a list of
-                    events happening near you!
-                  </span>
-                </Text>
-              </div>
-
-              <div className="flex w-full gap-10">
-                <div className="flex-grow flex flex-col gap-4">
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 1</h2>
-                    <p>Description for card 1.</p>
-                  </Card>
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 2</h2>
-                    <p>Description for card 2.</p>
-                  </Card>
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 3</h2>
-                    <p>Description for card 3.</p>
-                  </Card>
-                  <Card className="bg-gray-100" hoverable>
-                    <h2>Card Title 4</h2>
-                    <p>Description for card 4.</p>
-                  </Card>
-                </div>
-
-                <div className="w-2/3">
-                  <div className="h-48 bg-gray-300 rounded"></div>
-                </div>
-              </div>
-            </Col>
-          </Row>
+        <ExploreHero/>
+        <div className="p-2 w-full flex flex-col items-center justify-center">
+         <ExploreMap/>
         </div>
 
         <Divider />
         <div>
           <Row justify="center" id="events" className="mt-16">
-            <Col span={22}>
+            <Col span={20}>
               <div style={{ width: "100%" }}>
                 <div className="flex flex-col items-center justify-center mb-8">
                   <Text className="text-3xl font-bold">
@@ -577,7 +456,7 @@ const Ragams = () => {
                   <br />
                   <Text className="text-sm font-normal">
                     Find the experience that inspires you and takes you to the
-                    next level. Don't miss out{" "}
+                    next level. Don not miss out{" "}
                     <span className="text-[#7658B2]">
                       —let your passion lead the way!
                     </span>
@@ -628,7 +507,7 @@ const Ragams = () => {
                         >
                           <Row>
                             <Col span={5} className="pr-4">
-                              <img src="/pottery-class.jfif" alt="" />
+                              <img src={`${REACT_APP_API_URL}/${item.image_path}`}alt="" />
                             </Col>
 
                             <Col span={19}>

@@ -45,7 +45,7 @@ function App() {
           />
           <Route
             exact
-            path="/report-event"
+            path="/report-ragam"
             element={<SelinganPrivateRoute component={<ReportEvent />} />}
           />
 

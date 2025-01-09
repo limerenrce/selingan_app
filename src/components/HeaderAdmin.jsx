@@ -6,22 +6,26 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons"; // Import LogoutOutlined icon
 import "@fontsource/poppins";
 import Logo from "../assets/images/main-logo.png";
+import { useEffect } from "react";
 
 const NavLinks = [
   {
     id: 1,
-    title: "Report User",
-    path: "/report-user",
+    title: "Report Ragam",
+    path: "/report-ragam",
+   
   },
   {
     id: 2,
-    title: "Report Event",
-    path: "/report-event",
+    title: "Report User",
+    path: "/report-user",
   },
 ];
 
 const AdminHeader = () => {
+  
   const navigate = useNavigate();
+
 
   const handleSignOut = () => {
     jwtStorage.removeItem();
