@@ -225,7 +225,7 @@ const Ragams = () => {
       .then((resp) => {
         if (resp?.message === "Joined event successfully") {
           message.success("You have successfully registered for the event!");
-          setIsModalOpen(false); // Menutup modal event setelah registrasi
+          // setIsModalOpen(false); // Menutup modal event setelah registrasi
           setIsModalRegisOpen(true); // Menampilkan modal registrasi sukses
           console.log("Modal Registrasi Dibuka");
         } else {
