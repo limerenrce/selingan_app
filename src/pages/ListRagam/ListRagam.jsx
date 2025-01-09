@@ -164,19 +164,14 @@ const Ragams = () => {
           description,
         });
       })
-      .catch((error) => {
-        showAlert(
-          "error",
-          "Form validation failed",
-          "Please fill in all required fields."
-        );
+      .catch((err) => {
+        console.log("error:", err)
       });
   };
 
   //modal to registration
   const [isModalRegisOpen, setIsModalRegisOpen] = useState(false);
-  const [eventId, setEventId] = useState();
-  const { userProfile } = useContext(AuthContext);
+  const [eventId, setEventId] = useState(); 
 
   const modalRegis = () => {
     if (!userProfile?.id) {
