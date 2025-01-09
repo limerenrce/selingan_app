@@ -120,7 +120,8 @@ const ExploreMap = () => {
         </div>
 
         {/* Map panel */}
-        <div className="w-2/3">
+        <div
+        className="w-2/3">
           <Fragment>
             {loading ? (
               <Skeleton active />
