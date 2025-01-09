@@ -31,7 +31,7 @@ const InHeader = () => {
     },
     {
       id: 3,
-      title: "Explore",
+      title: "Schedule",
       path: "/explore",
     },
   ];
@@ -56,6 +56,7 @@ const InHeader = () => {
         handleSignOut();
       },
     },
+  ];
   ];
 
   const handleSignOut = () => {

@@ -280,7 +280,7 @@ const Explore = () => {
         >
           <Col>
             <div className="ml-3 mt-20 font-sans">
-              <h1 className="font-bold text-grey-800 text-4xl">Scedule</h1>
+              <h1 className="font-bold text-grey-800 text-4xl">Schedule</h1>
               <p className="mt-3 text-grey-200 text-lg">
                 Review past events and plan for the upcoming ones with ease.
                 Stay in control of your time and always know what's on the
