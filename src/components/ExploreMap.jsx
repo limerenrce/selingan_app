@@ -162,7 +162,7 @@ const ExploreMap = () => {
                         parseFloat(location.long), // Convert long from string to float
                       ]}
                     >
-                      <Popup   title="Title">
+                      <Popup>
                         <Card
                           onClick={() => {}}
                           hoverable={true}
