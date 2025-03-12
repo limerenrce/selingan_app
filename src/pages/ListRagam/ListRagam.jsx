@@ -33,6 +33,7 @@ import dayjs from "dayjs";
 import ExploreMap from "../../components/ExploreMap"; 
 import ExploreHero from "../../components/ExploreHero";
 import {AuthContext} from "../../providers/AuthProvider";
+import { MapContainer, Marker, Popup } from "react-leaflet";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -421,6 +422,24 @@ const Ragams = () => {
                 </Paragraph>
               </div>
               <div className="my-2 mx-2">
+                <MapContainer
+                  center={[selectedEvent?.lat, selectedEvent?.long]}
+                  zoom={10}
+                  style={{ height: "100%" }}
+                  >
+                  <Marker
+                  position={
+                    [
+                      parseFloat(selectedEvent?.lat),
+                      parseFloat(selectedEvent?.long)
+                    ]
+                  }>
+                    <Popup>
+                      <p>{selectedEvent?.location}</p>
+                    </Popup>
+                    
+                  </Marker>
+                </MapContainer>
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d505177.941253496!2d114.8471397286711!3d-8.430831999785685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd241005ee2d511%3A0xd46c58fecfa8dba0!2sMARKAS%20Bali%20-%20Home%20for%20Founders!5e0!3m2!1sen!2sid!4v1732202697349!5m2!1sen!2sid"
                   width="100%"
