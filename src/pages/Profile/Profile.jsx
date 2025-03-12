@@ -68,7 +68,7 @@ const Profile = () => {
 
   const getDataRagam = () => {
     setIsLoading(true);
-    getData("/api/v1/ragam/read")
+    getData(`/api/v1/ragam/specific/${userProfile.user_logged}`)
       .then((resp) => {
         console.log(resp); // Debug to confirm the data structure
         if (resp && resp.datas) {
